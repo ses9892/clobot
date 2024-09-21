@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>인트로 게임</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../resources/pop.css">
+    <link rel="stylesheet" href="./inGame.css"> 
+    <link rel="stylesheet" href="./game1.css">     
+    <link rel="stylesheet" href="./game2.css">     
+
+    
+</head>
+<body>
+    <div id="progress-container"></div>
+
+    <div class="intro_container hide">
+
+        <div class="game-menu-container" id="game-menu-container">
+            <div class="game-menu-body" id="game-menu-body">
+            </div>
+        </div>
+        <!-- 첫 번째 비디오 -->
+        <video id="introVideo" muted>
+            <source src="./assets/video/test.mp4" type="video/mp4">
+        </video>
+
+        <audio id="effectAudio">
+            <source src="" type="audio/mpeg">
+        </audio>
+
+        <!-- 자막 -->
+        <div id="subtitle" class="subtitle" style="display: none;"></div>
+
+        <!-- 게임 시작 버튼 -->
+        <button id="startButton">게임 시작</button>
+    </div>
+
+    <div class="in-game-container hide" id="in-game-container">
+        <div class="timer-section" id="game-timer"></div>
+        <div class="game_body" id="game_body">
+        </div>
+
+        <video id="gameIntroVideo" muted>
+            <source src="" type="video/mp4">
+        </video>
+        <div id="game-complete">게임 완료</div>
+    </div>
+
+
+    <div class="popup-overlay" id="popup">
+        <div class="popup-content">
+          <!-- 팝업 헤더 -->
+            <div class="popup-header">
+                <h2 id="popup-title">게임종료</h2>
+            </div>
+          <!-- 팝업 본문 -->
+            <div class="popup-body">
+                <p id="popup-message">엔딩 시 띄울 팝업</p>
+            </div>
+          <!-- 팝업 푸터 -->
+            <div class="popup-footer">
+                <button id="game-restart-button">재시작</button>
+                <button id="game-menu-select-button">게임선택</button>
+                <button id="end-button">종료</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/progressbar.js/1.1.0/progressbar.min.js"></script>
+    <script src="./progressConfig.js"></script>
+    <script src="../lib/gsap/gsap.min.js"></script>
+    <script src="./subtitles.js"></script>
+    <script src="../resources/common.js"></script>
+    <script src="./menu.js"></script>
+    <script src="./timeController.js"></script>
+    <script src="./inGame.js"></script>
+</body>
+</html>

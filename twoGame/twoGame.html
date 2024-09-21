@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>인트로 게임</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inGame.css">
+    <link rel="stylesheet" href="../resources/pop.css">
+    
+</head>
+<body>
+
+    <div id="intro_container">
+        <!-- 첫 번째 비디오 -->
+        <video id="introVideo" autoplay muted>
+            <source src="./assets/video/test.mp4" type="video/mp4">
+        </video>
+
+        <!-- 두 번째 비디오 (처음에는 숨김 상태) -->
+        <video id="secondVideo" muted style="display: none;">
+            <source src="./assets/video/test3.mp4" type="video/mp4">
+        </video>
+
+        <video id="gameClearVideo" muted>
+          <source src="./assets/video/gameClear.mp4" type="video/mp4">
+        </video>
+
+        <audio id="ttsAudio">
+            <source src="./assets/tts/two-subtitle-tts-01.mp3" type="audio/mpeg">
+        </audio>
+
+        <audio id="effectAudio">
+            <source src="" type="audio/mpeg">
+        </audio>
+
+        <!-- 자막 -->
+        <div id="subtitle" class="subtitle" style="display: none;"></div>
+
+        <!-- 게임 시작 버튼 -->
+        <button id="startButton">게임 시작</button>
+
+
+        <!-- 시작하기 버튼 -->
+        <button id="gameStartButton" style="display: none;">시작하기</button>
+
+    </div>
+
+    <div class="ingame-container" id="ingame_container">
+        <div class="top-section">
+          <img class="main-image image-hidden" id="main-image" src="" alt="">
+          <img class="sub-image image-hidden" id="sub-image" src="" alt="">
+    
+          <div class="timer-section" id="game-timer">
+            
+          </div>
+    
+        </div>
+        <div class="bottom-section">
+          <img class="answer-image" id="answer-1" src="" alt="이미지 1">
+          <img class="answer-image" id="answer-2" src="" alt="이미지 2">
+          <img class="answer-image" id="answer-3" src="" alt="이미지 3">
+        </div>
+        
+        <div id="game-complete">게임 완료</div>
+
+    </div>
+
+
+    
+
+    <div class="popup-overlay" id="popup">
+      <div class="popup-content">
+          <!-- 팝업 헤더 -->
+          <div class="popup-header">
+              <h2 id="popup-title">게임종료</h2>
+          </div>
+          <!-- 팝업 본문 -->
+          <div class="popup-body">
+              <p id="popup-message">엔딩 시 띄울 팝업</p>
+          </div>
+          <!-- 팝업 푸터 -->
+          <div class="popup-footer">
+              <button id="restart-button">재도전</button>
+              <button id="end-button">종료</button>
+          </div>
+      </div>
+    </div>
+
+
+    <script src="../lib/gsap/gsap.min.js"></script>
+    <script src="./subtitles.js"></script>
+    <script src="../resources/common.js"></script>
+    <script src="inGame.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>

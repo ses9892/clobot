@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Completion</title>
+  <style>
+    #game-complete {
+      font-size: 50px;
+      font-weight: bold;
+      color: gold;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    body {
+      background-color: #333;
+      color: white;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="game-complete">Game Complete!</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  <script>
+    // 페이드 인, 확대, 회전 애니메이션
+    gsap.fromTo("#game-complete", 
+      { opacity: 0, scale: 0.5, rotation: -45 },  // 시작 상태
+      { opacity: 1, scale: 1.5, rotation: 0, duration: 2, ease: "bounce.out" }  // 끝 상태
+    );
+
+    // 약간의 반짝이는 효과 추가
+    gsap.to("#game-complete", { scale: 1, repeat: -1, yoyo: true, duration: 1, delay: 2 });
+  </script>
+
+</body>
+</html>

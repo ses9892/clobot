@@ -1,0 +1,7 @@
+.game_body[current_game='game3'] > .game_background{
+    width: 100%;
+    height: 100%;
+    background-image: url('./assets/images/game3/game3-background.png');
+    background-size: cover;
+    background-position: center;
+}

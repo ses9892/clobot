@@ -1,0 +1,138 @@
+/**
+    game2
+**/
+
+
+.game_body[current_game='game2'] .gauge-container {
+    width: 50px;
+    height: 300px;
+    background-color: #f0f0f0;
+    position: relative;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+    margin-left: 15px;
+}
+
+.game_body[current_game='game2'] #gauge {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    overflow: hidden;
+    background: linear-gradient(
+        to bottom,
+        #ff0000 0%,
+        #ff7f00 16.67%,
+        #ffff00 33.33%,
+        #00ff00 50%,
+        #0000ff 66.67%,
+        #4b0082 83.33%,
+        #9400d3 100%
+    );
+}
+
+.game_body[current_game='game2'] .gauge-section {
+    flex: 1;
+    transition: border 0.3s;
+    border-bottom: 2px solid transparent;
+}
+
+.game_body[current_game='game2'] .gauge-section:last-child {
+    border-bottom: none;
+}
+
+.game_body[current_game='game2'] .gauge-section.visible {
+    border-bottom-color: rgba(255,255,255,0.5);
+}
+
+.game_body[current_game='game2'] #target {
+    width: 43px;
+    height: 43px;
+    background-color: #ffff00;
+    border: 2px solid #333;
+    border-radius: 50%;
+    position: absolute;
+    left: 2px;
+    bottom: 0;
+    cursor: move;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+
+.game_body[current_game='game2'] #target:active {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: #ffff33;
+}
+
+.game_body[current_game='game2'] #result-image {
+    width: 250px;
+    height: 350px;  
+    margin-left: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.game_body[current_game='game2'] #result-image.tilted {
+    transform: rotate(-35deg);
+}
+
+.game_body[current_game='game2'] #toggle-sections {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.game_body[current_game='game2'] #toggle-sections:hover {
+    background-color: #45a049;
+}
+
+.game_body[current_game='game2'] .game2-container{
+    display: flex;
+    align-items: center;
+    position: relative;
+    top: 40%;
+    flex-direction: column;
+}
+
+.game_body[current_game="game2"] .component_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    position: relative;
+}
+
+.game_body[current_game="game2"] .component_container[current_level="1"] {
+    /* 레벨 1에 대한 스타일 */
+    left: 24%;
+}
+
+.game_body[current_game="game2"] .component_container[current_level="2"] {
+    /* 레벨 에 대한 스타일 */
+    left: 43%;
+}
+
+.game_body[current_game="game2"] .component_container[current_level="3"] {
+    /* 레벨 3에 대한 스타일 */
+    left: 62%;
+}
+
+
+.game_body[current_game='game2'] #furnace-image {
+    width: 100%;
+    height: 300px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: -50px;
+}
