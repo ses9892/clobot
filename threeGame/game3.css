@@ -61,3 +61,14 @@
     -webkit-user-drag: none;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+
+.game_body[current_game='game3']  .game_drag_drop_box{
+    position: absolute;
+    top: 40%;
+    left: 30%;
+    width: 450px;
+    height: 450px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 2px solid red; /* 디버깅을 위해 테두리 추가 */
+}
+
