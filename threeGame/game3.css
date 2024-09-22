@@ -59,7 +59,7 @@
     touch-action: none;
     user-select: none;
     -webkit-user-drag: none;
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: rgba(54, 50, 50, 0);
 }
 
 .game_body[current_game='game3']  .game_drag_drop_box{

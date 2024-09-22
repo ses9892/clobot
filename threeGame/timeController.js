@@ -1,6 +1,6 @@
 // 타이머 관련 컨트롤러
 
-const timerSecond = 3;
+const timerSecond = 999;
 
 class TimerController {
     constructor(timerElement , time) {

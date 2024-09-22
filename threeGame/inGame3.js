@@ -47,8 +47,6 @@ let gameConfig = {
         completeGame : () => {
             gameConfig.game3['is-game-complete'] = true;
         }
-
-
     }
 
 }       
