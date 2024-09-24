@@ -2,15 +2,10 @@ let current_level = 1;
 let timerSecond = 30;
 let loopInterval;
 
-const max_game_level = 2;
+const max_game_level = 3;
 
 const img_default_path = "./assets/images/";
 const mpeg_default_path = "./assets/audio/";
-
-
-
-
-
 
 let sub_images = [
   img_default_path + 'level1_object.png',
@@ -21,32 +16,36 @@ let sub_images = [
 
 // 루프 이미지 배열
 let images = [
-  img_default_path + 'loop1.png',
-  img_default_path + 'loop2.png',
-  img_default_path + 'loop3.png',
-  img_default_path + 'loop4.png'
+  img_default_path + 'level1_loop1.png',
+  img_default_path + 'level1_loop2.png',
+  img_default_path + 'level1_loop3.png',
+  img_default_path + 'level1_loop4.png',
+  img_default_path + 'level1_loop5.png',
 ];
 
 // 루프 이미지 배열
 const level1_images = [
-  img_default_path + 'loop1.png',
-  img_default_path + 'loop2.png',
-  img_default_path + 'loop3.png',
-  img_default_path + 'loop4.png'
+  img_default_path + 'level1_loop1.png',
+  img_default_path + 'level1_loop2.png',
+  img_default_path + 'level1_loop3.png',
+  img_default_path + 'level1_loop4.png',
+  img_default_path + 'level1_loop5.png',
 ];
 
 const level2_images = [
   img_default_path + 'level2_loop1.png',
   img_default_path + 'level2_loop2.png',
   img_default_path + 'level2_loop3.png',
-  img_default_path + 'level2_loop4.png'
+  img_default_path + 'level2_loop4.png',
+  img_default_path + 'level2_loop5.png',
 ];
 
 const level3_images = [
   img_default_path + 'level3_loop1.png',
   img_default_path + 'level3_loop2.png',
   img_default_path + 'level3_loop3.png',
-  img_default_path + 'level3_loop4.png'
+  img_default_path + 'level3_loop4.png',
+  img_default_path + 'level3_loop5.png'
 ];
 
 const effect_mpeg = {
@@ -75,7 +74,7 @@ class TimerController {
 
     // 표시
     this.show();
-
+    clearInterval(loopInterval);
     loopInterval = setInterval(loopImages, 2000);
 
     this.timerTimeout = setTimeout(() => {
@@ -111,18 +110,38 @@ let currentImageIndex = 0; // 현재 루프 중인 이미지의 인덱스
 const mainImage = document.getElementById('main-image');
 
 // 정답 이미지의 인덱스 (예: 1번째 이미지가 정답)
-let correctAnswerIndex = 1; // 필요에 따라 이 값을 변경하면 정답을 유동적으로 변경 가능
+let correctAnswerIndex = 4; // 필요에 따라 이 값을 변경하면 정답을 유동적으로 변경 가능
 
 // 이미지 루프 함수 (2초마다 이미지 변경)
 function loopImages() {
   if(!timerController.isPause){
-    currentImageIndex = (currentImageIndex + 1) % images.length;
+    const nextImageIndex = (currentImageIndex + 1) % images.length;
 
-    mainImage.className = 'main-image';
-    mainImage.src = images[currentImageIndex];
+    
+    // 현재 이미지 페이드 아웃
+    gsap.to(mainImage, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        // 이미지 소스 및 클래스 변경
+        mainImage.src = images[nextImageIndex];
+        currentImageIndex = nextImageIndex;
+        mainImage.className = 'main-image';
+        const classArray = createMainImageClassArray(nextImageIndex, current_level);
+        mainImage.classList.add(...classArray);
+        // 새 이미지 페이드 인
+        gsap.to(mainImage, {
+          opacity: 1,
+          duration: 0.3,
+          onStart: () => {
 
-    const classArray = createMainImageClassArray(currentImageIndex , current_level);
-    mainImage.classList.add(...classArray);
+          },
+          onComplete: () => {
+          }
+        });
+        
+      }
+    });
   }
 }
 
@@ -153,11 +172,24 @@ mainImage.addEventListener('touchstart', () => {
   if (currentImageIndex === correctAnswerIndex) {
     effectAudioController.update(effect_mpeg.correct);
     effectAudioController.play();
-    if(current_level < max_game_level){
-      gameLevelUp();
-    }else if(current_level === max_game_level){
-      triggerGameClear();
-    }
+
+
+    timerController.pause();    // 잠시 중지
+    timerController.reset();
+    clearInterval(loopInterval);
+    gameCompleteVideoPlay();
+
+    // if(current_level < max_game_level){
+    //   timerController.pause();    // 잠시 중지
+    //   timerController.reset();
+    //   clearInterval(loopInterval);
+    //   gameCompleteVideoPlay();
+    // }else if(current_level === max_game_level){
+    //   triggerGameClear();
+    // }
+
+
+
   } else {
     effectAudioController.update(effect_mpeg.fail);
     effectAudioController.play();
@@ -174,8 +206,7 @@ restartButton.addEventListener('touchstart', () => {
 
   timerController.reset();
   timerController.start();
-  currentImageIndex = 0;
-  mainImage.src = images[currentImageIndex];
+  indexResetImages();
   closePop();
 });
 
@@ -184,14 +215,32 @@ const endButton = document.getElementById('end-button');
 endButton.addEventListener('touchstart', () => {
   closePop();
   resetInGame();
-  introScreenConvert( undefined , () => {
-    introVideo.play();
+  alert('클로봇 게임선택으로 이동')
+  location.href = 'about:blank';
+  // introScreenConvert( undefined , () => {
+  //   introVideo.play();
 
-    if (isDevMode) {
-      setTimeout(() => startButton.show(), dev_video_delay * 1000);
-    }
-  });
+  //   if (isDevMode) {
+  //     setTimeout(() => startButton.show(), dev_video_delay * 1000);
+  //   }
+  // });
 });
+
+const completeVideoEnded = () => {
+  if(current_level < max_game_level){
+    inGameCompleteVideoConvert();
+  }else{
+    alert('end 요청 보냄');
+    location.href = 'about:blank';
+  }
+};
+
+document.getElementById('game1-complete-video').addEventListener('ended', completeVideoEnded);
+document.getElementById('game2-complete-video').addEventListener('ended', completeVideoEnded);
+document.getElementById('game3-complete-video').addEventListener('ended', completeVideoEnded);
+
+
+
 
 function timerTimeoutEvt(controller){
   if(controller.current_time > 0){
@@ -209,7 +258,7 @@ function timerTimeoutEvt(controller){
     // 타임아웃 일때
     status = 'game-timeout';
     userOutObejct.currnet_time_reset();
-    showPopupGame('게임종료', '테스트 중');
+    showPopupGame('', '');
     controller.hide();
     controller.isPause = true;
   }
@@ -219,11 +268,8 @@ function initGameLevel(){
   /**
    * 정답 하이라이트 이미지초기화
    */
-  
-  document.getElementById('answer-1').src = './assets/images/answer1.png';
-  document.getElementById('answer-2').src = './assets/images/answer2.png';
-  document.getElementById('answer-3').src = './assets/images/answer3.png';
 
+  document.getElementById('result-item-image').setAttribute('current-level', current_level);
 
   /**
    * Loop이미지 변경
@@ -243,67 +289,81 @@ function initGameLevel(){
   const mImage = document.querySelector('.main-image');
   const sImages = document.getElementById('sub-image');
 
-  // 자연스러운 전환을 위해 일단 숨기기 (페이드 아웃 효과)
-  mImage.classList.add('image-hidden');
-  sImages.classList.add('image-hidden');
+  currentImageIndex = 0;
+  mainImage.className = 'main-image' + ' ' + 'level' 
+                        + current_level + ' ' + 'item' + currentImageIndex + ' ' 
+                        + ' ' + 'image-hidden';
 
-  // 이미지가 사라지는 시간에 맞춰서 이미지를 변경
-  setTimeout(() => {
+  indexResetImages();
+  mainImage.classList.remove('image-hidden');
 
-    /**
-     * 하이라이트 변경
-     */
-
-    // 전체 하이라이트 부터 해제
-    document.querySelectorAll('.highlight').forEach( el => {
-      el.classList.remove('highlight')
-    });
-
-    const answerId = 'answer-' + current_level;
-    const answerElement = document.getElementById(answerId);
-    if (answerElement) {
-      answerElement.classList.add('highlight');
-    }
-
-    currentImageIndex = 0;
-    mainImage.className = 'main-image' + ' ' + 'level' 
-                          + current_level + ' ' + 'item' + currentImageIndex + ' ' 
-                          + ' ' + 'image-hidden';
-
-    indexResetImages();
-    mainImage.classList.remove('image-hidden');
-
-    /**
-   * 애니메이션 요소 추가
-    */
-    removeClickAnimation();
-    addClickAnimation();
-    
-  }, 500); // transition 시간과 동일하게 맞추기 (0.5s)
-
-  setTimeout(() => {
-    // 서브 이미지 변경
-    sImages.className = 'sub-image level' + current_level + ' image-hidden';
-    sImages.src = sub_images[current_level - 1];
-
-    // 변경 후 다시 보여주기 (페이드 인 효과)
-    sImages.classList.remove('image-hidden');
-  }, 500)
-
-
+  // 서브 이미지 변경
+  sImages.className = 'sub-image level' + current_level + ' image-hidden';
+  sImages.src = sub_images[current_level - 1];
   
+  // 변경 후 다시 보여주기 (페이드 인 효과)
+  sImages.classList.remove('image-hidden');
 
+  // // 이미지가 사라지는 시간에 맞춰서 이미지를 변경
+  // setTimeout(() => {
+
+
+
+  //   /**
+  //  * 애니메이션 요소 추가
+  //   */
+  //   // removeClickAnimation();
+  //   // addClickAnimation();
+    
+  // }, 1); // transition 시간과 동일하게 맞추기 (0.5s)
+
+  // setTimeout(() => {
+
+  // }, 1)
+}
+
+function gameCompleteVideoPlay(){
+  let video;
+  let topSection = document.getElementById('top-section');
+
+  if(current_level == 1){
+    video = document.getElementById('game1-complete-video');
+  }
+
+  if(current_level == 2){
+    video = document.getElementById('game2-complete-video');
+  }
+
+  if(current_level == 3){
+    video = document.getElementById('game3-complete-video');
+  }
+
+  // 비디오 초기화
+  video.style.display = 'none';
+  video.currentTime = 0;
+
+  // 비디오 표시
+  gsap.to(topSection, { opacity: 0, duration: 0.7,
+    onComplete: () => {
+        // 인게임 컨테이너 fade in
+        topSection.style.display = 'none';
+        gsap.to(video, { opacity: 1, duration: 0.7, onStart: () => {
+          video.style.display = 'block';
+        },
+        onComplete: () => {
+          video.play();
+        }
+      });
+    }
+  });
 }
 
 function gameLevelUp(){
-  clearInterval(loopInterval);
-  timerController.pause();    // 잠시 중지
   current_level++;            // 게임 단계 업
   currentImageIndex = 0;
+  timerController.start();
   initGameLevel();            // 게임 단계에 맞게 이미지들 변경
-
-  timerController.reset();    // 
-  timerController.start();    // 게임 시작 (이때 중단됫던 루트도 다시 시작)
+  
 } 
 
 function inGameInitStart(){
@@ -328,7 +388,7 @@ function addClickAnimation() {
 
   // 2. 이미지 태그를 생성합니다.
   const handImage = document.createElement('img');
-  handImage.src = './assets/images/guideCursor.png';
+  handImage.src = './assets/images/component/guideCursor.png';
   handImage.id = 'hand';
   handImage.alt = 'Hand';
 
@@ -361,10 +421,8 @@ function triggerGameClear(){
       duration: 2, 
       ease: "bounce.out",
       onStart: () => {
-        console.log('시작하면서 효과음내기');
       },
       onComplete: function() {
-        console.log('?')
         // 콜백: 첫 번째 애니메이션이 끝난 후 반짝이는 효과 추가
         gsap.to("#game-complete", { 
           scale: 1.3, 
@@ -409,4 +467,47 @@ function triggerGameClear(){
     }
 
   );
+}
+
+
+/**
+ * 인게임 스크린 전환
+ */
+function inGameCompleteVideoConvert(){
+  // 인트로 컨테이너 fade out
+  let videoContainer;
+  if(current_level == 1){
+    videoContainer = document.getElementById('game1-complete-video');
+  }
+
+  if(current_level == 2){
+    videoContainer = document.getElementById('game2-complete-video');
+  }
+  
+  if(current_level == 3){
+    videoContainer = document.getElementById('game3-complete-video');
+  }
+
+  const topSection = document.getElementById('top-section');
+
+  gsap.to(videoContainer, { opacity: 0, duration: 0.7,
+      onComplete: () => {
+
+        videoContainer.style.display = 'none';
+        videoContainer.currentTime = 0;
+        videoContainer.pause();
+  
+          // 인게임 컨테이너 fade in
+          gsap.to(topSection, { opacity: 1, duration: 0.7, onStart: () => {
+            gameLevelUp();
+            topSection.style.display = 'block';
+            },
+            onComplete: () => {
+              
+            }
+          });
+  
+      }
+                                 
+    });
 }
