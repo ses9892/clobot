@@ -15,27 +15,14 @@
 /* 팝업 콘텐츠 */
 .popup-content {
     /* background-color: #fff; */
-    padding: 20px; /* 팝업 내부 여백 */
-    border-radius: 10px;
+    position: absolute;
+    top: 483px;
+    left: 25%;
     text-align: center;
-    width: 90%; /* 팝업 너비 */
-    max-width: 1000px; /* 팝업 최대 너비 */
-    height: 700px;
-    max-height: 80%; /* 팝업의 최대 높이 (화면 높이의 80%로 제한) */
     display: flex;
     flex-direction: column;
     justify-content: space-between; /* 헤더, 바디, 푸터의 위치 조정 */
     overflow-y: auto; /* 높이가 넘어갈 경우 스크롤 생성 */
-}
-
-/* 팝업 헤더 */
-.popup-header {
-    margin-bottom: 20px;
-}
-
-.popup-header h2 {
-    margin: 0;
-    font-size: 35px; /* 제목 글씨 크기 */
 }
 
 /* 팝업 본문 */
@@ -74,22 +61,34 @@
 }
 
 .popup-footer .restart-button{
-    width: 200px;
-    height: 100px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
+
+    width: 224px;
+    height: 94px;
+    background-image: url(../assets/images/component/restart_button.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .popup-footer .end-button{
-    width: 200px;
-    height: 100px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
     cursor: pointer;
+    
+    width: 224px;
+    height: 94px;
+
+    background-image: url(../assets/images/component/close_button.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 
+.mission-fail{
+    position: absolute;
+    top: 67px;
+    left: 579px;
+    width: 345px;
+    height: 350px;
+
+    background-image: url(../assets/images/component/mission_fail.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}

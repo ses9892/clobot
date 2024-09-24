@@ -1,15 +1,17 @@
 // 상태 변수 정의
 let status = "intro"; // 초기 상태는 "인트로 화면"
 
+// 개발 모드 변수 설정
+const isDevMode = false;
+const dev_video_delay = 3;
+
 class userOutController {
     constructor(){
-        console.log('1')
-        this.default_out_check_time = 5;
+        this.default_out_check_time = 30;
         this.current_out_check_time = this.default_out_check_time;
 
         document.body.addEventListener('touchstart' , () => {
             this.current_out_check_time = this.default_out_check_time;
-            console.log('체크 햇더니 다시 돌아왓넹?? ==> ' + this.current_out_check_time);
         });
     }
     start(){
@@ -17,7 +19,6 @@ class userOutController {
             this.current_out_check_time--;
             if(this.current_out_check_time < 0 ){
                 if(status == 'intro'){
-                    console.log('인트로에서는 무반응 + 시간초돌리기');
                     this.current_out_check_time = this.default_out_check_time;
                 }else{
 
@@ -33,11 +34,10 @@ class userOutController {
                             break;
                         
                         case 'game-timeout' :
-                            console.log('타임아웃이지~');
+                            alert('인터렉션 (현재) 10초타임아웃 발생')
                             this.currnet_time_reset();
+                            location.href = 'about:blank';
                     }
-
-
                     this.current_out_check_time = this.default_out_check_time;
                 }
             }
@@ -195,9 +195,7 @@ class SubtitleController {
     }
 }
 
-// 개발 모드 변수 설정
-const isDevMode = true;
-const dev_video_delay = 3;
+
 
 // 엘리먼트 가져오기
 const introVideoElement = document.getElementById('introVideo');
@@ -210,7 +208,8 @@ const audioElement = document.querySelector('#ttsAudio');
 
 // 첫 번째 비디오 종료 시 실행될 콜백 함수
 const onIntroVideoEnded = () => {
-    startButton.show();
+    onGameStartButtonClick();
+    // startButton.show();
     status = "intro"; // 상태: 인트로 화면
     console.log("현재 상태:", status);
 };
@@ -250,22 +249,23 @@ const onStartButtonClick = () => {
 
 // "시작하기" 버튼 클릭 시 실행될 콜백 함수 (빈 배경으로 전환)
 const onGameStartButtonClick = () => {
-    // 비디오 오디오 자막초기화
-    introVideo.reset();
-    secondVideo.reset();
-    subtitleController.reset();
-
+    
     // 버튼 숨김
     gameStartButton.hide();
-
+    
     // 인게임 세팅
     inGameInitStart();
-
+    
     // 화면 전환
     inGameScreenConvert();
-
+    
     // 상태 변환
     status = "in-game"; // 상태: 게임 중
+
+    // 비디오 오디오 자막초기화
+    // introVideo.reset();
+    secondVideo.reset();
+    subtitleController.reset();
 };
 
 
@@ -292,9 +292,6 @@ const preloadImage = (url) => {
     const img = new Image();
     img.src = url;
   };
-  
-  preloadImage('/path/to/your/image.jpg');
-
 // 개발 모드에 따른 버튼 표시
 window.addEventListener('load', function () {
     if (isDevMode) {
@@ -303,13 +300,21 @@ window.addEventListener('load', function () {
     audioElement.muted = true;
     audioElement.play();
 
-    preloadImage(img_default_path + 'level2_object.png');
-    preloadImage(img_default_path + 'level2_loop1.png');
-    preloadImage(img_default_path + 'level2_loop2.png');
-    preloadImage(img_default_path + 'level2_loop3.png');
-    preloadImage(img_default_path + 'level2_loop4.png');
-    preloadImage(img_default_path + 'level1_object.png');
+    level1_images.forEach(image => {
+        preloadImage(image);
+    });
 
+    level2_images.forEach(image => {
+        preloadImage(image);
+    });
+
+    level3_images.forEach(image => {
+        preloadImage(image);
+    }); 
+
+    preloadImage(img_default_path + 'level3_object.png');
+    preloadImage(img_default_path + 'level2_object.png');
+    preloadImage(img_default_path + 'level1_object.png');
 
     userOutObejct.start();
 
