@@ -2,7 +2,7 @@
 let status = "intro"; // 초기 상태는 "인트로 화면"
 const loadingTime = 100;
 const dev_video_delay = 1;
-const outCheckTime = 15;
+const outCheckTime = 300;
 
 // 개발 모드 변수 설정
 const isDevMode = true;
@@ -304,8 +304,8 @@ const createGameMenu = () => {
         gameDescription.textContent = gameMenuItem.gameItemName[i];  // 게임 이름 설정
 
         // 4. gameMenuButton에 이미지와 게임 설명을 추가
-        gameMenuButton.appendChild(img);
-        gameMenuButton.appendChild(gameDescription);
+        // gameMenuButton.appendChild(img);
+        // gameMenuButton.appendChild(gameDescription);
 
         // 5. 최종적으로 부모 컨테이너에 추가
         gameMenuContainerBody.appendChild(gameMenuButton);

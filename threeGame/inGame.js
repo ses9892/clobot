@@ -24,10 +24,11 @@ let gameConfig = {
                 }
             }
         ),
+        gameCompletionQueue : ['A-box' , 'C-box' , 'B-box'],
         gameCompletion : {  // 게임1 완료 상태
-            'A' : false,
-            'B ': false,
-            'C' : false
+            'A-box' : false,
+            'B-box ': false,
+            'C-box' : false
         }
     } ,
     game2 : {
@@ -245,7 +246,7 @@ function game1_layout_setting(bodyElement){
     function createLayoutBox(letter) {
         const box = document.createElement('div');
         box.className = `gameBox ${letter}-box`;
-        box.textContent = `${letter} layout`;
+        // box.textContent = `${letter} layout`;
         box.boxId = letter;
         return box;
     }
@@ -255,10 +256,10 @@ function game1_layout_setting(bodyElement){
     layoutLetters.forEach(letter => {
         const box = createLayoutBox(letter);
 
-        // 터치이벤트 추가
-        box.addEventListener('touchstart' , (event) => {
-            game1BoxTouchEvent(event.target);
-        })
+        // // 터치이벤트 추가
+        // box.addEventListener('touchstart' , (event) => {
+        //     game1BoxTouchEvent(event.target);
+        // })
         gameBox.appendChild(box);
     });
 
@@ -266,6 +267,7 @@ function game1_layout_setting(bodyElement){
     const img = document.createElement('img');
     const gameObject = getGameObject();
     img.src = gameObject['main-img-url'];
+    img.className = 'game1_main_img';
 
     // 이미지를 gameBox에 추가
     gameBox.appendChild(img);
@@ -297,6 +299,9 @@ function createGaugeBar(){
         gaugeBar.appendChild(highlight);
         gaugeBar.appendChild(target);
 
+        gaugeBar.addEventListener('touchstart' , (event) => {
+            game1BoxTouchEvent(event.target);
+        })
         return gaugeBar;
     }
 
@@ -360,6 +365,7 @@ function checkGauge(){
 
 // 게임1 박스 터치 이벤트 처리 함수
 function game1BoxTouchEvent(box) {
+    console.log(box);
     if(!checkGauge()){
         alert('게이지 맞지 않네');
         return;
@@ -367,12 +373,17 @@ function game1BoxTouchEvent(box) {
 
     const gameObject = getGameObject();
     const gameCompletion = gameObject.gameCompletion;
-    gameCompletion[box.boxId] = true;
+    const gameCompletionQueue = gameObject.gameCompletionQueue;
 
-    box.textContent = 'X';
+    const clearBoxId = gameCompletionQueue.shift();
+    const clearBoxElement = document.querySelector('.' + clearBoxId);
+
+    clearBoxElement.style.display = 'none';
+    gameCompletion[clearBoxId] = true;
 
     console.log(gameCompletion);
-    if(gameCompletion.A && gameCompletion.B && gameCompletion.C){
+
+    if(gameCompletion['A-box'] && gameCompletion['B-box'] && gameCompletion['C-box']){
         alert('게임완료');
     }
 }

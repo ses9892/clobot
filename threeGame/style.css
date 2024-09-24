@@ -66,32 +66,52 @@ video {
 /* 고정 비율 유지 */
 .game-menu-container {
     width: 1080px;
-    height: 1920px;
+    height: 1638px;
     position: relative;
     overflow: hidden;
     background-color: #ffffff;
     transform-origin: top left;
     transform: scale(calc(min(100vw / 1080, 100vh / 1920)));
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.5);
     z-index: 100;
+
+    background-image: url('./assets/images/menu_background.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 } 
 
 .game-menu-body{
-    display: flex;
     width: 100%;
     height: 100%;
+    /* display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-evenly; */
 }
 
 .game-menu-button{
+    position: absolute;
     border-radius: 10px;
-    background-color: white;
-    width: 500px;
-    height: 300px;
+    background-color: rgba(0, 0, 0, 0);
+    width: 553px;
+    height: 243px;
+    margin: 10px 0; /* 요소 사이의 간격을 수동으로 조절 */
+}
+
+#game-menu-item1{
+    top: 350px;
+    left: 264px;
+}
+
+#game-menu-item2{
+    top: 650px;
+    left: 264px;
+}
+
+#game-menu-item3{
+    top: 960px;
+    left: 264px;
 }
 
 .game-menu-thumnail-img {
