@@ -75,7 +75,7 @@ video {
     opacity: 0;
     z-index: 100;
 
-    background-image: url('./assets/images/menu_background.png');
+    background-image: url('../assets/images/menu_background.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
 } 

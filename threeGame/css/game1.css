@@ -11,34 +11,9 @@
     left: 30%;
   }
   
-  /* 중앙에 하이라이트 추가 */
-  .game1_highlight {
-    position: absolute;
-    width: 100px;
-    height: 100%;
-    top: 0;
-    left: calc(50% - 50px); /* 중앙에 위치 */
-    background: rgba(25, 250, 0, 0.5);
-    border-left: 2px solid white;
-    border-right: 2px solid white;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-    z-index: 1; /* 타겟보다 위에 표시 */
-  }
+
   
-  /* 타겟 (파란색 원) */
-  .target {
-    width: 70px;
-    height: 70px;
-    background-color: blue;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    animation: moveTarget 10s infinite ease-in-out; /* 3초로 설정 (빠름) */
-    z-index: 2;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
+
   
   
   /* 타겟이 중앙에 도달했을 때의 상태 */
@@ -72,12 +47,14 @@
       width: 680px;
       height: 346px;
 
-      background-image: url('./assets/images/B_stone.png');
+      background-image: url('../assets/images/B_stone.png');
 
       top: 684px;
       left: 245px;
 
       z-index: 103;
+
+      transition: opacity 0.5s ease-out;
   }
   
   .aaaaa > .B-box{
@@ -85,12 +62,14 @@
     width: 417px;
     height: 322px;
 
-    background-image: url('./assets/images/A_stone.png');
+    background-image: url('../assets/images/A_stone.png');
 
     top: 789px;
     left: 73px;
 
     z-index: 101;
+
+    transition: opacity 0.5s ease-out;
   }
   
   .aaaaa > .C-box{
@@ -98,12 +77,14 @@
     width: 605px;
     height: 271px;
 
-    background-image: url('./assets/images/C_stone.png');
+    background-image: url('../assets/images/C_stone.png');
 
     top: 850px;
     left: 396px;
 
     z-index: 102;
+
+    transition: opacity 0.5s ease-out;
   }
   
   
@@ -116,4 +97,56 @@
       height: 463px;
 
       z-index: 100;
+  }
+
+
+
+  .progress-bar-container {
+    display: flex;
+    position: absolute;
+    top: 1216px;
+    left: 190px;
+    overflow: hidden;
+    width: 698px;
+    height: 130px;
+    align-items: center;
+}
+
+.progress-bar {
+  width: 698px;
+  height: 90px;
+  background-image: url('../assets/images/game1/game1_progress.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+  /* 타겟 (파란색 원) */
+  .target {
+    position: absolute;
+    width: 113px;
+    height: 118px;
+    background-image: url('../assets/images/game1/game1_target.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    animation: moveTarget 4s linear infinite alternate;
+  }
+
+  @keyframes moveTarget {
+    0% { left: 0; }
+    100% { left: calc(100% - 113px); }
+}
+
+
+  /* 중앙에 하이라이트 추가 */
+  .game1_highlight {
+    position: absolute;
+    width: 339px;
+    height: 100%;
+    top: 0;
+    left: calc(50% - 173px);
+    background: rgba(25, 250, 0, 0);
+    /* border-left: 2px solid white; */
+    /* border-right: 2px solid white; */
+    /* box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); */
+    z-index: 1;
   }

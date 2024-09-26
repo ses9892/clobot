@@ -1,6 +1,6 @@
 // 타이머 관련 컨트롤러
 
-const timerSecond = 999;
+const timerSecond = 5;
 
 class TimerController {
     constructor(timerElement , time) {
@@ -28,10 +28,12 @@ class TimerController {
   
     show(){
       this.timer.style.display = 'block'; // 비디오 표시
+      this.timer.style.opacity = 1;
     }
   
     hide() {
         this.timer.style.display = 'none'; // 비디오 숨기기
+        this.timer.style.opacity = 0;
     }
   
     pause(){
@@ -66,13 +68,21 @@ class TimerController {
           userOut.currnet_time_reset();
           this.hide();
           this.isPause = true;
-          showTimeoutPopup('게임종료' , '');
+          showTimeoutPopup('' , '' , true);
+          
+          // 하드코딩...
+          if(gameConfig.current_gameId == 'game1'){
+            const targetElement = document.getElementById('target');
+            targetElement.style.animation = 'none';
+          }
+
+
         }
       }
 }
 
 // 타임아웃 팝업 표시
-function showTimeoutPopup(title, message) {
+function showTimeoutPopup(title, message , isTimeStop) {
     
 
     const popup = document.getElementById('popup');
@@ -85,10 +95,16 @@ function showTimeoutPopup(title, message) {
 
     // 재시작 버튼 보여지게하기
     document.getElementById('game-restart-button').style.display = 'block';
+
+    if(isTimeStop){
+        timerController.hide();
+        timerController.pause();
+        timerController.reset();
+    }
 }
 
 // 게임 클리어 팝업 표시
-function showGameClearPop(title, message) {
+function showGameClearPop(title, message , isTimeStop) {
     
 
     const popup = document.getElementById('popup');
@@ -101,6 +117,15 @@ function showGameClearPop(title, message) {
 
     // 재시작 버튼 보여지게하기
     document.getElementById('game-restart-button').style.display = 'none';
+
+    // 미션 이미지 보이기
+    document.getElementById('mission-img').className = 'mission-complete';
+
+    if(isTimeStop){
+        timerController.hide();
+        timerController.pause();
+        timerController.reset();
+    }
 }
 
 function addEventListenerPopButton(){
@@ -123,13 +148,15 @@ function addEventListenerPopButton(){
 
     // 메뉴선택 버튼 이벤트 터치 이벤트 추가
     document.getElementById('game-menu-select-button').addEventListener('touchstart' , () => {
+        status='game-menu-select';
         closePop();
         timerController.reset();
         getGameObject().videoController.reset();
+        inGameBodyReset();
+
 
         // 하드코딩...
         if(gameConfig.current_gameId == 'game1'){
-            document.querySelector('.gauge-bar').remove();
         }
 
 
@@ -153,7 +180,6 @@ function addEventListenerPopButton(){
                         document.querySelector('.intro_container').style.display = 'block';
                     },
                     () => {     // in complete callback
-                        status='game-menu-select';
                         userOut.currnet_time_reset();
                         console.log('status : ' + status);
                     }                    
@@ -167,7 +193,12 @@ function addEventListenerPopButton(){
         alert('클로봇에게 종료 버튼 명령어를 보냅니다. 알림창을 끌시 임시적으로 빈 페이지로 이동');
         window.location.href = "about:blank";
     });
+}
 
+function inGameBodyReset(){
+  document.getElementById('game_body').innerHTML = ''
+  document.getElementById('game_body').removeAttribute('style');
+  document.getElementById('game_body').removeAttribute('current_game');
 
 
 }

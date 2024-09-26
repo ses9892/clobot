@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진행 막대</title>
+    <style>
+        .progress-bar-container {
+            display: flex;
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            overflow: hidden;
+            width: 698px;
+            height: 130px;
+        }
+
+        .progress-bar {
+            width: 698px;
+            height: 90px;
+            background-image: url('./assets/images/game1/game1_progress.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        .target {
+            position: absolute;
+            width: 113px;
+            height: 118px;
+            background-image: url('./assets/images/game1/game1_target.png');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            animation: moveTarget 4s linear infinite alternate;
+        }
+
+        @keyframes moveTarget {
+            0% { left: 0; }
+            100% { left: calc(100% - 113px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar-container">
+        <div class="progress-bar"></div>
+        <div class="target"></div>
+    </div>
+</body>
+</html>

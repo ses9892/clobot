@@ -89,6 +89,9 @@ class VideoController {
     hide() {
         this.video.style.display = 'none'; // 비디오 숨기기
         this.video.style.opacity = 0;
+
+        // z-index 최하위로 변경
+        this.video.style.zIndex = -1000;
     }
 
     pause() {
@@ -104,42 +107,12 @@ class VideoController {
         this.video.pause();
         this.video.removeAttribute('style');
     }
-}
 
-
-// 비디오 컨트롤러 클래스
-class AudioController {
-    constructor(audioElement, onEndedCallback) {
-        this.audio = audioElement;
-        this.audio.addEventListener('ended', onEndedCallback); // 오디오 끝 이벤트
+    show(){
+        this.video.style.display = 'block';
+        // z-index 최상위로 변경
+        this.video.style.zIndex = 1000;
     }
-
-    play() {
-        this.audio.style.display = 'none'; // 오디오 표시
-        this.audio.play();
-    }
-
-    hide() {
-        this.audio.style.display = 'none'; // 오디오 숨기기
-    }
-
-    pause() {
-        this.audio.pause(); // 오디오 일시정지
-    }
-
-    getDuration() {
-        return this.audio.duration; // 오디오 길이 반환
-    }
-
-    reset(){
-        this.audio.currentTime = 0;
-        this.audio.pause();
-    }
-
-    update(src_path){
-        this.audio.src = src_path;
-    }
-
 }
 
 // 버튼 컨트롤러 클래스
@@ -328,7 +301,6 @@ const introVideo = new VideoController(introVideoElement, onIntroVideoEnded , ()
     }
 });
 const startButton = new ButtonController(startButtonElement, onStartButtonClick);
-const effectAudioController = new AudioController(document.getElementById('effectAudio' , () => {}));
 const userOut = new userOutController();
 
 const preloadImage = (url) => {

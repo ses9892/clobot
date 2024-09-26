@@ -24,7 +24,7 @@ let gameConfig = {
                 }
             }
         ),
-        gameCompletionQueue : ['A-box' , 'C-box' , 'B-box'],
+        gameCompletionQueue : ['B-box' , 'C-box' , 'A-box'],
         gameCompletion : {  // 게임1 완료 상태
             'A-box' : false,
             'B-box ': false,
@@ -149,6 +149,8 @@ const gameIntroVideoEndCallback = () => {
 const inGameBodyFadeInStartCallback = () => {
     // 게임 오브젝트 관련 사전 추가
     console.log('사진 추가 하기');  
+
+    timerController.show();
 
     gameConfig.body.setAttribute('current_game', gameConfig.current_gameId);
 
@@ -283,7 +285,11 @@ function createGaugeBar(){
     if(gameConfig.current_gameId == 'game1'){
         // 게이지 바 컨테이너 생성
         const gaugeBar = document.createElement('div');
-        gaugeBar.className = 'gauge-bar';
+        gaugeBar.className = 'progress-bar-container';
+
+        const progressBar = document.createElement('div');
+        progressBar.className = 'progress-bar';
+        progressBar.id = 'progress-bar';
         
         // 하이라이트 요소 생성
         const highlight = document.createElement('div');
@@ -296,6 +302,7 @@ function createGaugeBar(){
         target.id = 'target';
         
         // 요소들을 게이지 바에 추가
+        gaugeBar.appendChild(progressBar);
         gaugeBar.appendChild(highlight);
         gaugeBar.appendChild(target);
 
@@ -367,7 +374,7 @@ function checkGauge(){
 function game1BoxTouchEvent(box) {
     console.log(box);
     if(!checkGauge()){
-        alert('게이지 맞지 않네');
+        audioController.failSound();
         return;
     }
 
@@ -377,14 +384,53 @@ function game1BoxTouchEvent(box) {
 
     const clearBoxId = gameCompletionQueue.shift();
     const clearBoxElement = document.querySelector('.' + clearBoxId);
-
-    clearBoxElement.style.display = 'none';
+    
     gameCompletion[clearBoxId] = true;
 
-    console.log(gameCompletion);
+
+    audioController.correctSound();
+
+    clearBoxElement.style.opacity = 0;
+    setTimeout(() => {
+        clearBoxElement.style.display = 'none';
+    }, 500);
 
     if(gameCompletion['A-box'] && gameCompletion['B-box'] && gameCompletion['C-box']){
-        alert('게임완료');
+        console.log('게임 완료');
+
+        // game_body fade out
+        controlContainerFadeInOut('out' , document.querySelector('.game_body') , 
+            () => {
+                console.log('game_body fade out');
+            },
+            () => {
+
+                const gameObject = gameConfig[gameConfig.current_gameId];
+                const videoController = gameObject.videoController;
+                videoController.video.src = "./assets/video/game2_complete.mp4";
+                // load
+                gameIntroVideo.load();
+
+                videoController.show();
+
+                //gameIntroVideo fade in
+                controlContainerFadeInOut('in' , document.querySelector('#gameIntroVideo') , 
+                    () => {
+                        console.log('gameIntroVideo fade in');
+                    },
+                    () => {
+                        // 재생
+                        console.log('gameIntroVideo fade in complete');
+                        // 게임성공 팝업 띄우기
+                        showGameClearPop('','',true);
+                    }
+                );
+            }
+        );
+
+
+
+
     }
 }
 

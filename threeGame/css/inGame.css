@@ -175,17 +175,7 @@
     color: red;
   }
   
-  /*
-    팝업 컨탠츠
-  */
-  .popup-content{
-    width: 50% !important;
-    height: 120px !important;
-    background-color: rgba(255, 255, 255, 0);
-    position: relative;
-    top: -5%;
-    left: 0%;
-  }
+
   
   .popup-content > .popup-header{
     margin-bottom: 1px;
@@ -250,4 +240,22 @@
     opacity: 0;
     transform: scale(0.5);
     z-index: 150;
+  }
+
+  .timer-section{
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 210px;
+    height: 99px;
+    position: absolute;
+    left: 435px;
+    top: 35px;
+    font-size: 38pt;
+    display: none;
+    background-color: black;
+    border-radius: 20px;
+    color: #66ff33;
+    font-weight: bold;
+    opacity: 0;
   }
