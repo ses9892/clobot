@@ -42,6 +42,9 @@ const assetsToPreload = [
     "./assets/images/component/mission_fail.png",
     "./assets/images/component/restart_button.png",
 
+    "./assets/images/A_stone.png",
+    "./assets/images/B_stone.png",
+    "./assets/images/C_stone.png",
     "./assets/images/game1/game1_item_magchi.png",
     "./assets/images/game1/game1_item_target",
     "./assets/images/game1/game1_progress.png",

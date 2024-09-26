@@ -39,6 +39,26 @@ let gameConfig = {
                 'C-box' : false
             };
             gameConfig.game1.gameCompletionQueue = ['B-box' , 'C-box' , 'A-box'];
+        } ,
+
+        restartGame : () => {
+            // 타겟 애니메이션 추가
+            const targetElement = document.getElementById('target');
+            targetElement.className = 'target animation';
+
+            // 게임 완료 큐 초기화
+            gameConfig.game1.resetGameCompletion();
+
+            // 게임 박스 투명도 1
+            document.querySelectorAll('.gameBox').forEach(box => {
+                box.style.display = 'block';
+                box.style.opacity = 1;
+            });
+
+            // game1_item_container 속성 초기화
+            const game1ItemContainer = document.getElementById('game1_item_container');
+            console.log(gameConfig.game1.gameCompletionQueue[0])
+            game1ItemContainer.setAttribute('Completion', gameConfig.game1.gameCompletionQueue[0]);
         }
 
     } ,

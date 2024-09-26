@@ -1,6 +1,6 @@
 // 타이머 관련 컨트롤러
 
-const timerSecond = 30;
+const timerSecond = 10;
 
 class TimerController {
     constructor(timerElement , time) {
@@ -94,6 +94,8 @@ function showTimeoutPopup(title, message , isTimeStop) {
     popup.style.display = 'flex';
     popup.className = 'popup-overlay';
 
+    document.getElementById('mission-img').className = 'mission-fail';
+
     // 재시작 버튼 보여지게하기
     document.getElementById('game-restart-button').style.display = 'block';
 
@@ -151,11 +153,11 @@ function addEventListenerPopButton(){
         timerController.reset();
         timerController.start();
 
-                // 하드코딩...
-                if(gameConfig.current_gameId == 'game1'){
-                  const targetElement = document.getElementById('target');
-                  targetElement.className = 'target animation';
-                }
+          // 하드코딩...
+          if(gameConfig.current_gameId == 'game1'){
+
+            getGameObject().restartGame();
+          }
         
     });
 
