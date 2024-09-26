@@ -1,6 +1,6 @@
 // 타이머 관련 컨트롤러
 
-const timerSecond = 5;
+const timerSecond = 30;
 
 class TimerController {
     constructor(timerElement , time) {
@@ -73,7 +73,7 @@ class TimerController {
           // 하드코딩...
           if(gameConfig.current_gameId == 'game1'){
             const targetElement = document.getElementById('target');
-            targetElement.style.animation = 'none';
+            targetElement.className = 'target';
           }
 
 
@@ -92,6 +92,7 @@ function showTimeoutPopup(title, message , isTimeStop) {
     popupTitle.textContent = title;
     popupMessage.textContent = message;
     popup.style.display = 'flex';
+    popup.className = 'popup-overlay';
 
     // 재시작 버튼 보여지게하기
     document.getElementById('game-restart-button').style.display = 'block';
@@ -114,6 +115,11 @@ function showGameClearPop(title, message , isTimeStop) {
     popupTitle.textContent = title;
     popupMessage.textContent = message;
     popup.style.display = 'flex';
+
+    
+    // 팝업 오버레이 보이기
+    popup.className = 'popup-overlay2';
+
 
     // 재시작 버튼 보여지게하기
     document.getElementById('game-restart-button').style.display = 'none';
@@ -144,6 +150,13 @@ function addEventListenerPopButton(){
         // 타이머 초기화 & 시작
         timerController.reset();
         timerController.start();
+
+                // 하드코딩...
+                if(gameConfig.current_gameId == 'game1'){
+                  const targetElement = document.getElementById('target');
+                  targetElement.className = 'target animation';
+                }
+        
     });
 
     // 메뉴선택 버튼 이벤트 터치 이벤트 추가

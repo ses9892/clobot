@@ -44,8 +44,10 @@ const assetsToPreload = [
 
     
     // Videos
-    "./assets/video/test3.mp4",
+    "./assets/video/game3_1_des.mp4",
+    "./assets/video/game3_1_end.mp4",
     "./assets/video/game2_complete.mp4",
+
 
     // Audio
     "./assets/audio/correct.mp3",

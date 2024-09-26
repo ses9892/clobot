@@ -6,43 +6,68 @@
     <title>진행 막대</title>
     <style>
         .progress-bar-container {
-            display: flex;
             position: absolute;
-            top: 10%;
-            left: 5%;
-            overflow: hidden;
-            width: 698px;
-            height: 130px;
+            top: 540px;
+            left: 100px;
+        }
+        .망치 {
+            position: relative;
+            top: 0px;
+            left: 0px;
+            width: 248px;
+            height: 356px;
+            background-image: url('./assets/images/game3/game3_item_magchi.png');
+            animation: 
+                move-and-rotate 3s linear forwards;
+            z-index: 10;
+        }
+         
+        .정 {
+            position: relative;
+            top: -190px; 
+            left: 330px;
+            width: 85px; 
+            height: 86px;
+            background-image: url('./assets/images/game3/game3_item_target.png');
+            z-index: 9;
+            rotate: 10deg;
         }
 
-        .progress-bar {
-            width: 698px;
-            height: 90px;
-            background-image: url('./assets/images/game1/game1_progress.png');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-        }
-
-        .target {
-            position: absolute;
-            width: 113px;
-            height: 118px;
-            background-image: url('./assets/images/game1/game1_target.png');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
-            animation: moveTarget 4s linear infinite alternate;
-        }
-
-        @keyframes moveTarget {
-            0% { left: 0; }
-            100% { left: calc(100% - 113px); }
+        @keyframes move-and-rotate {
+            0% {
+                transform: translateX(0) rotate(0deg);
+            }
+            20% {
+                transform: translateX(100px) rotate(0deg);
+            }
+            30% {
+                transform: translateX(100px) rotate(40deg);
+            }
+            40% {
+                transform: translateX(100px) rotate(0deg);
+            }
+            50% {
+                transform: translateX(100px) rotate(40deg);
+            }
+            60% {
+                transform: translateX(100px) rotate(0deg);
+            }
+            70% {
+                transform: translateX(100px) rotate(40deg);
+            }
+            80% {
+                transform: translateX(100px) rotate(0deg);
+            }
+            100% {
+                transform: translateX(0) rotate(0deg);
+            }
         }
     </style>
 </head>
 <body>
     <div class="progress-bar-container">
-        <div class="progress-bar"></div>
-        <div class="target"></div>
+        <div class="망치"></div>
+        <div class="정"></div>
     </div>
 </body>
 </html>

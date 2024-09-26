@@ -10,12 +10,7 @@
     top: 30%;
     left: 30%;
   }
-  
 
-  
-
-  
-  
   /* 타겟이 중앙에 도달했을 때의 상태 */
   .target.success {
     background-color: lime;
@@ -128,6 +123,9 @@
     background-image: url('../assets/images/game1/game1_target.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+  }
+
+  .target.animation{
     animation: moveTarget 4s linear infinite alternate;
   }
 
@@ -150,3 +148,80 @@
     /* box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); */
     z-index: 1;
   }
+
+
+
+  .game1_item_container {
+    position: absolute;
+    z-index: 1000;
+}
+
+.game1_item_container[Completion = 'B-box'] {
+    top: 700px;
+    left: 30px;
+}
+
+.game1_item_container[Completion = 'C-box'] {
+    top: 800px;
+    left: 250px;
+}
+
+.game1_item_container[Completion = 'A-box'] {
+    top: 550px;
+    left: 350px;
+}
+
+.game1_item_magchi {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    width: 248px;
+    height: 356px;
+    background-image: url('../assets/images/game1/game1_item_magchi.png');
+    z-index: 10;
+}
+
+.game1_item_magchi.magchi_rotate {
+    animation: move-and-rotate 3s linear forwards;
+}
+ 
+.game1_item_target {
+    position: relative;
+    top: -190px; 
+    left: 280px; 
+    width: 85px; 
+    height: 86px;
+    background-image: url('../assets/images/game1/game1_item_target.png');
+    z-index: 9;
+    rotate: 10deg;
+}
+
+@keyframes move-and-rotate {
+    0% {
+        transform: translateX(0) rotate(0deg);
+    }
+    20% {
+        transform: translateX(50px) rotate(0deg);
+    }
+    30% {
+        transform: translateX(50px) rotate(30deg);
+    }
+    40% {
+        transform: translateX(50px) rotate(0deg);
+    }
+    50% {
+        transform: translateX(50px) rotate(30deg);
+    }
+    60% {
+        transform: translateX(50px) rotate(0deg);
+    }
+    70% { 
+        transform: translateX(50px) rotate(30deg);
+    }
+    80% { 
+        transform: translateX(50px) rotate(0deg);
+    }
+    100% {
+        transform: translateX(0px) rotate(0deg);
+    }
+}

@@ -12,7 +12,8 @@ let gameConfig = {
     game1 : {
         'background-url' : "url('./assets/images/game1_background.png')",  // 게임1 배경 이미지 URL
         'main-img-url' : "./assets/images/stone.png",  // 게임1 메인 이미지 URL
-        'video-url' : "./assets/video/test3.mp4",  // 게임1 비디오 URL
+        'video-url' : "./assets/video/game3_1_des.mp4",  // 게임1 비디오 URL
+        'end-video-url' : "./assets/video/game3_1_end.mp4",  // 게임1 비디오 URL
         'videoController' : new VideoController(  // 게임1 비디오 컨트롤러
             document.getElementById('gameIntroVideo') ,
             () => {
@@ -29,7 +30,17 @@ let gameConfig = {
             'A-box' : false,
             'B-box ': false,
             'C-box' : false
+        },
+
+        resetGameCompletion : () => {
+            gameConfig.game1.gameCompletion = {
+                'A-box' : false,
+                'B-box ': false,
+                'C-box' : false
+            };
+            gameConfig.game1.gameCompletionQueue = ['B-box' , 'C-box' , 'A-box'];
         }
+
     } ,
     game2 : {
         'background-url' : "url('./assets/images/game2/game2_background.png')",  // 게임2 배경 이미지 URL
@@ -155,6 +166,7 @@ const inGameBodyFadeInStartCallback = () => {
     gameConfig.body.setAttribute('current_game', gameConfig.current_gameId);
 
     if(gameConfig.current_gameId == 'game1'){
+        gameConfig.game1.resetGameCompletion();
         game1_layout_setting(gameConfig.body);
     }
 
@@ -274,10 +286,42 @@ function game1_layout_setting(bodyElement){
     // 이미지를 gameBox에 추가
     gameBox.appendChild(img);
 
+    console.log('###');
+
+    // 게임1 아이템 컨테이너 생성
+    const game1ItemContainer = document.createElement('div');
+    game1ItemContainer.className = 'game1_item_container';
+    game1ItemContainer.id = 'game1_item_container';
+
+    // 게임 큐 조회
+    const gameCompletionQueue = gameObject.gameCompletionQueue;
+
+    // 큐에서 첫번째 항목 조회만 조회
+    const firstItem = gameCompletionQueue[0];
+
+    // game1ItemContainer 속성 부여
+    game1ItemContainer.setAttribute('Completion', firstItem);
+
+    // 막대기 아이템 생성
+    const magchiItem = document.createElement('div');
+    magchiItem.className = 'game1_item_magchi';
+    magchiItem.id = 'game1_item_magchi';
+
+    // 타겟 아이템 생성
+    const targetItem = document.createElement('div');
+    targetItem.className = 'game1_item_target';
+
+    // 아이템들을 컨테이너에 추가
+    game1ItemContainer.appendChild(magchiItem);
+    game1ItemContainer.appendChild(targetItem);
+
+    // 컨테이너를 body에 추가
     // 게이지바 추가
     const gaugeBar = createGaugeBar();
     bodyElement.appendChild(gameBox);
     bodyElement.appendChild(gaugeBar);
+    bodyElement.appendChild(game1ItemContainer);
+
 }
 
 // 게이지바 생성 함수
@@ -298,7 +342,7 @@ function createGaugeBar(){
         
         // 타겟 요소 생성
         const target = document.createElement('div');
-        target.className = 'target';
+        target.className = 'target animation';
         target.id = 'target';
         
         // 요소들을 게이지 바에 추가
@@ -387,51 +431,63 @@ function game1BoxTouchEvent(box) {
     
     gameCompletion[clearBoxId] = true;
 
+    const magchiItem = document.getElementById('game1_item_magchi');
+    magchiItem.classList.add('magchi_rotate');
 
-    audioController.correctSound();
 
-    clearBoxElement.style.opacity = 0;
     setTimeout(() => {
-        clearBoxElement.style.display = 'none';
-    }, 500);
+        // 막대기 아이템 회전 종료
+        magchiItem.classList.remove('magchi_rotate');
 
-    if(gameCompletion['A-box'] && gameCompletion['B-box'] && gameCompletion['C-box']){
-        console.log('게임 완료');
+        // 게임 완료 큐 업데이트
+        const game1ItemContainer = document.getElementById('game1_item_container');
+        if(gameCompletionQueue.length > 0){
+            game1ItemContainer.setAttribute('Completion', gameCompletionQueue[0]);
+        }
 
-        // game_body fade out
-        controlContainerFadeInOut('out' , document.querySelector('.game_body') , 
-            () => {
-                console.log('game_body fade out');
-            },
-            () => {
+        audioController.correctSound();
+        // 클리어 박스 투명도 0
+        clearBoxElement.style.opacity = 0;
+        
+        setTimeout(() => {
+            clearBoxElement.style.display = 'none';
+        }, 500);
 
-                const gameObject = gameConfig[gameConfig.current_gameId];
-                const videoController = gameObject.videoController;
-                videoController.video.src = "./assets/video/game2_complete.mp4";
-                // load
-                gameIntroVideo.load();
+        if(gameCompletion['A-box'] && gameCompletion['B-box'] && gameCompletion['C-box']){
+            console.log('게임 완료');
+    
+            // game_body fade out
+            controlContainerFadeInOut('out' , document.querySelector('.game_body') , 
+                () => {
+                    console.log('game_body fade out');
+                },
+                () => {
+    
+                    const gameObject = gameConfig[gameConfig.current_gameId];
+                    const videoController = gameObject.videoController;
+                    videoController.video.src = gameObject['end-video-url'];
+                    // load
+                    gameIntroVideo.load();
+    
+                    videoController.show();
+    
+                    //gameIntroVideo fade in
+                    controlContainerFadeInOut('in' , document.querySelector('#gameIntroVideo') , 
+                        () => {
+                            console.log('gameIntroVideo fade in');
+                        },
+                        () => {
+                            // 재생
+                            console.log('gameIntroVideo fade in complete');
+                            // 게임성공 팝업 띄우기
+                            showGameClearPop('','',true);
+                        }
+                    );
+                }
+            );
+        }
+    }, 3000);
 
-                videoController.show();
-
-                //gameIntroVideo fade in
-                controlContainerFadeInOut('in' , document.querySelector('#gameIntroVideo') , 
-                    () => {
-                        console.log('gameIntroVideo fade in');
-                    },
-                    () => {
-                        // 재생
-                        console.log('gameIntroVideo fade in complete');
-                        // 게임성공 팝업 띄우기
-                        showGameClearPop('','',true);
-                    }
-                );
-            }
-        );
-
-
-
-
-    }
 }
 
 // 게임2의 메인 컨테이너를 생성하는 함수

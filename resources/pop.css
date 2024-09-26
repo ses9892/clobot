@@ -12,6 +12,8 @@
     z-index: 1000; /* 팝업이 다른 요소 위에 나타나도록 설정 */
 }
 
+
+
 /* 팝업 콘텐츠 */
 .popup-content {
     /* background-color: #fff; */
