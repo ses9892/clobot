@@ -32,6 +32,8 @@ let gameConfig = {
             'C-box' : false
         },
 
+        gameSetTimeout : undefined,
+
         resetGameCompletion : () => {
             gameConfig.game1.gameCompletion = {
                 'A-box' : false,
@@ -59,6 +61,23 @@ let gameConfig = {
             const game1ItemContainer = document.getElementById('game1_item_container');
             console.log(gameConfig.game1.gameCompletionQueue[0])
             game1ItemContainer.setAttribute('Completion', gameConfig.game1.gameCompletionQueue[0]);
+        } ,
+
+        timeoutGame : () => {
+            console.log('시간 초과되어 검증 시작 불가');
+
+            // 타임아웃 초기화
+            clearTimeout(this.gameSetTimeout);
+            this.gameSetTimeout = undefined;
+
+            // 막대기 애니메이션 제거
+            const magchiItem = document.getElementById('game1_item_magchi');
+            magchiItem.classList.remove('magchi_rotate');
+            
+
+            // 타겟 애니메이션 제거
+            const targetElement = document.getElementById('target');
+            targetElement.className = 'target';
         }
 
     } ,
@@ -455,9 +474,15 @@ function game1BoxTouchEvent(box) {
     magchiItem.classList.add('magchi_rotate');
 
 
-    setTimeout(() => {
+    gameObject.gameSetTimeout = setTimeout(() => {
         // 막대기 아이템 회전 종료
         magchiItem.classList.remove('magchi_rotate');
+
+        if(status == 'game-timeout'){
+            console.log('시간 초과되어 검증 시작 불가');
+            return;
+        }
+
 
         // 게임 완료 큐 업데이트
         const game1ItemContainer = document.getElementById('game1_item_container');
