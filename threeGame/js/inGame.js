@@ -521,6 +521,8 @@ function game1BoxTouchEvent(box) {
     
     gameCompletion[clearBoxId] = true;
 
+    audioController.correctSound();
+
     const magchiItem = document.getElementById('game1_item_magchi');
     magchiItem.classList.add('magchi_rotate');
 
@@ -529,6 +531,7 @@ function game1BoxTouchEvent(box) {
     let currentLeft = targetElement.offsetLeft;
     targetElement.style.animationPlayState = 'paused';
     targetElement.style.left = `${currentLeft}px`;
+
 
     gameObject.gameSetTimeout = setTimeout(() => {
 
@@ -551,7 +554,6 @@ function game1BoxTouchEvent(box) {
             game1ItemContainer.setAttribute('Completion', gameCompletionQueue[0]);
         }
 
-        audioController.correctSound();
         // 클리어 박스 투명도 0
         clearBoxElement.style.opacity = 0;
         

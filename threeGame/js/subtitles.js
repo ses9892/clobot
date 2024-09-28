@@ -58,6 +58,7 @@ const assetsToPreload = [
 
     // Audio
     "./assets/audio/correct.mp3",
+    "./assets/audio/game1_stone_crash.wav",
     "./assets/audio/fail.mp3"
 ];
 

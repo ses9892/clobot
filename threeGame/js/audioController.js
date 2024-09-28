@@ -36,7 +36,7 @@ class AudioController {
     }
 
     correctSound(){
-        this.audio.src = "./assets/audio/correct.mp3";
+        this.audio.src = "./assets/audio/game1_stone_crash.wav";
         this.play();
     }
 
