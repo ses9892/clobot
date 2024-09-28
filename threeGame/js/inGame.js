@@ -17,11 +17,12 @@ let gameConfig = {
         'videoController' : new VideoController(  // 게임1 비디오 컨트롤러
             document.getElementById('gameIntroVideo') ,
             () => {
+                console.log('touch?');
                 gameIntroVideoEndCallback();  // 비디오 종료 시 콜백
             },
             () => {
                 if (isDevMode) {
-                    setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
+                    // setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
                 }
             }
         ),
@@ -254,16 +255,18 @@ const inGameScreenFadeInCompleteCallback = () => {
     const gameObject = gameConfig[gameConfig.current_gameId];
 
     if(gameObject.videoController != undefined){
+        // 비디오 컨트롤러 초기화
+        gameObject.videoController.removeEvent();
         gameObject.videoController = new VideoController(  // 게임2 비디오 컨트롤러
             document.getElementById('gameIntroVideo') ,
             () => {
+                console.log('터치모드')
                 gameIntroVideoEndCallback();  // 비디오 종료 시 콜백
             },
             () => {
-                if (isDevMode) {
-                    setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
-                }
-            }
+            } , 
+            undefined , 
+            true
         );
     }
 
@@ -315,6 +318,13 @@ function game1_layout_setting(bodyElement){
         // })
         gameBox.appendChild(box);
     });
+
+    // shadow 요소 생성
+    const shadow = document.createElement('div');
+    shadow.className = 'game1_shadow';
+    shadow.id = 'game1_shadow';
+
+    gameBox.appendChild(shadow);
 
     // 이미지 요소 생성
     const img = document.createElement('img');
@@ -453,10 +463,22 @@ function checkGauge(){
     return isCorrect;
 }
 
+// 게이지를 흔드는 새로운 함수
+function shakeGauge() {
+    const gaugeBar = document.querySelector('.progress-bar-container');
+    gaugeBar.classList.add('shake');
+    
+    // 애니메이션이 끝나면 클래스 제거
+    setTimeout(() => {
+        gaugeBar.classList.remove('shake');
+    }, 520); // 애니메이션 지속 시간 + 약간의 여유
+}
+
 // 게임1 박스 터치 이벤트 처리 함수
 function game1BoxTouchEvent(box) {
-    console.log(box);
+    console.log('########## game1BoxTouchEvent ##########');
     if(!checkGauge()){
+        shakeGauge();
         audioController.failSound();
         return;
     }
@@ -473,8 +495,15 @@ function game1BoxTouchEvent(box) {
     const magchiItem = document.getElementById('game1_item_magchi');
     magchiItem.classList.add('magchi_rotate');
 
+    // 타겟 애니메이션 중지 및 현재 위치에서 멈추기
+    const targetElement = document.getElementById('target');
+    let currentLeft = targetElement.offsetLeft;
+    targetElement.style.animationPlayState = 'paused';
+    targetElement.style.left = `${currentLeft}px`;
 
     gameObject.gameSetTimeout = setTimeout(() => {
+
+
         // 막대기 아이템 회전 종료
         magchiItem.classList.remove('magchi_rotate');
 
@@ -483,6 +512,9 @@ function game1BoxTouchEvent(box) {
             return;
         }
 
+        // 타겟 애니메이션 재시작
+        targetElement.style.animationPlayState = 'running';
+        targetElement.style.left = '';  // left 스타일 제거하여 애니메이션 재개
 
         // 게임 완료 큐 업데이트
         const game1ItemContainer = document.getElementById('game1_item_container');
@@ -522,6 +554,7 @@ function game1BoxTouchEvent(box) {
                             console.log('gameIntroVideo fade in');
                         },
                         () => {
+                            videoController.play();
                             // 재생
                             console.log('gameIntroVideo fade in complete');
                             // 게임성공 팝업 띄우기

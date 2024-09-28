@@ -1,5 +1,5 @@
 // 타이머 관련 컨트롤러
-const timerSecond = 5;
+const timerSecond = 999;
 
 class TimerController {
     constructor(timerElement , time) {
@@ -161,44 +161,7 @@ function addEventListenerPopButton(){
 
     // 메뉴선택 버튼 이벤트 터치 이벤트 추가
     document.getElementById('game-menu-select-button').addEventListener('touchstart' , () => {
-        status='game-menu-select';
-        closePop();
-        timerController.reset();
-        getGameObject().videoController.reset();
-        inGameBodyReset();
-
-
-        // 하드코딩...
-        if(gameConfig.current_gameId == 'game1'){
-        }
-
-
-
-        controlContainerFadeInOut('out' , inGameScreenElement ,
-            () => {
-;
-            },
-            () => {     
-                
-                gameConfig.body.style.backgroundImage = '';
-                gameConfig.body.innerHTML = ''
-
-                // out start callback
-                controlContainerFadeInOut('in' , document.querySelector('.intro_container'),
-                    () => {     // in start callback
-                        inGameScreenElement.style.display = 'none';
-                        
-
-
-                        document.querySelector('.intro_container').style.display = 'block';
-                    },
-                    () => {     // in complete callback
-                        userOut.currnet_time_reset();
-                        console.log('status : ' + status);
-                    }                    
-                );
-            }
-        );
+      goMenu();
     });
 
     document.getElementById('end-button').addEventListener('touchstart' , () => {
@@ -214,6 +177,48 @@ function inGameBodyReset(){
   document.getElementById('game_body').removeAttribute('current_game');
 
 
+}
+
+
+function goMenu(){
+  status='game-menu-select';
+  closePop();
+  timerController.reset();
+  getGameObject().videoController.reset();
+  inGameBodyReset();
+
+
+  // 하드코딩...
+  if(gameConfig.current_gameId == 'game1'){
+  }
+
+
+
+  controlContainerFadeInOut('out' , inGameScreenElement ,
+      () => {
+;
+      },
+      () => {     
+          
+          gameConfig.body.style.backgroundImage = '';
+          gameConfig.body.innerHTML = ''
+
+          // out start callback
+          controlContainerFadeInOut('in' , document.querySelector('.intro_container'),
+              () => {     // in start callback
+                  inGameScreenElement.style.display = 'none';
+                  
+
+
+                  document.querySelector('.intro_container').style.display = 'block';
+              },
+              () => {     // in complete callback
+                  userOut.currnet_time_reset();
+                  console.log('status : ' + status);
+              }                    
+          );
+      }
+  );
 }
 
 const timerController = new TimerController(document.getElementById('game-timer'),timerSecond);

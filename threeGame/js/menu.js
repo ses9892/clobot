@@ -2,7 +2,7 @@
 let status = "intro"; // 초기 상태는 "인트로 화면"
 const loadingTime = 100;
 const dev_video_delay = 1;
-const outCheckTime = 300;
+const outCheckTime = 15;
 
 // 개발 모드 변수 설정
 const isDevMode = true;
@@ -17,7 +17,7 @@ class userOutController {
 
         document.body.addEventListener('touchstart' , () => {
             this.current_out_check_time = this.default_out_check_time;
-            console.log('체크 햇더니 다시 돌아왓넹?? ==> ' + this.current_out_check_time);
+            // console.log('체크 햇더니 다시 돌아왓넹?? ==> ' + this.current_out_check_time);
         });
     }
     start(){
@@ -25,7 +25,7 @@ class userOutController {
             this.current_out_check_time--;
             if(this.current_out_check_time < 0 ){
                 if(status == 'intro'){
-                    console.log('인트로에서는 무반응 + 시간초돌리기');
+                    // console.log('인트로에서는 무반응 + 시간초돌리기');
                     this.current_out_check_time = this.default_out_check_time;
                 }else{
 
@@ -42,8 +42,10 @@ class userOutController {
 
                             break;
                         case 'game-timeout' :
-                            console.log('타임아웃이지~');
+                            // console.log('타임아웃이지~');
                             this.currnet_time_reset();
+                            goMenu();
+                            break;
                     }
 
 
@@ -67,10 +69,23 @@ class userOutController {
 
 // 비디오 컨트롤러 클래스
 class VideoController {
-    constructor(videoElement, onEndedCallback , devCallBack) {
+    constructor(videoElement, onEndedCallback , devCallBack , controlStatus , isAllEvent) {
         this.video = videoElement;
-        this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
-        this.devCallBack = devCallBack;
+        console.log(isAllEvent);
+        if(!isAllEvent){
+            if(controlStatus == undefined){
+                this.video.addEventListener('touchstart' , onEndedCallback);
+            }
+            
+            if(controlStatus == 'end'){
+                this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+            }
+            // this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+            this.devCallBack = devCallBack;
+        }else{
+            this.video.addEventListener('touchstart' , onEndedCallback);
+            this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+        }
     }
 
     play(isIntro) {
@@ -78,11 +93,12 @@ class VideoController {
             status = 'intro';
         }
         this.video.style.display = 'block'; // 비디오 표시
+        this.video.muted = false;
         this.video.play();
 
-        if(this.devCallBack){
-            this.devCallBack();
-        }
+        // if(this.devCallBack){
+        //     this.devCallBack();
+        // }
 
     }
 
@@ -112,6 +128,13 @@ class VideoController {
         this.video.style.display = 'block';
         // z-index 최상위로 변경
         this.video.style.zIndex = 1000;
+    }
+
+    // this video의 모든 이벤트 해제
+    removeEvent(){
+        // 모든 이벤트 리스너 제거
+        this.video.replaceWith(this.video.cloneNode(true));
+        this.video = document.getElementById(this.video.id); // 새로운 요소 참조 업데이트
     }
 }
 
@@ -161,7 +184,7 @@ class SubtitleController {
 
             this.audioElement.play().then(() => {
                 this.audioElement.muted = false;
-                console.log('audio play');
+                // console.log('audio play');
             })
 
             this.subtitleIndex++;
@@ -192,8 +215,8 @@ const gameMenuContainerBody = document.getElementById('game-menu-body');   // �
 
 // 첫 번째 비디오 종료 시 실행될 콜백 함수
 const onIntroVideoEnded = () => {
-    // startButton.show();
-    console.log("현재 상태:", status);
+    showGameMenu();
+    // console.log("현재 상태:", status);
 };
 
 const showGameMenu = () => {
@@ -205,7 +228,7 @@ const showGameMenu = () => {
             userOut.currnet_time_reset();
         }, 
     );
-    console.log('1111');
+    // console.log('1111');
 
     // 게임 메뉴 컨테이너 fade in
 }
@@ -296,10 +319,7 @@ const createGameMenu = () => {
 
 // 인스턴스 생성
 const introVideo = new VideoController(introVideoElement, onIntroVideoEnded , () => {
-    if (isDevMode) {
-        setTimeout(() => showGameMenu(), dev_video_delay * 1000);
-    }
-});
+} , 'end' , false);
 const startButton = new ButtonController(startButtonElement, onStartButtonClick);
 const userOut = new userOutController();
 
@@ -318,9 +338,10 @@ const loadStart = () => {
             var value = Math.round(circle.value() * 100);
             circle.setText(value + '%');
 
+
             // 30%일 때 한 번만 함수 호출
             if (value >= 30 && !called30) {
-                console.log("30%에 도달!");
+                // console.log("30%에 도달!");
                 called30 = true;  // 플래그를 true로 변경하여 다시 호출되지 않도록 설정
                 createGameMenu();  // 메뉴 생성
                 addEventListenerPopButton(); //팝업 버튼 이벤트 추가
@@ -329,13 +350,13 @@ const loadStart = () => {
 
             // 60%일 때 한 번만 함수 호출
             if (value >= 60 && !called60) {
-                console.log("60%에 도달!");
+                // console.log("60%에 도달!");
                 called60 = true;
             }
 
             // 90%일 때 한 번만 함수 호출
             if (value >= 90 && !called90) {
-                console.log("90%에 도달!");
+                // console.log("90%에 도달!");
                 called90 = true;
             }
 
@@ -345,18 +366,18 @@ const loadStart = () => {
         // 애니메이션 완료 후 실행될 콜백 함수
         controlContainerFadeInOut('out' ,document.getElementById('progress-container') , 
             () => {
-                console.log('프로그래스 사라지기 시작')
+                // console.log('프로그래스 사라지기 시작')
             },
 
             () => {
                 document.getElementById('progress-container').style.display = 'none';
-                console.log('프로그래스 사라짐!')
+                // console.log('프로그래스 사라짐!')
                 controlContainerFadeInOut('in' , document.querySelector('.intro_container'),
                     () => {
                         document.querySelector('.intro_container').style.display = 'block';
                     },
                     () => {
-                        console.log('인트로 컨테이너 fade in 완료');
+                        // console.log('인트로 컨테이너 fade in 완료');
                         introVideo.play(true);
                         userOut.start();
                     }

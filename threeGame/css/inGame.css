@@ -259,3 +259,30 @@
     font-weight: bold;
     opacity: 0;
   }
+
+  .game1_shadow{
+    width: 916px;
+    height: 179px;
+    position: absolute;
+    top: 960px;
+    left: 96px;
+    
+
+    background-image: url('../assets/images/game1/game1_shadow.png'); /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지가 영역에 맞게 */
+    background-position: center; /* 이미지 중앙 정렬 */
+  }
+
+
+  @keyframes shakeAnimation {
+    0% { transform: translateX(0); }
+    10%, 90% { transform: translateX(-10px); }
+    20%, 80% { transform: translateX(10px); }
+    30%, 50%, 70% { transform: translateX(-10px); }
+    40%, 60% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+.progress-bar-container.shake {
+    animation: shakeAnimation 0.52s cubic-bezier(.36,.07,.19,.97) both;
+}
