@@ -16,6 +16,8 @@
 <body>
     <div id="progress-container"></div>
 
+    <div class="user-timer-section hide" id="user-out-timer"></div>
+
     <div class="intro_container hide">
 
         <div class="game-menu-container" id="game-menu-container">
@@ -23,7 +25,7 @@
             </div>
         </div>
         <!-- 첫 번째 비디오 -->
-        <video id="introVideo">
+        <video id="introVideo" disablePictureInPicture>
             <source src="./assets/video/game_menu_intro.mp4" type="video/mp4">
         </video>
 
@@ -43,7 +45,7 @@
         <div class="game_body" id="game_body">
         </div>
 
-        <video id="gameIntroVideo" muted>
+        <video id="gameIntroVideo">
             <source src="" type="video/mp4">
         </video>
     </div>

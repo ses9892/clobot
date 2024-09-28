@@ -209,6 +209,8 @@ const gameIntroVideoEndCallback = () => {
 const game1EndVideoEndCallback = () => {
     console.log('game1EndVideoEndCallback');
 
+    userOut.currnet_time_reset();
+    userOut.showTimer();
     // 게임성공 팝업 띄우기
     showGameClearPop('','',true);
 }
@@ -248,6 +250,8 @@ const inGameBodyFadeInCompleteCallback = () => {
 // 인트로 스크린 페이드 아웃 시작 콜백
 const introScreenFadeOutStartCallback = () => {
     introVideo.reset();
+    // 타이머 숨기기
+    userOut.hideTimer();
 }
 
 // 인트로 스크린 페이드 아웃 완료 콜백
@@ -297,7 +301,11 @@ const inGameScreenFadeInCompleteCallback = () => {
 
 // 게임 화면 전환 함수
 const convertGameScreen = (gameId) => {
+
+    // 게임 화면 전환
     gameConfig.current_gameId = gameId;
+    
+    // 인트로 화면 페이드 아웃
     controlContainerFadeInOut('out' , document.querySelector('.intro_container') , introScreenFadeOutStartCallback , introScreenFadeOutCompleteCallback);
 };
 
@@ -506,9 +514,11 @@ function game1BoxTouchEvent(box) {
     if(!checkGauge()){
         shakeGauge();
         audioController.failSound();
+        setTimeout(() => {
+            // 중복 터치 방지
+            gameConfig.game1.isTargetTouch = false;
+        }, 300);
 
-        // 중복 터치 방지
-        gameConfig.game1.isTargetTouch = false;
         return;
     }
 
@@ -563,6 +573,8 @@ function game1BoxTouchEvent(box) {
 
         if(gameCompletion['A-box'] && gameCompletion['B-box'] && gameCompletion['C-box']){
             console.log('게임 완료');
+
+            timerController.pause();
     
             // game_body fade out
             controlContainerFadeInOut('out' , document.querySelector('.game_body') , 

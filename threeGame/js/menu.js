@@ -2,7 +2,7 @@
 let status = "intro"; // 초기 상태는 "인트로 화면"
 const loadingTime = 100;
 const dev_video_delay = 1;
-const outCheckTime = 15;
+const outCheckTime = 999;
 
 // 개발 모드 변수 설정
 const isDevMode = true;
@@ -21,7 +21,9 @@ class userOutController {
         });
     }
     start(){
+        
         this.interval = setInterval(() => {
+            document.getElementById('user-out-timer').textContent = this.current_out_check_time;
             this.current_out_check_time--;
             if(this.current_out_check_time < 0 ){
                 if(status == 'intro'){
@@ -52,6 +54,7 @@ class userOutController {
                     this.current_out_check_time = this.default_out_check_time;
                 }
             }
+            document.getElementById('user-out-timer').textContent = this.current_out_check_time;
             // console.log(this.current_out_check_time + '초 남음');
         } , 1000);
     }
@@ -60,10 +63,24 @@ class userOutController {
         clearInterval(this.interval);
         this.interval = undefined;
     }
-    
+
+    showTimer(){
+        document.getElementById('user-out-timer').classList.remove('hide');
+    }
+
+    hideTimer(){
+        document.getElementById('user-out-timer').classList.add('hide');
+    }
+
+    toggleTimer(){
+        // 타이머 표시 여부에 따라 전환
+        document.getElementById('user-out-timer').classList.toggle('hide');
+    }
+
     currnet_time_reset(){
         console.log('user out reset');
         this.current_out_check_time = this.default_out_check_time;
+        document.getElementById('user-out-timer').textContent = this.current_out_check_time;
     }
 }
 
@@ -94,6 +111,7 @@ class VideoController {
         }
         this.video.style.display = 'block'; // 비디오 표시
         this.video.muted = false;
+        this.video.volume = 1;
         this.video.play();
 
         // if(this.devCallBack){
@@ -242,6 +260,7 @@ const showGameMenu = () => {
         ()=>{                           // fade-in  성공 시 콜백 실행
             status = 'game-menu-select';
             userOut.currnet_time_reset();
+            userOut.toggleTimer();
         }, 
     );
     // console.log('1111');

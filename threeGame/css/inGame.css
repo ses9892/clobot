@@ -260,6 +260,29 @@
     opacity: 0;
   }
 
+
+  .user-timer-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 210px;
+    height: 99px;
+    position: absolute;
+    left: 435px;
+    top: 35px;
+    font-size: 38pt;
+    background-color: black;
+    border-radius: 20px;
+    color: #66ff33;
+    font-weight: bold;
+    z-index: 1100;
+
+  }
+  .user-timer-section.hide{
+    display: none !important;
+    opacity: 0;
+  }
+
   .game1_shadow{
     width: 916px;
     height: 179px;

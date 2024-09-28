@@ -1,5 +1,5 @@
 // 타이머 관련 컨트롤러
-const timerSecond = 999;
+const timerSecond = 30;
 
 class TimerController {
     constructor(timerElement , time) {
@@ -64,9 +64,12 @@ class TimerController {
         }else{
           // 타임아웃 일때
           status = 'game-timeout';
-          userOut.currnet_time_reset();
           this.hide();
           this.isPause = true;
+
+          userOut.currnet_time_reset();
+          userOut.showTimer();
+
           showTimeoutPopup('' , '' , true);
           
           // 하드코딩...
@@ -111,16 +114,15 @@ function showGameClearPop(title, message , isTimeStop) {
     const popup = document.getElementById('popup');
     const popupTitle = document.getElementById('popup-title');
     const popupMessage = document.getElementById('popup-message');
+
+    // 팝업 오버레이 보이기
+    popup.className = 'popup-overlay2';
     
     popupTitle.textContent = title;
     popupMessage.textContent = message;
     popup.style.display = 'flex';
 
     
-    // 팝업 오버레이 보이기
-    popup.className = 'popup-overlay2';
-
-
     // 재시작 버튼 보여지게하기
     document.getElementById('game-restart-button').style.display = 'none';
 
@@ -146,6 +148,7 @@ function addEventListenerPopButton(){
 
         // 인터렉티브 초기화
         userOut.currnet_time_reset();
+        userOut.hideTimer();
         
         // 타이머 초기화 & 시작
         timerController.reset();
@@ -182,6 +185,9 @@ function inGameBodyReset(){
 
 function goMenu(){
   status='game-menu-select';
+
+  userOut.currnet_time_reset();
+  userOut.hideTimer();
   closePop();
   timerController.reset();
   getGameObject().videoController.reset();
@@ -212,6 +218,7 @@ function goMenu(){
               },
               () => {     // in complete callback
                   userOut.currnet_time_reset();
+                  userOut.showTimer();
                   console.log('status : ' + status);
               }                    
           );
