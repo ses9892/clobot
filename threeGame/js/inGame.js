@@ -35,6 +35,8 @@ let gameConfig = {
 
         gameSetTimeout : undefined,
 
+        isTargetTouch : false,
+
         resetGameCompletion : () => {
             gameConfig.game1.gameCompletion = {
                 'A-box' : false,
@@ -42,6 +44,8 @@ let gameConfig = {
                 'C-box' : false
             };
             gameConfig.game1.gameCompletionQueue = ['B-box' , 'C-box' , 'A-box'];
+
+            gameConfig.game1.isTargetTouch = false;
         } ,
 
         restartGame : () => {
@@ -79,6 +83,11 @@ let gameConfig = {
             // 타겟 애니메이션 제거
             const targetElement = document.getElementById('target');
             targetElement.className = 'target';
+        },
+
+        checkDuplicateTouch : () => {
+            console.log('중복 터치 방지 체크 : ' + gameConfig.game1.isTargetTouch);
+            return gameConfig.game1.isTargetTouch;
         }
 
     } ,
@@ -195,6 +204,16 @@ const gameIntroVideoEndCallback = () => {
         }
     )
 }
+
+// 게임1 완료 비디오 종료 콜백
+const game1EndVideoEndCallback = () => {
+    console.log('game1EndVideoEndCallback');
+
+    // 게임성공 팝업 띄우기
+    showGameClearPop('','',true);
+}
+
+
 
 // 인게임 바디 페이드 인 시작 콜백
 const inGameBodyFadeInStartCallback = () => {
@@ -400,6 +419,10 @@ function createGaugeBar(){
         gaugeBar.appendChild(target);
 
         gaugeBar.addEventListener('touchstart' , (event) => {
+            if(gameConfig.game1.checkDuplicateTouch()){
+                console.log('중복 터치 방지 이벤트 로그');
+                return;
+            }
             game1BoxTouchEvent(event.target);
         })
         return gaugeBar;
@@ -476,10 +499,16 @@ function shakeGauge() {
 
 // 게임1 박스 터치 이벤트 처리 함수
 function game1BoxTouchEvent(box) {
+    // 중복 터치 방지
+    gameConfig.game1.isTargetTouch = true;
+
     console.log('########## game1BoxTouchEvent ##########');
     if(!checkGauge()){
         shakeGauge();
         audioController.failSound();
+
+        // 중복 터치 방지
+        gameConfig.game1.isTargetTouch = false;
         return;
     }
 
@@ -542,6 +571,10 @@ function game1BoxTouchEvent(box) {
     
                     const gameObject = gameConfig[gameConfig.current_gameId];
                     const videoController = gameObject.videoController;
+
+                    // 비디오 컨트롤러 초기화
+                    videoController.updateEvent(game1EndVideoEndCallback , 'end' , false);
+
                     videoController.video.src = gameObject['end-video-url'];
                     // load
                     gameIntroVideo.load();
@@ -557,13 +590,13 @@ function game1BoxTouchEvent(box) {
                             videoController.play();
                             // 재생
                             console.log('gameIntroVideo fade in complete');
-                            // 게임성공 팝업 띄우기
-                            showGameClearPop('','',true);
                         }
                     );
                 }
             );
         }
+        // 중복 터치 방지
+        gameConfig.game1.isTargetTouch = false;
     }, 3000);
 
 }

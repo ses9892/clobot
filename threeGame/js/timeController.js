@@ -207,9 +207,7 @@ function goMenu(){
           controlContainerFadeInOut('in' , document.querySelector('.intro_container'),
               () => {     // in start callback
                   inGameScreenElement.style.display = 'none';
-                  
-
-
+                  gameMenuContainer.style.opacity = 1;
                   document.querySelector('.intro_container').style.display = 'block';
               },
               () => {     // in complete callback
