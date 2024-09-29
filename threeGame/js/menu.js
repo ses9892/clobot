@@ -2,7 +2,7 @@
 let status = "intro"; // 초기 상태는 "인트로 화면"
 const loadingTime = 100;
 const dev_video_delay = 1;
-const outCheckTime = 999;
+const outCheckTime = 5;
 
 // 개발 모드 변수 설정
 const isDevMode = true;
@@ -27,26 +27,29 @@ class userOutController {
             this.current_out_check_time--;
             if(this.current_out_check_time < 0 ){
                 if(status == 'intro'){
-                    // console.log('인트로에서는 무반응 + 시간초돌리기');
+                    console.log('인트로에서는 무반응 + 시간초돌리기');
                     this.current_out_check_time = this.default_out_check_time;
                 }else{
 
                     switch(status){
                         case 'game-menu-select' :
-                            controlContainerFadeInOut('out' , gameMenuContainer , 
-                                () => {
-                                    introVideo.reset();
-                                }, 
-                                () => {
-                                    introVideo.play(true);
-                                }
-                             );      // 메뉴 fade out
-
+                            // controlContainerFadeInOut('out' , gameMenuContainer , 
+                            //     () => {
+                            //         introVideo.reset();
+                            //     }, 
+                            //     () => {
+                            //         introVideo.play(true);
+                            //     }
+                            //  );      // 메뉴 fade out
+                            sendContentMessage('end');
                             break;
                         case 'game-timeout' :
-                            // console.log('타임아웃이지~');
                             this.currnet_time_reset();
-                            goMenu();
+                            sendContentMessage('end');
+                            // goMenu();
+                            break;
+                        case 'end-game' :
+                            sendContentMessage('end');
                             break;
                     }
 
@@ -428,7 +431,7 @@ preloadAssets(assetsToPreload);
 
 // 개발 모드에 따른 버튼 표시
 window.addEventListener('load', function () {
-    
+    sendContentMessage('start');
     gameConfig.body = document.getElementById('game_body');
     loadStart();
 });

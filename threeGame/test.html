@@ -36,5 +36,22 @@
     document.getElementById('start').addEventListener('click', function() {
         document.getElementsByTagName('iframe')[0].src = './threeGame.html';
     });
+
+    // 자식프레임한태 메세지를 받았을때
+    window.addEventListener('message', function(event) {
+        console.log(event.data);
+
+        if(event.data.type == 'content'){
+            if(event.data.value == 'start'){
+                console.log('start');
+                alert('자식 프레임(스튜디오칙) 에서 부모 프레임(클로봇) 시작 메세지를 받았습니다.');
+                
+            }
+            if(event.data.value == 'end'){
+                alert('자식 프레임(스튜디오칙) 에서 부모 프레임(클로봇) 종료메세지를 받았습니다.');
+                document.getElementsByTagName('iframe')[0].src = 'about:blank';
+            }
+        }
+    });
 </script>
 </html>

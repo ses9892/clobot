@@ -64,6 +64,9 @@ class TimerController {
         }else{
           // 타임아웃 일때
           status = 'game-timeout';
+
+          audioController.reset();
+
           this.hide();
           this.isPause = true;
 
@@ -169,8 +172,7 @@ function addEventListenerPopButton(){
 
     document.getElementById('end-button').addEventListener('touchstart' , () => {
         closePop();
-        alert('클로봇에게 종료 버튼 명령어를 보냅니다. 알림창을 끌시 임시적으로 빈 페이지로 이동');
-        window.location.href = "about:blank";
+        sendContentMessage('end');
     });
 }
 

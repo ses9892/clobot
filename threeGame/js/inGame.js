@@ -213,6 +213,8 @@ const game1EndVideoEndCallback = () => {
     userOut.showTimer();
     // 게임성공 팝업 띄우기
     showGameClearPop('','',true);
+
+    status = 'end-game';
 }
 
 
