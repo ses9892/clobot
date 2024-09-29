@@ -1,0 +1,529 @@
+@font-face {
+    font-family: NanumFont;
+    src: url(assets/font/NanumSquareEB.otf) format(opentype),
+        url(assets/font/NanumSquareEB.ttf) format(truetype);
+        font-weight: 800;
+}
+body,
+html {
+    font-family: 'NanumFont', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 1630px;
+    width: 1080px;
+    overflow: hidden;
+
+}
+
+/* 미션 성공 실패 */
+#mission_failed {
+    visibility: hidden;
+    position: absolute;
+    top: 67px;
+    left: 579px;
+    width: 345px;
+    height: 350px;
+
+
+}
+
+#mission_complete {
+    visibility: hidden;
+    position: absolute;
+    top: 67px;
+    left: 673px;
+    width: 345px;
+    height: 350px;
+}
+
+/* 타이머 */
+#timer {
+    border-radius: 0.2em;
+    background-color: black;
+    color: #66ff33;
+    font-size: 60px;
+    top: 48px;
+    left: 441px;
+    right: 438px;
+    bottom: 1504px;
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+    text-align: center;
+    width: 201px;
+    height: 86px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* 박스안에 들어가는 원 */
+#circle {
+    visibility: hidden;
+    position: absolute;
+    top: 1198px;
+    left: 179px;
+    right: 811px;
+    bottom: 350px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+
+#circle2 {
+    visibility: hidden;
+    position: absolute;
+    top: 1323;
+    left: 306px;
+    right: 559px;
+    bottom: 224px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+
+#circle3 {
+    visibility: hidden;
+    position: absolute;
+    top: 1198px;
+    left: 306px;
+    right: 683px;
+    bottom: 350px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+
+#circle4 {
+    visibility: hidden;
+    position: absolute;
+    top: 1198px;
+    left: 430px;
+    right: 811px;
+    bottom: 350px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+
+#circle5 {
+    visibility: hidden;
+    position: absolute;
+    top: 1198px;
+    left: 559px;
+    right: 811px;
+    bottom: 350px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+
+/* 보물1 */
+#correct1 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 354px;
+    left: 462px;
+    right: 515px;
+    bottom: 1181px;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+}
+
+#correct2 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 481px;
+    left: 750px;
+    right: 227px;
+    bottom: 1055px;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+
+}
+
+#correct3 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 735px;
+    left: 673px;
+    right: 304px;
+    bottom: 801px;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+
+}
+
+#correct4 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 833px;
+    left: 600px;
+    right: 377px;
+    bottom: 702px;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+
+}
+
+#correct5 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 781px;
+    left: 438px;
+    right: 539px;
+    bottom: 702;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+
+}
+
+#correct6 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 807px;
+    left: 333px;
+    right: 660px;
+    bottom: 729px;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+
+}
+
+#correct7 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 790px;
+    left: 222px;
+    right: 755px;
+    bottom: 768px;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+
+}
+
+#correct8 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 680px;
+    left: 160px;
+    right: 835px;
+    bottom: 834px;
+    width: 103px;
+    height: 103px;
+    cursor: grab;
+
+}
+
+
+#imageContainer2 {
+    position: absolute;
+    width: 745px;
+    height: 1371px;
+    top: 125px;
+    left: 164px;
+    right: 171px;
+    bottom: 142px;
+    overflow: hidden;
+    z-index: 0;
+
+}
+#imageContainer2_2 {
+    position: absolute;
+    width: 805px;
+    height: 869px;
+    top: 326px;
+    right: 152px;
+    overflow: hidden;
+    z-index: 0;
+
+}
+#imageContainer2_3 {
+    position: absolute;
+    width: 641px;
+    height: 1458px;
+    top: 176px;
+    right: 202px;
+    overflow: hidden;
+    z-index: 0;
+
+}
+
+
+#leftImageContainer1 {
+    visibility: hidden;
+    position: absolute;
+    top: 45px;
+    left: 63px;
+    width: 177px;
+    height: 326px;
+    overflow-wrap: hidden;
+}
+#leftImageContainer2 {
+    visibility: hidden;
+    position: absolute;
+    top: 73px;
+    left: 35px;
+    width: 256px;
+    height: 276px;
+    overflow-wrap: hidden;
+}
+
+#leftImageContainer3 {
+    visibility: visible;
+    position: absolute;
+    top: 47px;
+    left: 61px;
+    width: 223px;
+    height: 685px;
+    overflow-wrap: hidden;
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#bottomBox {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 577px;
+    bottom: 0;
+}
+
+#box1 {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    right: 5%;
+    width: 265px;
+    height: 257px;
+    bottom: 18.8%;
+}
+#box2{
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    left: 709px;
+    bottom: 365px;
+    width: 366px; height: 309px;
+
+}
+#box3{
+    position: absolute;
+    visibility: visible;
+    opacity: 0;
+    left: 709px;
+    bottom: 365px;
+    width: 366px; height: 309px;
+
+}
+
+#backGroundimage {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#backGroundimageLine {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    width: 1043px;
+    height: 1599px;
+    top: 23px;
+    bottom: 16px;
+    left: 18px;
+    right: 19px;
+    transition: opacity 1s ease;
+    z-index: 1;
+}
+
+#outTroVideo{
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+/* 두 번째 동영상 */
+#MainVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+#game3Start{
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#game2Start {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+#game2Clear {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+#game1Clear {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+
+
+
+
+/* 버튼 */
+#endGameButtons {
+    position: absolute;
+    top: 485px;
+    left: 301px;
+    visibility: hidden;
+    justify-content: center;
+    gap: 20px;
+    z-index: 1000;
+}
+
+#exitButton {
+    background-image: url(assets/images/end.png);
+    background-color: transparent;
+    border: none;
+    width: 211px;
+    height: 92px;
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 1;
+    visibility: hidden;
+    transition: opacity 0.5s ease;
+    /* 애니메이션 효과 */
+
+    /* 애니메이션 효과 */
+}
+
+#retryButton {
+    background-image: url(assets/images/retry.png);
+    background-color: transparent;
+    border: none;
+    width: 211px;
+    height: 92px;
+    position: relative;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 1;
+    visibility: hidden;
+    transition: opacity 0.5s ease;
+    /* 애니메이션 효과 */
+}
+
+#endGameButtons.visible #retryButton,
+#endGameButtons.visible #exitButton {
+    visibility: visible;
+    opacity: 1;
+}
+
+#startButton {
+    position: absolute;
+    top: 20%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    padding: 20px 40px;
+    /* 크기 조정 */
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 24px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    opacity: 0;
+    /* 처음에는 투명하게 설정 */
+    transition: opacity 0.5s ease;
+    /* 애니메이션 효과 */
+}
+
+#startButton.visible {
+    opacity: 1;
+}
+
+#playButton {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px 40px;
+    /* 크기 조정 */
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 24px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    /* 처음에는 투명하게 설정 */
+    transition: opacity 0.5s ease;
+    /* 애니메이션 효과 */
+    z-index: 1;
+
+}
+
+#playButton.visible {
+    opacity: 1;
+}

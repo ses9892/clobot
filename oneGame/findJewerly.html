@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인트로 게임</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="container">
+        <!-- 배경이미지 -->
+        <img id="backGroundimage" src="./assets/images/background.png">
+        <img id="backGroundimageLine" src="./assets/images/background_line.png">
+        <!-- 아웃트로 비디오 -->
+        <video id='game2Start' muted style="visibility: hidden; opacity: 0; ">
+            <source src="./assets/video/game2Start.mp4">
+        </video>
+        <video id = "game2Clear" muted style="visibility: hidden; opacity: 0; ">
+            <source src="assets/video/game2Clear.mp4" type="video/mp4">
+        </video>
+        <video id = "game3Start" muted style="visibility: hidden; opacity: 0; ">
+            <source src="assets/video/game3Start.mp4" type="video/mp4">
+        </video>
+        <video id='game1Clear' muted style="visibility: hidden; opacity: 0;">
+            <source src="./assets/video/game1Clear.mp4">
+        </video>
+        <!-- 메인비디오 -->
+        <video id="MainVideo" muted autoplay style="visibility: visible; opacity: 1;">
+            <source src="./assets/video/game_1_3.mp4" type="video/mp4">
+            당신의 브라우저는 비디오 태그를 지원하지 않습니다.
+        </video>
+        <video id = "outTroVideo" muted style="visibility: hidden; opacity: 0; ">
+            <source src="assets/video/outTroVideo.mp4" type="video/mp4">
+        </video>
+
+
+        <div id ="outTroVideo"></div>
+        <!-- game1clear -->
+        <!-- 게임설명2 -->
+        <!-- 종료버튼 -->
+        <div id="endGameButtons" style="display: none;">
+            <input type="button" id="retryButton">
+            <input type="button" id="exitButton">
+        </div>
+        <!-- 게임 관련 html -->
+        <!-- timer -->
+        <div id='timer' style="visibility: hidden;">60</div>
+
+        <!-- 좌측상단에 나타나는 문제 -->
+        <div id="leftImageContainer1">
+            <img id='leftImage' src="./assets/images/game1_answer.png" style="visibility: hidden; opacity: 0;">
+        </div>
+        <div id="leftImageContainer2" >
+            <img id='leftImage2' src="./assets/images/game2_answer.png" style="visibility: hidden; opacity: 0;">
+        </div>
+        <div id="leftImageContainer3" >
+            <img id='leftImage3' src="./assets/images/game3_answer.png" style="visibility: hidden; opacity: 0;">
+        </div>
+        <!-- 화면 중앙에 나오는 img -->
+        <div id="imageContainer2" >
+            <img id='firstProblem' src="./assets/images/game1_problem.png" style="visibility: hidden; opacity: 0;">
+        </div>
+        <div id="imageContainer2_2">
+            <img id='secondProblem' src="./assets/images/game2_problem.png" style="visibility: hidden; opacity: 0;">
+        </div>
+        <div id="imageContainer2_3">
+            <img id='ThridProblem' src="./assets/images/game3_problem.png" style="visibility: hidden; opacity:0;">
+        </div>
+        <!-- 미션 성공 실패 -->
+        <div id="mission_failed">
+            <img src="assets/images/mission_failed.png">
+        </div>
+        <div id="mission_complete">
+            <img src="assets/images/mission_complete.png">
+        </div>
+
+
+
+
+        <!-- 보물들 -->
+        <div id="circle" class="white">
+            <img src="assets/images/game1_white.png">
+        </div>
+        <div id="circle2" class="blue">
+            <img src="assets/images/game1_blue.png">
+        </div>
+        <div id="circle3" class="red">
+            <img src="assets/images/game1_red.png">
+        </div>
+        <div id="circle4" class="green">
+            <img src="assets/images/game1_green.png">
+        </div>
+        <div id="circle5" class="yellow">
+            <img src="assets/images/game1_yellow.png">
+        </div>
+
+        <!-- 빈칸위치 -->
+        <div id="correct1" class="white">
+            <img src="assets/images/correct_image.png">
+        </div>
+        <!-- 빈칸위치 -->
+        <div id="correct2" class="white">
+            <img src="assets/images/correct_image.png">
+        </div>
+
+        <!-- 빈칸위치 -->
+        <div id="correct3" class="red">
+            <img src="assets/images/correct_image.png">
+        </div>
+
+        <!-- 빈칸위치 -->
+        <div id="correct4" class="blue">
+            <img src="assets/images/correct_image.png">
+        </div>
+
+        <!-- 빈칸위치 -->
+        <div id="correct5" class="blue">
+            <img src="assets/images/correct_image.png">
+        </div>
+        <div id="correct8" class="white">
+            <img src="assets/images/correct_image.png">
+        </div>
+        <!-- 빈칸위치 -->
+        <div id="correct6" class="white">
+            <img src="assets/images/correct_image.png">
+        </div>
+
+
+        <!-- 빈칸위치 -->
+        <div id="correct7" class="red">
+            <img src="assets/images/correct_image.png">
+        </div>
+        <!-- 빈칸위치 -->
+        <!-- 하단에 나올 박스와 보석 -->
+        <div id="bottomBox">
+            <img src="assets/images/bototmBox.png">
+        </div>
+        <!-- 유물함 -->
+        <div id="box1">
+            <img src="assets/images/유물함.png">
+        </div>
+        <div id="box2">
+            <img src="assets/images/game2_유물.png">
+        </div>
+        <div id="box3">
+            <img src="assets/images/game3_유물.png">
+        </div>
+        <!-- 게임1 완성 시 왕비 비디오 -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+    </div>
+</body>
+</html>
