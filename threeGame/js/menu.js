@@ -164,20 +164,14 @@ class VideoController {
         this.video = document.getElementById(this.video.id); // 새로운 요소 참조 업데이트
     }
 
-    updateEvent(onEndedCallback , controlStatus , isAllEvent){
+    updateEvent(onEndedCallback){
         this.removeEvent();
-        if(!isAllEvent){
-            if(controlStatus == undefined){
-                this.video.addEventListener('touchstart' , onEndedCallback);
-            }
-            
-            if(controlStatus == 'end'){
-                this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
-            }
-        }else{
-            this.video.addEventListener('touchstart' , onEndedCallback);
-            this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
-        }
+        this.video.addEventListener('touchstart' , onEndedCallback);
+        this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+    }
+
+    load(){
+        this.video.load();
     }
 }
 

@@ -574,6 +574,17 @@ function game1BoxTouchEvent(box) {
             audioController.gameClearSound();
             controlContainerFadeInOut('out' , document.querySelector('.game1_item_container') , 
                 () => {},() => {});
+
+
+                const gameObject = getGameObject();
+                const videoController = gameObject.videoController;
+
+                // 비디오 컨트롤러 초기화
+                videoController.updateEvent(game1EndVideoEndCallback);
+
+                videoController.video.src = gameObject['end-video-url'];
+                // load
+                videoController.load();
             
             setTimeout(() => {
                 // game_body fade out
@@ -583,15 +594,7 @@ function game1BoxTouchEvent(box) {
                     },
                     () => {
 
-                        const gameObject = gameConfig[gameConfig.current_gameId];
-                        const videoController = gameObject.videoController;
 
-                        // 비디오 컨트롤러 초기화
-                        videoController.updateEvent(game1EndVideoEndCallback , 'end' , false);
-
-                        videoController.video.src = gameObject['end-video-url'];
-                        // load
-                        gameIntroVideo.load();
 
                         videoController.show();
 

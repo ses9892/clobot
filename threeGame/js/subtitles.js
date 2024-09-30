@@ -74,6 +74,7 @@ function preloadAssets(assets) {
         } else if (isVideo) {
             const video = document.createElement('video');
             video.src = asset;
+            video.load();
         } else if (isAudio) {
             const audio = document.createElement('audio');
             audio.src = asset;

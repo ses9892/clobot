@@ -188,11 +188,16 @@ function inGameBodyReset(){
 function goMenu(){
   status='game-menu-select';
 
+  // 비디오 컨트롤러 초기화
+  const gameObject = getGameObject();
+  const videoController = gameObject.videoController;
+  videoController.pause();
+
+  // 타이머 초기화
   userOut.currnet_time_reset();
   userOut.hideTimer();
   closePop();
   timerController.reset();
-  getGameObject().videoController.reset();
   inGameBodyReset();
 
 
@@ -204,7 +209,6 @@ function goMenu(){
 
   controlContainerFadeInOut('out' , inGameScreenElement ,
       () => {
-;
       },
       () => {     
           
