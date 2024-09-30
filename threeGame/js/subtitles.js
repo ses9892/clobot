@@ -1,3 +1,5 @@
+const version = '1.0.3';
+
 const subtitle = {
 
     // 자막
@@ -70,14 +72,14 @@ function preloadAssets(assets) {
         const isAudio = asset.match(/\.(mp3|wav|ogg)$/) != null;
         if (isImage) {
             const img = new Image();
-            img.src = asset;
+            img.src = asset + '?version=' + version;
         } else if (isVideo) {
             const video = document.createElement('video');
-            video.src = asset;
+            video.src = asset + '?version=' + version;
             video.load();
         } else if (isAudio) {
             const audio = document.createElement('audio');
-            audio.src = asset;
+            audio.src = asset + '?version=' + version;
             audio.load();
         }
     });

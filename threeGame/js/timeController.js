@@ -197,7 +197,6 @@ function goMenu(){
   userOut.currnet_time_reset();
   userOut.hideTimer();
   closePop();
-  timerController.reset();
   inGameBodyReset();
 
 

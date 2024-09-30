@@ -12,8 +12,8 @@ let gameConfig = {
     game1 : {
         'background-url' : "url('./assets/images/game1_background.png')",  // 게임1 배경 이미지 URL
         'main-img-url' : "./assets/images/stone.png",  // 게임1 메인 이미지 URL
-        'video-url' : "./assets/video/game3_1_des.mp4",  // 게임1 비디오 URL
-        'end-video-url' : "./assets/video/game3_1_end.mp4",  // 게임1 비디오 URL
+        'video-url' : "./assets/video/game3_1_des.mp4?version=1.0.3",  // 게임1 비디오 URL
+        'end-video-url' : "./assets/video/game3_1_end.mp4?version=1.0.3",  // 게임1 비디오 URL
         'videoController' : new VideoController(  // 게임1 비디오 컨트롤러
             document.getElementById('gameIntroVideo') ,
             () => {
@@ -24,9 +24,7 @@ let gameConfig = {
                 if (isDevMode) {
                     // setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
                 }
-            },
-            'end' , 
-            false
+            }
         ),
         gameCompletionQueue : ['B-box' , 'C-box' , 'A-box'],
         gameCompletion : {  // 게임1 완료 상태
@@ -575,16 +573,15 @@ function game1BoxTouchEvent(box) {
             controlContainerFadeInOut('out' , document.querySelector('.game1_item_container') , 
                 () => {},() => {});
 
+            const gameObject = gameConfig[gameConfig.current_gameId];
+            const videoController = gameObject.videoController;
 
-                const gameObject = getGameObject();
-                const videoController = gameObject.videoController;
+            // 비디오 컨트롤러 초기화
+            videoController.updateEvent(game1EndVideoEndCallback , 'end' , false);
 
-                // 비디오 컨트롤러 초기화
-                videoController.updateEvent(game1EndVideoEndCallback);
-
-                videoController.video.src = gameObject['end-video-url'];
-                // load
-                videoController.load();
+            videoController.video.src = gameObject['end-video-url'];
+            // load
+            videoController.load();
             
             setTimeout(() => {
                 // game_body fade out
@@ -594,8 +591,6 @@ function game1BoxTouchEvent(box) {
                     },
                     () => {
 
-
-
                         videoController.show();
 
                         //gameIntroVideo fade in
@@ -604,8 +599,6 @@ function game1BoxTouchEvent(box) {
                                 console.log('gameIntroVideo fade in');
                             },
                             () => {
-                                // 중복 터치 방지
-                                gameConfig.game1.isTargetTouch = false;
                                 videoController.play();
                                 // 재생
                                 console.log('gameIntroVideo fade in complete');
@@ -623,13 +616,13 @@ function game1BoxTouchEvent(box) {
             } , 5000);
 
         }else{
-            // 중복 터치 방지
-            gameConfig.game1.isTargetTouch = false;
             // 타겟 애니메이션 재시작
             targetElement.style.animationPlayState = 'running';
             targetElement.style.left = 0;  // left 스타일 제거하여 애니메이션 재개
             targetElement.classList.add('animation');
         }
+        // 중복 터치 방지
+        gameConfig.game1.isTargetTouch = false;
     }, 3000);
 
 }
