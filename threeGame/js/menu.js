@@ -2,10 +2,11 @@
 let status = "intro"; // 초기 상태는 "인트로 화면"
 const loadingTime = 100;
 const dev_video_delay = 1;
-const outCheckTime = 5;
+const outCheckTime = 30;
 
 // 개발 모드 변수 설정
 const isDevMode = true;
+let isIntroVideoEnded = false;
 
 
 
@@ -44,7 +45,7 @@ class userOutController {
                             sendContentMessage('end');
                             break;
                         case 'game-timeout' :
-                            this.currnet_time_reset();
+                            this.currnet_time_reset(false);
                             sendContentMessage('end');
                             // goMenu();
                             break;
@@ -80,9 +81,13 @@ class userOutController {
         document.getElementById('user-out-timer').classList.toggle('hide');
     }
 
-    currnet_time_reset(){
+    currnet_time_reset(isGameEnding){
         console.log('user out reset');
-        this.current_out_check_time = this.default_out_check_time;
+        if(isGameEnding){
+            this.current_out_check_time = 15;
+        }else{
+            this.current_out_check_time = this.default_out_check_time;
+        }
         document.getElementById('user-out-timer').textContent = this.current_out_check_time;
     }
 }
@@ -92,20 +97,21 @@ class VideoController {
     constructor(videoElement, onEndedCallback , devCallBack , controlStatus , isAllEvent) {
         this.video = videoElement;
         console.log(isAllEvent);
-        if(!isAllEvent){
-            if(controlStatus == undefined){
-                this.video.addEventListener('touchstart' , onEndedCallback);
-            }
+        this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+        // if(!isAllEvent){
+        //     if(controlStatus == undefined){
+        //         this.video.addEventListener('touchstart' , onEndedCallback);
+        //     }
             
-            if(controlStatus == 'end'){
-                this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
-            }
-            // this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
-            this.devCallBack = devCallBack;
-        }else{
-            this.video.addEventListener('touchstart' , onEndedCallback);
-            this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
-        }
+        //     if(controlStatus == 'end'){
+        //         this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+        //     }
+        //     // this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+        //     this.devCallBack = devCallBack;
+        // }else{
+        //     this.video.addEventListener('touchstart' , onEndedCallback);
+        //     this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+        // }
     }
 
     play(isIntro) {
@@ -252,6 +258,7 @@ const gameMenuContainerBody = document.getElementById('game-menu-body');   // �
 
 // 첫 번째 비디오 종료 시 실행될 콜백 함수
 const onIntroVideoEnded = () => {
+    isIntroVideoEnded = true;
     showGameMenu();
     // console.log("현재 상태:", status);
 };
@@ -262,7 +269,7 @@ const showGameMenu = () => {
         undefined,
         ()=>{                           // fade-in  성공 시 콜백 실행
             status = 'game-menu-select';
-            userOut.currnet_time_reset();
+            userOut.currnet_time_reset(false);
             userOut.toggleTimer();
         }, 
     );
@@ -345,7 +352,9 @@ const createGameMenu = () => {
         gameMenuContainerBody.appendChild(gameMenuButton);
 
         gameMenuButton.addEventListener('touchstart' , (event) => {
-            convertGameScreen(event.target.gameId);
+            if(isIntroVideoEnded){
+                convertGameScreen(event.target.gameId);
+            }
         });
 
 
@@ -417,6 +426,10 @@ const loadStart = () => {
                     () => {
                         // console.log('인트로 컨테이너 fade in 완료');
                         introVideo.play(true);
+                        setTimeout(() => {
+                            isIntroVideoEnded = true;
+                        }, 8500);
+
                         userOut.start();
                     }
                 )

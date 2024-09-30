@@ -24,7 +24,9 @@ let gameConfig = {
                 if (isDevMode) {
                     // setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
                 }
-            }
+            },
+            'end' , 
+            false
         ),
         gameCompletionQueue : ['B-box' , 'C-box' , 'A-box'],
         gameCompletion : {  // 게임1 완료 상태
@@ -208,13 +210,6 @@ const gameIntroVideoEndCallback = () => {
 // 게임1 완료 비디오 종료 콜백
 const game1EndVideoEndCallback = () => {
     console.log('game1EndVideoEndCallback');
-
-    userOut.currnet_time_reset();
-    userOut.showTimer();
-    // 게임성공 팝업 띄우기
-    showGameClearPop('','',true);
-
-    status = 'end-game';
 }
 
 
@@ -275,7 +270,7 @@ const inGameScreenFadeInStartCallback = () => {
 // 인게임 스크린 페이드 인 완료 콜백
 const inGameScreenFadeInCompleteCallback = () => {
     status = 'in-game';
-    userOut.currnet_time_reset();
+    userOut.currnet_time_reset(false);
 
     const gameObject = gameConfig[gameConfig.current_gameId];
 
@@ -290,8 +285,8 @@ const inGameScreenFadeInCompleteCallback = () => {
             },
             () => {
             } , 
-            undefined , 
-            true
+            'end' , 
+            false
         );
     }
 
@@ -543,6 +538,8 @@ function game1BoxTouchEvent(box) {
     let currentLeft = targetElement.offsetLeft;
     targetElement.style.animationPlayState = 'paused';
     targetElement.style.left = `${currentLeft}px`;
+    // 타겟 class 변경
+    targetElement.classList.remove('animation');
 
 
     gameObject.gameSetTimeout = setTimeout(() => {
@@ -556,9 +553,6 @@ function game1BoxTouchEvent(box) {
             return;
         }
 
-        // 타겟 애니메이션 재시작
-        targetElement.style.animationPlayState = 'running';
-        targetElement.style.left = '';  // left 스타일 제거하여 애니메이션 재개
 
         // 게임 완료 큐 업데이트
         const game1ItemContainer = document.getElementById('game1_item_container');
@@ -577,42 +571,62 @@ function game1BoxTouchEvent(box) {
             console.log('게임 완료');
 
             timerController.pause();
-    
-            // game_body fade out
-            controlContainerFadeInOut('out' , document.querySelector('.game_body') , 
-                () => {
-                    console.log('game_body fade out');
-                },
-                () => {
-    
-                    const gameObject = gameConfig[gameConfig.current_gameId];
-                    const videoController = gameObject.videoController;
+            audioController.gameClearSound();
+            controlContainerFadeInOut('out' , document.querySelector('.game1_item_container') , 
+                () => {},() => {});
+            
+            setTimeout(() => {
+                // game_body fade out
+                controlContainerFadeInOut('out' , document.querySelector('.game_body') , 
+                    () => {
+                        console.log('game_body fade out');
+                    },
+                    () => {
 
-                    // 비디오 컨트롤러 초기화
-                    videoController.updateEvent(game1EndVideoEndCallback , 'end' , false);
+                        const gameObject = gameConfig[gameConfig.current_gameId];
+                        const videoController = gameObject.videoController;
 
-                    videoController.video.src = gameObject['end-video-url'];
-                    // load
-                    gameIntroVideo.load();
-    
-                    videoController.show();
-    
-                    //gameIntroVideo fade in
-                    controlContainerFadeInOut('in' , document.querySelector('#gameIntroVideo') , 
-                        () => {
-                            console.log('gameIntroVideo fade in');
-                        },
-                        () => {
-                            videoController.play();
-                            // 재생
-                            console.log('gameIntroVideo fade in complete');
-                        }
-                    );
-                }
-            );
+                        // 비디오 컨트롤러 초기화
+                        videoController.updateEvent(game1EndVideoEndCallback , 'end' , false);
+
+                        videoController.video.src = gameObject['end-video-url'];
+                        // load
+                        gameIntroVideo.load();
+
+                        videoController.show();
+
+                        //gameIntroVideo fade in
+                        controlContainerFadeInOut('in' , document.querySelector('#gameIntroVideo') , 
+                            () => {
+                                console.log('gameIntroVideo fade in');
+                            },
+                            () => {
+                                // 중복 터치 방지
+                                gameConfig.game1.isTargetTouch = false;
+                                videoController.play();
+                                // 재생
+                                console.log('gameIntroVideo fade in complete');
+                                setTimeout(() => {
+                                    userOut.currnet_time_reset(true);
+                                    userOut.showTimer();
+                                    // 게임성공 팝업 띄우기
+                                    showGameClearPop('','',true);
+                                    status = 'end-game';
+                                } , 4500);
+                            }
+                        );
+                    }
+                );
+            } , 5000);
+
+        }else{
+            // 중복 터치 방지
+            gameConfig.game1.isTargetTouch = false;
+            // 타겟 애니메이션 재시작
+            targetElement.style.animationPlayState = 'running';
+            targetElement.style.left = 0;  // left 스타일 제거하여 애니메이션 재개
+            targetElement.classList.add('animation');
         }
-        // 중복 터치 방지
-        gameConfig.game1.isTargetTouch = false;
     }, 3000);
 
 }

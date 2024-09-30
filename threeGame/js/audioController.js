@@ -44,6 +44,11 @@ class AudioController {
         this.audio.src = "./assets/audio/fail.mp3";
         this.play();
     }
+
+    gameClearSound(){
+        this.audio.src = "./assets/audio/game_clear.mp3";
+        this.play();
+    }
 }
 
 const audioController = new AudioController(undefined , () => {
