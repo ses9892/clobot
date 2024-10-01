@@ -4,40 +4,64 @@
 
 
 .game_body[current_game='game2'] .gauge-container {
-    width: 50px;
-    height: 300px;
-    background-color: #f0f0f0;
+    display: flex;
+    width: 120px;
+    height: 347px;
     position: relative;
-    border-radius: 25px;
     overflow: hidden;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
     margin-left: 15px;
+    justify-content: center;
 }
 
 .game_body[current_game='game2'] #gauge {
-    width: 100%;
-    height: 100%;
+    width: 64px;
+    height: 347px;
     display: flex;
     flex-direction: column;
-    border-radius: 25px;
     overflow: hidden;
-    background: linear-gradient(
-        to bottom,
-        #ff0000 0%,
-        #ff7f00 16.67%,
-        #ffff00 33.33%,
-        #00ff00 50%,
-        #0000ff 66.67%,
-        #4b0082 83.33%,
-        #9400d3 100%
-    );
+
+    background-image: url('../assets/images/game2/game2-guage.png'); /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지가 영역에 맞게 */
+    background-position: center; /* 이미지 중앙 정렬 */
+
+
+}
+
+.game_body[current_game='game2'] #target {
+
+    background-image: url('../assets/images/game2/game2-target.png'); /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지가 영역에 맞게 */
+    background-position: center; /* 이미지 중앙 정렬 */
+
+
+    width: 84px;
+    height: 84px;
+    position: absolute;
+    left: 19px;
+    bottom: 0;
+    cursor: move;
+    transition: box-shadow 0.3s ease;
 }
 
 .game_body[current_game='game2'] .gauge-section {
-    flex: 1;
     transition: border 0.3s;
     border-bottom: 2px solid transparent;
 }
+
+.game_body[current_game='game2'] #section1{
+    height: 20%;
+}
+
+.game_body[current_game='game2'] #section2 {
+    height: 60%;
+}
+
+.game_body[current_game='game2'] #section3 {
+    height: 20%;
+}
+
+
+
 
 .game_body[current_game='game2'] .gauge-section:last-child {
     border-bottom: none;
@@ -47,34 +71,44 @@
     border-bottom-color: rgba(255,255,255,0.5);
 }
 
-.game_body[current_game='game2'] #target {
-    width: 43px;
-    height: 43px;
-    background-color: #ffff00;
-    border: 2px solid #333;
-    border-radius: 50%;
-    position: absolute;
-    left: 2px;
-    bottom: 0;
-    cursor: move;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: box-shadow 0.3s ease;
-}
+
 
 .game_body[current_game='game2'] #target:active {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     background-color: #ffff33;
 }
 
-.game_body[current_game='game2'] #result-image {
-    width: 250px;
-    height: 350px;  
+
+.game_body[current_game='game2'] .component_container #result-image {
+
+    width: 254px;
+    height: 441px;  
     margin-left: 20px;
-    background-size: contain;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+
+    position: relative;
+    top: 120px;
+
+}
+
+.game_body[current_game='game2'] .component_container[current_section="3"] #result-image {
+    background-image: url('../assets/images/game2/game2-section3.png');
+    background-size: 175px 253px;
     background-repeat: no-repeat;
     background-position: center;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
+.game_body[current_game='game2'] .component_container[current_section="2"] #result-image {
+    background-image: url('../assets/images/game2/game2-section2.png');
+    background-size: 254px 441px;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    top: 255px;
+
+}
+
+
 
 .game_body[current_game='game2'] #result-image.tilted {
     transform: rotate(-35deg);
@@ -99,22 +133,24 @@
 .game_body[current_game='game2'] .game2-container{
     display: flex;
     align-items: center;
-    position: relative;
-    top: 40%;
+    position: absolute;
+    bottom: 454px;
     flex-direction: column;
+    left: 75px;
 }
 
 .game_body[current_game="game2"] .component_container {
     width: 100%;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: flex-end;
     position: relative;
+    top: -204px;
 }
 
 .game_body[current_game="game2"] .component_container[current_level="1"] {
     /* 레벨 1에 대한 스타일 */
-    left: 24%;
+    left: 19%;
 }
 
 .game_body[current_game="game2"] .component_container[current_level="2"] {
@@ -127,10 +163,39 @@
     left: 62%;
 }
 
+.game_body[current_game="game2"] .component_container[current_level="4"] {
+    /* 레벨 3에 대한 스타일 */
+    left: 62%;
+}
 
-.game_body[current_game='game2'] #furnace-image {
-    width: 100%;
-    height: 300px;
+.game_body[current_game='game2'] .game2-container[current_level="1"] #furnace-image{
+    background-image: url('../assets/images/game2/game2-furnace-0.png'); /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지가 영역에 맞게 */
+    background-position: center; /* 이미지 중앙 정렬 */
+}
+
+.game_body[current_game='game2'] .game2-container[current_level="2"] #furnace-image{
+    background-image: url('../assets/images/game2/game2-furnace-1.png'); /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지가 영역에 맞게 */
+    background-position: center; /* 이미지 중앙 정렬 */
+}
+
+.game_body[current_game='game2'] .game2-container[current_level="3"] #furnace-image{
+    background-image: url('../assets/images/game2/game2-furnace-2.png'); /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지가 영역에 맞게 */
+    background-position: center; /* 이미지 중앙 정렬 */
+}
+
+.game_body[current_game='game2'] .game2-container[current_level="4"] #furnace-image{
+    background-image: url('../assets/images/game2/game2-furnace-3.png'); /* 배경 이미지 설정 */
+    background-size: cover; /* 이미지가 영역에 맞게 */
+    background-position: center; /* 이미지 중앙 정렬 */
+}
+
+
+.game_body[current_game='game2']  #furnace-image {
+    width: 920px;
+    height: 337px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

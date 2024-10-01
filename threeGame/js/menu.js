@@ -82,7 +82,7 @@ class userOutController {
     }
 
     currnet_time_reset(isGameEnding){
-        console.log('user out reset');
+        // console.log('user out reset');
         if(isGameEnding){
             this.current_out_check_time = 15;
         }else{
@@ -96,8 +96,16 @@ class userOutController {
 class VideoController {
     constructor(videoElement, onEndedCallback , devCallBack , controlStatus , isAllEvent) {
         this.video = videoElement;
-        console.log(isAllEvent);
+        // console.log(isAllEvent);
         this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
+
+
+        // 비디오 컨트롤러 초기화
+
+        if(devCallBack){
+            console.log('헤이헤이');
+            devCallBack();
+        }
         // if(!isAllEvent){
         //     if(controlStatus == undefined){
         //         this.video.addEventListener('touchstart' , onEndedCallback);
@@ -441,6 +449,11 @@ window.addEventListener('load', function () {
     sendContentMessage('start');
     gameConfig.body = document.getElementById('game_body');
     loadStart();
+
+    setTimeout(() => {
+        isIntroVideoEnded = true;
+        showGameMenu();
+    }, 2500);
 });
 
 

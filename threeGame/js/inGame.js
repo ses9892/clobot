@@ -94,7 +94,6 @@ let gameConfig = {
     game2 : {
         'background-url' : "url('./assets/images/game2/game2_background.png')",  // 게임2 배경 이미지 URL
         'component-img' : {  // 게임2 컴포넌트 이미지 URL
-            'furnace' : "./assets/images/game2/game2-furnace.png",
             'section1' : "./assets/images/game2/game2-section1.png",
             'section2' : "./assets/images/game2/game2-section2.png",
             'section3' : "./assets/images/game2/game2-section3.png"
@@ -282,6 +281,9 @@ const inGameScreenFadeInCompleteCallback = () => {
                 gameIntroVideoEndCallback();  // 비디오 종료 시 콜백
             },
             () => {
+                setTimeout(() => {
+                    gameIntroVideoEndCallback();
+                }, 1000);
             } , 
             'end' , 
             false
@@ -650,7 +652,7 @@ function game2_createResultImage(gameObject) {
     resultImage.id = 'result-image';
     const componentImg = gameObject['component-img'];
     const level = gameObject['current-section'];
-    resultImage.style.backgroundImage = `url(${componentImg['section' + level]})`;
+    // resultImage.style.backgroundImage = `url(${componentImg['section' + level]})`;
     return resultImage;
 }
 
@@ -731,6 +733,7 @@ function game2_addTargetEventListeners(target) {
 
         // 결과 이미지 업데이트
         const position = newTop / (gaugeRect.height - targetRect.height);
+        console.log(position);
         game2_updateResultImage(position);
 
         e.preventDefault();
@@ -749,7 +752,7 @@ function game2_addTargetEventListeners(target) {
 function game2_createFurnaceImage(gameObject) {
     const furnaceImage = document.createElement('div');
     furnaceImage.id = 'furnace-image';
-    furnaceImage.style.backgroundImage = `url(${gameObject['component-img'].furnace})`;
+    // furnaceImage.style.backgroundImage = `url(${gameObject['component-img'].furnace})`;
     return furnaceImage;
 }
 
@@ -803,9 +806,9 @@ function game2_updateResultImage(position) {
     const target = document.getElementById('target');
     
     let newSection;
-    if (position < 0.33) {
+    if (position < 0.2) {
         newSection = 1;
-    } else if (position < 0.66) {
+    } else if (position < 0.8) {
         newSection = 2;
     } else {
         newSection = 3;
@@ -813,13 +816,15 @@ function game2_updateResultImage(position) {
 
     // 현재 섹션이 변경되었을 때만 이미지 업데이트
     if (newSection !== parseInt(componentContainer.getAttribute('current_section'))) {
-        componentContainer.setAttribute('current_section', newSection);
-        gameObject['current-section'] = newSection;
+
 
         resultImage.style.opacity = '0';
         setTimeout(() => {
-            resultImage.style.backgroundImage = `url(${componentImg['section' + newSection]})`;
+            componentContainer.setAttribute('current_section', newSection);
+            gameObject['current-section'] = newSection;
             resultImage.style.opacity = '1';
+
+            // resultImage.style.backgroundImage = `url(${componentImg['section' + newSection]})`;
             
             if (newSection === 1) {
                 resultImage.classList.add('tilted');
@@ -842,14 +847,35 @@ function game2_updateResultImage(position) {
                 if (gameObject.sectionTwoTimer) clearTimeout(gameObject.sectionTwoTimer);
                 gameObject.sectionTwoTimer = setTimeout(() => {
                     if (gameObject['current-level'] < gameObject.maxLevel) {
-                        gameObject['current-level']++;
-                        componentContainer.setAttribute('current_level', gameObject['current-level']);
-                        console.log(`레벨이 ${gameObject['current-level']}로 올라갔습니다.`);
+
+                        resultImage.style.opacity = '1';
+                        setTimeout(
+                            () => {
+                                target.style.top = '263px';
+                                const gameObject = getGameObject();
+                                gameObject['current-section'] = 3;
+                                const componentContainer = document.querySelector('.component_container');
+                                componentContainer.setAttribute('current_section', 3);
+                                game2_level_up();
+                                resultImage.style.opacity = '1';
+                            }, 500);
                         // 레벨 업 후 타겟을 초기 위치로 리셋
-                        game2_resetTargetPosition(target);
+                        // game2_resetTargetPosition(target);
                     } else {
-                        // 최대 레벨 도달 시 게임 종료
-                        alert('게임 종료 (예정)');
+                        // component_container fade out
+                        resultImage.style.opacity = '0';
+                        game2_level_up();
+
+                        controlContainerFadeInOut('out' , componentContainer , 
+                            () => {
+
+                                console.log('component_container fade out');
+                            },
+                            () => {
+                                
+                                console.log('component_container fade out complete');
+                            }
+                        );
                     }
                 }, 2000);
             } else {
@@ -864,10 +890,23 @@ function game2_updateResultImage(position) {
                     gameObject.sectionTwoTimer = null;
                 }
             }
-        }, 150);
+
+        }, 500);
 
         console.log(`타겟이 ${newSection}번째 영역에 진입했습니다.`);
     }
+}
+
+function game2_level_up(){
+    const gameObject = getGameObject();
+    const componentContainer = document.querySelector('.component_container');
+    const gameContainer = document.querySelector('.game2-container');
+    gameObject['current-level']++;
+    componentContainer.setAttribute('current_level', gameObject['current-level']);
+    gameContainer.setAttribute('current_level', gameObject['current-level']);
+
+    console.log(`레벨이 ${gameObject['current-level']}로 올라갔습니다.`);
+
 }
 
 // 타겟을 초기 위치로 돌려보내는 함수
