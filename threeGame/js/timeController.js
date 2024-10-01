@@ -159,10 +159,12 @@ function addEventListenerPopButton(){
 
           // 하드코딩...
           if(gameConfig.current_gameId == 'game1'){
-
-            getGameObject().restartGame();
+            gameConfig.game1.restartGame();
+          }else if(gameConfig.current_gameId == 'game2'){
+            gameConfig.game2.restartGame();
+          }else if(gameConfig.current_gameId == 'game3'){
+            console.log('game3 config reset');
           }
-        
     });
 
     // 메뉴선택 버튼 이벤트 터치 이벤트 추가
@@ -202,6 +204,11 @@ function goMenu(){
 
   // 하드코딩...
   if(gameConfig.current_gameId == 'game1'){
+    console.log('game1 config reset')
+  }else if(gameConfig.current_gameId == 'game2'){
+    gameConfig.game2.configReset();
+  }else if(gameConfig.current_gameId == 'game3'){
+    console.log('game3 config reset');
   }
 
 

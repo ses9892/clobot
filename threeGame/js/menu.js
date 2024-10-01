@@ -103,7 +103,7 @@ class VideoController {
         // 비디오 컨트롤러 초기화
 
         if(devCallBack){
-            console.log('헤이헤이');
+            // console.log('헤이헤이');
             devCallBack();
         }
         // if(!isAllEvent){
@@ -178,8 +178,13 @@ class VideoController {
         this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
     }
 
-    load(){
-        this.video.load();
+    load(src){
+        if(src == undefined){
+            this.video.load();
+        }else{
+            this.video.src = src;
+            this.video.load();
+        }
     }
 }
 
