@@ -445,20 +445,21 @@ const loadStart = () => {
     });
 }
 
-// 메뉴 미리 로드
-preloadAssets(assetsToPreload);
-
 
 // 개발 모드에 따른 버튼 표시
 window.addEventListener('load', function () {
     sendContentMessage('start');
     gameConfig.body = document.getElementById('game_body');
+    initAssets();
+
     loadStart();
 
-    setTimeout(() => {
-        isIntroVideoEnded = true;
-        showGameMenu();
-    }, 2500);
+    console.log('메뉴 로드 완료');
+
+    // setTimeout(() => {
+    //     isIntroVideoEnded = true;
+    //     showGameMenu();
+    // }, 2500);
 });
 
 

@@ -12,8 +12,8 @@ let gameConfig = {
     game1 : {
         'background-url' : "url('./assets/images/game1_background.png')",  // 게임1 배경 이미지 URL
         'main-img-url' : "./assets/images/stone.png",  // 게임1 메인 이미지 URL
-        'video-url' : "./assets/video/game3_1_des.mp4?version=1.0.3",  // 게임1 비디오 URL
-        'end-video-url' : "./assets/video/game3_1_end.mp4?version=1.0.3",  // 게임1 비디오 URL
+        'video-url' : "./assets/video/game3_1_des.mp4?version=1.0.5",  // 게임1 비디오 URL
+        'end-video-url' : "./assets/video/game3_1_end.mp4?version=1.0.5",  // 게임1 비디오 URL
         'videoController' : new VideoController(  // 게임1 비디오 컨트롤러
             document.getElementById('gameIntroVideo') ,
             () => {
@@ -98,8 +98,8 @@ let gameConfig = {
             'section2' : "./assets/images/game2/game2-section2.png",
             'section3' : "./assets/images/game2/game2-section3.png"
         },
-        'video-url' : "./assets/video/test3.mp4",  // 게임2 비디오 URL
-        'end-video-url' : "./assets/video/game3_1_end.mp4?version=1.0.3",  // 게임1 비디오 URL
+        'video-url' : "./assets/video/game3_1_des.mp4?version=1.0.5",  // 게임2 비디오 URL
+        'end-video-url' : "./assets/video/game3_1_end.mp4?version=1.0.5",  // 게임1 비디오 URL
         'videoController' : new VideoController(  // 게임2 비디오 컨트롤러
             document.getElementById('gameIntroVideo') ,
             () => {
@@ -299,7 +299,7 @@ const inGameScreenFadeInStartCallback = () => {
             },
             () => {
                 setTimeout(() => {
-                    gameIntroVideoEndCallback();
+                    // gameIntroVideoEndCallback();
                 }, 1000);
             } , 
             'end' , 
@@ -831,6 +831,7 @@ function game2_updateResultImage(position) {
                 if (gameObject.sectionOneTimer) clearTimeout(gameObject.sectionOneTimer);
                 gameObject.sectionOneTimer = setTimeout(() => {
                     game2_resetTargetPosition(target);
+                    audioController.failSound();
                 }, 2000);
                 // 2섹션 타이머 취소
                 if (gameObject.sectionTwoTimer) {
@@ -846,9 +847,9 @@ function game2_updateResultImage(position) {
                 // 2섹션에 진입했을 때 타이머 시작
                 if (gameObject.sectionTwoTimer) clearTimeout(gameObject.sectionTwoTimer);
                 gameObject.sectionTwoTimer = setTimeout(() => {
+
                     if (gameObject['current-level'] < gameObject.maxLevel) {
-
-
+                        audioController.correctSound2();
                         // component_container fade out
 
                         controlContainerFadeInOut('out' , componentContainer , 
@@ -879,6 +880,7 @@ function game2_updateResultImage(position) {
                         // game2_resetTargetPosition(target);
                     } else {
                         // component_container fade out
+                        audioController.gameClearSound();
                         resultImage.style.opacity = '0';
                         game2_level_up();
 

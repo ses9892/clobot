@@ -40,6 +40,11 @@ class AudioController {
         this.play();
     }
 
+    correctSound2(){
+        this.audio.src = "./assets/audio/correct.mp3";
+        this.play();
+    }
+
     failSound(){
         this.audio.src = "./assets/audio/fail.mp3";
         this.play();
