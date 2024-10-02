@@ -195,6 +195,42 @@ class SubtitleController {
     }
 }
 
+const controlContainerFadeInOut = ( faceCode , containerObject , onStartCallback , onCompleteCallback) => {
+
+    if(faceCode == 'in'){
+        gsap.to(containerObject, { opacity: 1, duration: 0.7, 
+            onStart: () => {
+                if(onStartCallback){
+                   onStartCallback(); 
+                }
+            },
+            onComplete: () => {
+                if(onCompleteCallback){
+                    onCompleteCallback();
+                }
+            }
+        }
+    ); 
+
+    }
+
+    if(faceCode == 'out'){
+        gsap.to(containerObject, { opacity: 0, duration: 0.7, 
+            onStart: () => {
+                if(onStartCallback){
+                   onStartCallback(); 
+                }
+            },
+            onComplete: () => {
+                if(onCompleteCallback){
+                    onCompleteCallback();
+                }
+            }
+        }
+    ); 
+    }
+}
+
 
 
 // 엘리먼트 가져오기
@@ -216,9 +252,21 @@ const onIntroVideoEnded = () => {
 
 // 두 번째 비디오 종료 시 실행될 콜백 함수 (시작하기 버튼 표시)
 const onSecondVideoEnded = () => {
-    if(status == 'game-description'){
-        gameStartButton.show();
-    }
+
+        
+    // 인게임 세팅
+    inGameInitStart();
+    
+    // 화면 전환
+    inGameScreenConvert();
+    
+    // 상태 변환
+    status = "in-game"; // 상태: 게임 중
+
+    // 비디오 오디오 자막초기화
+    // introVideo.reset();
+    secondVideo.reset();
+    subtitleController.reset();
 };
 
 // 두 번째 비디오 시작 시 자막 로드 및 재생 콜백
@@ -252,20 +300,26 @@ const onGameStartButtonClick = () => {
     
     // 버튼 숨김
     gameStartButton.hide();
-    
-    // 인게임 세팅
-    inGameInitStart();
-    
-    // 화면 전환
-    inGameScreenConvert();
-    
-    // 상태 변환
-    status = "in-game"; // 상태: 게임 중
 
-    // 비디오 오디오 자막초기화
-    // introVideo.reset();
-    secondVideo.reset();
-    subtitleController.reset();
+    // 인트로 비디오 fade out
+    controlContainerFadeInOut('out' , introVideoElement , 
+        () => {
+        },
+        () => {
+            // 인트로 비디오 숨김
+            introVideoElement.style.display = 'none';
+            secondVideoElement.style.display = 'block';
+            // secondVideo fade in
+            controlContainerFadeInOut('in' , secondVideoElement , 
+                () => {
+                    
+                },
+                () => {
+                    secondVideoElement.play();
+                }
+            );
+        }
+    );
 };
 
 
@@ -294,9 +348,7 @@ const preloadImage = (url) => {
   };
 // 개발 모드에 따른 버튼 표시
 window.addEventListener('load', function () {
-    if (isDevMode) {
-        setTimeout(() => startButton.show(), dev_video_delay * 1000);
-    }
+
     audioElement.muted = true;
     audioElement.play();
 
@@ -381,3 +433,5 @@ function gameClearAnimationHide(){
     // 인게임 컨테이너 fade in
     gsap.to('#game-complete', { opacity: 0, duration: 0});
 }
+
+
