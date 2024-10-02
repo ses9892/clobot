@@ -98,8 +98,8 @@ let gameConfig = {
             'section2' : "./assets/images/game2/game2-section2.png",
             'section3' : "./assets/images/game2/game2-section3.png"
         },
-        'video-url' : "./assets/video/game3_1_des.mp4?version=1.0.5",  // 게임2 비디오 URL
-        'end-video-url' : "./assets/video/game3_1_end.mp4?version=1.0.5",  // 게임1 비디오 URL
+        'video-url' : "./assets/video/game3_2_des.mp4",  // 게임2 비디오 URL
+        'end-video-url' : "./assets/video/game3_2_end.mp4",  // 게임1 비디오 URL
         'videoController' : new VideoController(  // 게임2 비디오 컨트롤러
             document.getElementById('gameIntroVideo') ,
             () => {
@@ -298,9 +298,9 @@ const inGameScreenFadeInStartCallback = () => {
                 gameIntroVideoEndCallback();  // 비디오 종료 시 콜백
             },
             () => {
-                setTimeout(() => {
-                    // gameIntroVideoEndCallback();
-                }, 1000);
+                // setTimeout(() => {
+                //     gameIntroVideoEndCallback();
+                // }, 1000);
             } , 
             'end' , 
             false
@@ -767,6 +767,8 @@ function game2_layout_setting(bodyElement) {
     const target = game2_createTarget();
     const furnaceImage = game2_createFurnaceImage(gameObject);
 
+    preloadAssets(game2_key_img);
+
     // 요소들을 조립
     gaugeContainer.appendChild(gauge);
     gaugeContainer.appendChild(target);
@@ -796,6 +798,8 @@ function game2_layout_setting(bodyElement) {
     console.log('game2 레이아웃 설정 완료');
 }
 
+let test = undefined
+
 // 게임2의 결과 이미지를 업데이트하는 함수
 function game2_updateResultImage(position) {
     console.log('game2_updateResultImage', position);
@@ -816,10 +820,9 @@ function game2_updateResultImage(position) {
 
     // 현재 섹션이 변경되었을 때만 이미지 업데이트
     if (newSection !== parseInt(componentContainer.getAttribute('current_section'))) {
-
-
-        resultImage.style.opacity = '0';
-        setTimeout(() => {
+        clearTimeout(test);
+        // resultImage.style.opacity = '0';
+        test = setTimeout(() => {
             componentContainer.setAttribute('current_section', newSection);
             gameObject['current-section'] = newSection;
             resultImage.style.opacity = '1';
@@ -830,6 +833,7 @@ function game2_updateResultImage(position) {
                 resultImage.classList.add('tilted');
                 if (gameObject.sectionOneTimer) clearTimeout(gameObject.sectionOneTimer);
                 gameObject.sectionOneTimer = setTimeout(() => {
+                    resultImage.style.opacity = '0';
                     game2_resetTargetPosition(target);
                     audioController.failSound();
                 }, 2000);
@@ -857,7 +861,7 @@ function game2_updateResultImage(position) {
                                 console.log('component_container fade out');
                             },
                             () => {
-                                target.style.top = '263px';
+                                target.style.top = '265px';
                                 const gameObject = getGameObject();
                                 gameObject['current-section'] = 3;
                                 const componentContainer = document.querySelector('.component_container');
@@ -911,7 +915,7 @@ function game2_updateResultImage(position) {
                 }
             }
 
-        }, 500);
+        },100);
 
         // console.log(`타겟이 ${newSection}번째 영역에 진입했습니다.`);
     }
@@ -1178,6 +1182,20 @@ function game3_create_next_level(){
 
 function common_game_clear(videoEndCallback){
 
+    let sec = 0;
+
+    switch(gameConfig.current_gameId){
+        case 'game1':
+            sec = 4500;
+            break;
+        case 'game2':
+            sec = 3500;
+            break;
+        case 'game3':
+            sec = 4500;
+            break;
+    }
+
     const gameObject = gameConfig[gameConfig.current_gameId];
     const videoController = gameObject.videoController;
 
@@ -1214,7 +1232,7 @@ function common_game_clear(videoEndCallback){
                             // 게임성공 팝업 띄우기
                             showGameClearPop('','',true);
                             status = 'end-game';
-                        } , 4500);
+                        } , sec);
                     }
                 );
             }

@@ -31,6 +31,27 @@ const gameMenuItem = {
     ]
 }
 
+const game2_key_img = [
+    './assets/images/game2/section/key1.png',
+    './assets/images/game2/section/key2.png',
+    './assets/images/game2/section/key3.png',
+    './assets/images/game2/section/key4.png',
+    './assets/images/game2/section/key5.png',
+    './assets/images/game2/section/key6.png',
+    './assets/images/game2/section/key7.png',
+    './assets/images/game2/section/key8.png',
+    './assets/images/game2/section/key9.png',
+    './assets/images/game2/section/key10.png',
+    './assets/images/game2/section/key11.png',
+    './assets/images/game2/section/key12.png',
+    './assets/images/game2/section/key13.png',
+    './assets/images/game2/section/key14.png',
+    './assets/images/game2/section/key15.png',
+    './assets/images/game2/section/key16.png',
+    './assets/images/game2/section/key17.png',
+    './assets/images/game2/section/key18.png',
+]
+
 
 const assetsToPreload = [
     // Images
@@ -63,12 +84,11 @@ const assetsToPreload = [
     "./assets/images/game2/game2-section2.png",
     "./assets/images/game2/game2-section3.png",
     "./assets/images/game2/game2-target.png",
-    
-    
-    
     // Videos
     "./assets/video/game3_1_des.mp4",
     "./assets/video/game3_1_end.mp4",
+    "./assets/video/game3_2_des.mp4",
+    "./assets/video/game3_2_end.mp4",
     "./assets/video/game2_complete.mp4",
 
 
@@ -90,18 +110,18 @@ async function preloadAssets(assets) {
                 const img = new Image();
                 img.onload = () => resolve(asset);
                 img.onerror = () => reject(new Error(`이미지 로드 실패: ${asset}`));
-                img.src = asset + '?version=' + version;
+                img.src = asset;
             } else if (isVideo) {
                 const video = document.createElement('video');
                 video.onloadeddata = () => resolve(asset);
                 video.onerror = () => reject(new Error(`비디오 로드 실패: ${asset}`));
-                video.src = asset + '?version=' + version;
+                video.src = asset;
                 video.load();
             } else if (isAudio) {
                 const audio = document.createElement('audio');
                 audio.oncanplaythrough = () => resolve(asset);
                 audio.onerror = () => reject(new Error(`오디오 로드 실패: ${asset}`));
-                audio.src = asset + '?version=' + version;
+                audio.src = asset;
                 audio.load();
             } else {
                 resolve(asset); // 알 수 없는 자산 유형은 즉시 해결
