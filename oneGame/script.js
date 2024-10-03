@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const circle3 = document.getElementById('circle3');
     const circle4 = document.getElementById('circle4');
     const circle5 = document.getElementById('circle5');
-
+    const correctSound =  document.getElementById('correctSound')
+    const failSound = document.getElementById('failSound')
 
     const correct1 = document.getElementById('correct1');
     const correct2 = document.getElementById('correct2');
@@ -527,8 +528,16 @@ document.addEventListener('DOMContentLoaded', function () {
         timer.textContent = timeLeft;
     }
     // 사운드 재생
-    function correctSound(){
-        src
+    function PlayCorrectSound(){
+        correctSound.play()
+        setTimeout(() => {
+            // 1초 후에 실행될 코드
+            console.log('1초 지연 후 실행');
+            // 여기에 1초 후에 실행하고 싶은 다른 코드를 추가할 수 있습니다.
+          }, 1000);
+    }
+    function PlayFailSound(){
+        failSound.play()
     }
 
     // 보석 이동 관련 함수
@@ -587,6 +596,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     // console.log(`${currentElement.id}이(가) 올바른 위치에 도달했습니다!`);
                     cnt += 1
+                    PlayCorrectSound()
                     if (cnt == 8) {
                         console.log("미션성공")
                         resetTimer()
@@ -597,6 +607,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         cnt = 0;
                     }
                 } else {
+                    PlayFailSound()
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
