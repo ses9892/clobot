@@ -44,15 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const leftImageContainer3 = document.getElementById('leftImageContainer3')
     const leftImage3 = document.getElementById('leftImage3')
     const box3 = document.getElementById('box3')
-
-
-
-
-
     const bottomBox = document.getElementById('bottomBox');
 
-
-    const gameExplainVideo = document.getElementById('gameExplainVideo');
 
     // 변수 초기화
     // 타이머 시간초
@@ -533,6 +526,10 @@ document.addEventListener('DOMContentLoaded', function () {
         timeLeft = 60;
         timer.textContent = timeLeft;
     }
+    // 사운드 재생
+    function correctSound(){
+        src
+    }
 
     // 보석 이동 관련 함수
     let offsetX, offsetY;
@@ -622,7 +619,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     setTimeout(() => {
                         collidedElement.style.visibility = 'hidden';
                     }, 500);
-                    
+
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     // console.log(`${currentElement.id}이(가) 올바른 위치에 도달했습니다!`);
@@ -690,7 +687,51 @@ document.addEventListener('DOMContentLoaded', function () {
         Status = "game1"
         game1Setting()
 
+    });
+    // body 터치 이벤트 시
+    window.addEventListener('touchstart', function () {
+        this.clearInterval(mainTimer)
+    })
+    //게임완성시 이벤트
+    function hideGame1Clear() {
+        game1Clear.style.visibility = "hidden";
+        game1Clear.style.opacity = "0";
+    }
+    game1Clear.addEventListener('ended', function () {
+        hideGame1Clear()
+        playGame2Start()
+        // window.location.reload()
+    })
+    game2Start.addEventListener('ended', function () {
+        game2Setting()
+    })
+    function hideGame2Clear() {
+        game2Clear.style.visibility = "hidden";
+        game2Clear.style.opacity = "0";
+    };
+    game2Clear.addEventListener('ended', function () {
+        hideGame2Clear()
+        playGame3Start()
+    });
+    game3Start.addEventListener('ended', function () {
+        game3Setting()
+    });
 
+    outTroVideo.addEventListener('ended', function () {
+        setTimeout(function () {
+            window.location.reload();
+        }, 5000);
+    });
+    // 재도전 버튼 이벤트 리스너
+    document.getElementById('retryButton').addEventListener('click', function () {
+        clearInterval(mainTimer)
+        resetGame();
+    });
+
+    // 종료 버튼 이벤트 리스너
+    document.getElementById('exitButton').addEventListener('click', function () {
+        // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
+        window.location.reload(); // 페이지 새로고침
     });
     // 이벤트 리스너 설정
     circle.addEventListener('touchstart', function (e) {
@@ -708,46 +749,7 @@ document.addEventListener('DOMContentLoaded', function () {
     circle5.addEventListener('touchstart', function (e) {
         handleTouchStart(e, circle5);
     });
-    // UI컨트롤
-    // 아웃트로 동영상 종료시 새로고침
-    outTroVideo.addEventListener('ended', function () {
-        setTimeout(window.location.reload(), 5000)
-    });
 
-    //게임완성시 이벤트
-    function hideGame1Clear() {
-        game1Clear.style.visibility = "hidden";
-        game1Clear.style.opacity = "0";
-    }
-    game1Clear.addEventListener('ended', function () {
-        hideGame1Clear()
-        playGame2Start()
-        // window.location.reload()
-    })
-    game2Start.addEventListener('ended', function () {
-        game2Setting()
-    })
-    function hideGame2Clear() {
-        game2Clear.style.visibility = "hidden";
-        game2Clear.style.opacity = "0";
-    }
-    game2Clear.addEventListener('ended', function () {
-        hideGame2Clear()
-        playGame3Start()
-    })
-    game3Start.addEventListener('ended', function () {
-        game3Setting()
-    })
-    // 재도전 버튼 이벤트 리스너
-    document.getElementById('retryButton').addEventListener('click', function () {
-        clearInterval(mainTimer)
-        resetGame();
-    });
+}) // 끝
 
-    // 종료 버튼 이벤트 리스너
-    document.getElementById('exitButton').addEventListener('click', function () {
-        // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
-        window.location.reload(); // 페이지 새로고침
-    });
-});
 
