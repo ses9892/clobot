@@ -820,7 +820,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // 종료 버튼 이벤트 리스너
     document.getElementById('exitButton').addEventListener('click', function () {
         // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
-        window.location.reload(); // 페이지 새로고침
+        sendContentMessage("end")
+        // window.location.reload(); // 페이지 새로고침
     });
     // 이벤트 리스너 설정
     circle.addEventListener('touchstart', function (e) {
@@ -840,6 +841,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     //클로봇 관련
     // 게임시작시 
+    sendContentMessage("start")
     // sendContentMessage(value="start")
     // 게임종료 버튼을 누를 시
     // sendContentMessage(value="end")
@@ -856,6 +858,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // param 은 start | end
         sendEventMessage({type: 'content', value: param})
     }
+
 
 }) // 끝
 
