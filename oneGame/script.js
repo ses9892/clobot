@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const circle3 = document.getElementById('circle3');
     const circle4 = document.getElementById('circle4');
     const circle5 = document.getElementById('circle5');
-    const correctSound =  document.getElementById('correctSound')
+    const correctSound = document.getElementById('correctSound')
     const failSound = document.getElementById('failSound')
 
     const correct1 = document.getElementById('correct1');
@@ -69,8 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     // 함수 정의
     function resetUI() {
-        viewCorrect(Status)
-        startTimer()
         hideMissionFailed()
         enableDrag()
     }
@@ -141,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     }
     function hideCorrect() {
-        correct1.style.visibility = 'visible'
+        correct1.style.visibility = 'hidden'
         correct1.style.opacity = '0'
         correct2.style.visibility = 'hidden'
         correct2.style.opacity = '0'
@@ -270,6 +268,7 @@ document.addEventListener('DOMContentLoaded', function () {
         mission_complete.style.visibility = 'hidden';
     }
     function endGame() {
+        clearInterval(mainTimer)
         clearInterval(timerInterval);
         const endGameButtons = document.getElementById('endGameButtons');
         endGameButtons.style.display = 'flex';
@@ -279,6 +278,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 50);
         disableDrag()
         viewMissionFailed()
+        window.addEventListener("DOMContentLoaded",function(){
+            this.document.body.style.cursor = 'none';
+        })
 
 
     }
@@ -334,7 +336,31 @@ document.addEventListener('DOMContentLoaded', function () {
         box3.style.visibility = 'hidden';
         box3.style.opacity = '0';
     }
+    // correct fade out 설정
+    function correctFadeout() {
+        correct1.style.transition = "opacity 0.5s ease-out";
+        correct2.style.transition = "opacity 0.5s ease-out";
+        correct3.style.transition = "opacity 0.5s ease-out";
+        correct4.style.transition = "opacity 0.5s ease-out";
+        correct5.style.transition = "opacity 0.5s ease-out";
+        correct6.style.transition = "opacity 0.5s ease-out";
+        correct7.style.transition = "opacity 0.5s ease-out";
+        correct8.style.transition = "opacity 0.5s ease-out";
 
+
+    }
+    function clearCorrectFadeout() {
+        correct1.style.transition = "none";
+        correct2.style.transition = "none";
+        correct3.style.transition = "none";
+        correct4.style.transition = "none";
+        correct5.style.transition = "none";
+        correct6.style.transition = "none";
+        correct7.style.transition = "none";
+        correct8.style.transition = "none";
+
+
+    }
     // 게임세팅
     function PlayGame1Clear() {
         clearGame1Setting()
@@ -343,9 +369,9 @@ document.addEventListener('DOMContentLoaded', function () {
         game1Clear.play()
     }
     function game1Setting() {
-        MainVideo.style.visibility = 'hidden';
         MainVideo.style.opacity = '0';
-        viewBackGroundImage();
+        // setTimeout(MainVideo.style.visibility = 'hidden',500)
+        setTimeout(viewBackGroundImage,100)
         viewBox(Status);
         viewLeftimage(Status);
         viewfirstProblem();
@@ -354,6 +380,8 @@ document.addEventListener('DOMContentLoaded', function () {
         viewCorrect(Status);
         enableDrag();
         startTimer();
+        setTimeout(startTimer, 2000)
+        setTimeout(correctFadeout, 2000)
     }
     function clearGame1Setting() {
         hideBox();
@@ -386,6 +414,8 @@ document.addEventListener('DOMContentLoaded', function () {
         viewTimer()
         enableDrag()
         startTimer()
+        setTimeout(startTimer, 2000)
+        setTimeout(correctFadeout, 2000)
     }
     function clearGame2Setting() {
         console.log('game2초기화2')
@@ -398,14 +428,15 @@ document.addEventListener('DOMContentLoaded', function () {
         hideCorrect()
         hidViewMissionComplete()
         disableDrag()
+        clearCorrectFadeout()
     }
 
     function hideGame2Start() {
-        game2Start.style.visibility = 'hidden';
+        // game2Start.style.visibility = 'hidden';
         game2Start.style.opacity = '0';
     }
     function hideGame3Start() {
-        game3Start.style.visibility = 'hidden';
+        // game3Start.style.visibility = 'hidden';
         game3Start.style.opacity = '0';
     }
     function PlayoutTroVideo() {
@@ -414,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function () {
         outTroVideo.play()
     }
     function clearGame3Setting() {
-        console.log('game3초기화2')
+        console.log('game3초기화3')
         hideBackGroundImage()
         hideBox()
         hideLeftimage()
@@ -424,8 +455,12 @@ document.addEventListener('DOMContentLoaded', function () {
         hideCorrect()
         hidViewMissionComplete()
         disableDrag()
-        PlayoutTroVideo()
+        if (Status != 'game1'){
+            PlayoutTroVideo()
+        }
+        
     }
+    clearCorrectFadeout()
     function PlayGame3Clear() {
         clearGame3Setting()
     }
@@ -442,9 +477,36 @@ document.addEventListener('DOMContentLoaded', function () {
         viewCorrect(Status)
         viewTimer()
         enableDrag()
-        startTimer()
+        setTimeout(startTimer, 2000)
+        setTimeout(correctFadeout, 2000)
     }
     function switchingCorrect(Status) {
+        if (Status == "game1") {
+            correct1.style.top = "354px";
+            correct1.style.left = "462px";
+            correct1.className = "white";
+            correct2.style.top = "481px";
+            correct2.style.left = "750px";
+            correct2.className = "white";
+            correct3.style.top = "735px";
+            correct3.style.left = "673px";
+            correct3.className = "red";
+            correct4.style.top = "833px";
+            correct4.style.left = "600px";
+            correct4.className = "blue";
+            correct5.style.top = "781px";
+            correct5.style.left = "438px";
+            correct5.className = "blue";
+            correct6.style.top = "807px";
+            correct6.style.left = "333px";
+            correct6.className = "white"
+            correct7.style.top = "790px";
+            correct7.style.left = "222px";
+            correct7.className = "red";
+            correct8.style.top = "680px";
+            correct8.style.left = "160px";
+            correct8.className = "white";
+        }
         if (Status == "game2") {
             correct1.style.top = "380px";
             correct1.style.left = "362px";
@@ -511,6 +573,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 1000);
     }
     function startTimer() {
+        clearInterval(mainTimer)
         clearInterval(timerInterval);
         timerInterval = setInterval(function () {
             timeLeft--;
@@ -528,15 +591,15 @@ document.addEventListener('DOMContentLoaded', function () {
         timer.textContent = timeLeft;
     }
     // 사운드 재생
-    function PlayCorrectSound(){
+    function PlayCorrectSound() {
         correctSound.play()
         setTimeout(() => {
             // 1초 후에 실행될 코드
             console.log('1초 지연 후 실행');
             // 여기에 1초 후에 실행하고 싶은 다른 코드를 추가할 수 있습니다.
-          }, 1000);
+        }, 1000);
     }
-    function PlayFailSound(){
+    function PlayFailSound() {
         failSound.play()
     }
 
@@ -589,12 +652,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 if (collidedElement && currentElement.className === collidedElement.className) {
-                    collidedElement.style.transition = "opacity 0.5s ease-out";
-                    collidedElement.style.visibility = 'hidden';
                     collidedElement.style.opacity = '0';
+                    collidedElement.className = "correct!"
+                    // setTimeout( collidedElement.style.visibility = 'hidden',1000)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
-                    // console.log(`${currentElement.id}이(가) 올바른 위치에 도달했습니다!`);
+                    console.log(`${collidedElement.className}이(가) 올바른 위치에 도달했습니다!`);
                     cnt += 1
                     PlayCorrectSound()
                     if (cnt == 8) {
@@ -603,7 +666,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         hideTimer()
                         ViewMissionComplete()
                         disableDrag()
-                        setTimeout(PlayGame1Clear, 1000);
+                        setTimeout(PlayGame1Clear, 2000);
                         cnt = 0;
                     }
                 } else {
@@ -625,12 +688,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 if (collidedElement && currentElement.className === collidedElement.className) {
-                    collidedElement.style.transition = "opacity 0.5s ease-out";
+                    PlayCorrectSound()
                     collidedElement.style.opacity = '0';
-                    setTimeout(() => {
-                        collidedElement.style.visibility = 'hidden';
-                    }, 500);
-
+                    collidedElement.className = "correct!"
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     // console.log(`${currentElement.id}이(가) 올바른 위치에 도달했습니다!`);
@@ -646,7 +706,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         setTimeout(PlayGame2Clear, 1000);
                     }
                 } else {
-
+                    PlayFailSound()
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
@@ -664,25 +724,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 if (collidedElement && currentElement.className === collidedElement.className) {
-                    collidedElement.style.transition = "opacity 0.5s ease-out";
-                    collidedElement.style.visibility = 'hidden';
+                    PlayCorrectSound()
                     collidedElement.style.opacity = '0';
+                    collidedElement.className = "correct!"
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
-                    // console.log(`${currentElement.id}이(가) 올바른 위치에 도달했습니다!`);
                     cnt += 1
                     if (cnt == 5) {
                         console.log("미션성공")
                         resetTimer()
                         hideTimer()
-                        ViewMissionComplete()
+                        setTimeout(ViewMissionComplete,500)
                         disableDrag()
                         cnt = 0;
                         console.log(cnt)
                         setTimeout(PlayGame3Clear, 1000);
                     }
                 } else {
-
+                    PlayFailSound()
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
@@ -694,33 +753,36 @@ document.addEventListener('DOMContentLoaded', function () {
         offsetY = null;
     }
     // ---------------------------------------------------------//
+    // 커서없애기
+    // Clobot 관련
     MainVideo.addEventListener('ended', function () {
         Status = "game1"
-        game1Setting()
+        setTimeout(game1Setting,100)
 
     });
     // body 터치 이벤트 시
     window.addEventListener('touchstart', function () {
-        this.clearInterval(mainTimer)
+        clearInterval(mainTimer)
+        startMainTimer()
     })
     //게임완성시 이벤트
     function hideGame1Clear() {
-        game1Clear.style.visibility = "hidden";
         game1Clear.style.opacity = "0";
     }
     game1Clear.addEventListener('ended', function () {
+        clearCorrectFadeout()
         hideGame1Clear()
-        playGame2Start()
+        setTimeout(playGame2Start,100)
         // window.location.reload()
     })
     game2Start.addEventListener('ended', function () {
         game2Setting()
     })
     function hideGame2Clear() {
-        game2Clear.style.visibility = "hidden";
         game2Clear.style.opacity = "0";
     };
     game2Clear.addEventListener('ended', function () {
+        clearCorrectFadeout()
         hideGame2Clear()
         playGame3Start()
     });
@@ -736,6 +798,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // 재도전 버튼 이벤트 리스너
     document.getElementById('retryButton').addEventListener('click', function () {
         clearInterval(mainTimer)
+        if (Status == 'game1') {
+            game1Setting()
+            switchingCorrect(Status)
+        }
+        else if (Status == 'game2') {
+            Status = 'game1'
+            clearGame2Setting()
+            game1Setting()
+            switchingCorrect(Status)
+        }
+        else {
+            Status = 'game1'
+            clearGame3Setting()
+            game1Setting()
+            switchingCorrect(Status)
+        }
         resetGame();
     });
 
@@ -760,6 +838,24 @@ document.addEventListener('DOMContentLoaded', function () {
     circle5.addEventListener('touchstart', function (e) {
         handleTouchStart(e, circle5);
     });
+    //클로봇 관련
+    // 게임시작시 
+    // sendContentMessage(value="start")
+    // 게임종료 버튼을 누를 시
+    // sendContentMessage(value="end")
+    function sendEventMessage(param){
+        // window.parent가 있는지 확인
+        if(window.parent){
+            window.parent.postMessage(param);
+        }else{
+            console.log('window.parent is not exist');
+        }
+    }
+    
+    function sendContentMessage(param){
+        // param 은 start | end
+        sendEventMessage({type: 'content', value: param})
+    }
 
 }) // 끝
 
