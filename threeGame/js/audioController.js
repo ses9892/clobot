@@ -27,6 +27,7 @@ class AudioController {
     }
 
     reset(){
+        clearInterval(this.interval);
         this.audio.currentTime = 0;
         this.audio.pause();
     }
@@ -42,17 +43,37 @@ class AudioController {
 
     correctSound2(){
         this.audio.src = "./assets/audio/correct.mp3";
+        this.audio.volume = 1;
         this.play();
     }
 
     failSound(){
         this.audio.src = "./assets/audio/fail.mp3";
+        this.audio.volume = 1;
         this.play();
     }
 
     gameClearSound(){
         this.audio.src = "./assets/audio/game_clear.mp3";
         this.play();
+    }
+
+    fireBurnSound(){
+        this.audio.src = "./assets/audio/fire_burn.mp3";
+        setTimeout(() => {
+            this.play();
+
+            // 인터벌로 무한 재생
+            this.interval = setInterval(() => {
+                console.log('fireBurnSound play');
+                this.audio.currentTime = 0.5;
+                this.play();
+            }, 5000);
+        }, 200);
+    }
+
+    setAudioSound(volume){
+        this.audio.volume = volume;
     }
 }
 

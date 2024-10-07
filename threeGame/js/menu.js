@@ -129,6 +129,7 @@ class VideoController {
         this.video.style.display = 'block'; // 비디오 표시
         this.video.muted = false;
         this.video.volume = 1;
+        this.video.style.opacity = 1;
         this.video.play();
 
         // if(this.devCallBack){
@@ -140,9 +141,6 @@ class VideoController {
     hide() {
         this.video.style.display = 'none'; // 비디오 숨기기
         this.video.style.opacity = 0;
-
-        // z-index 최하위로 변경
-        this.video.style.zIndex = -1000;
     }
 
     pause() {
@@ -161,8 +159,7 @@ class VideoController {
 
     show(){
         this.video.style.display = 'block';
-        // z-index 최상위로 변경
-        this.video.style.zIndex = 1000;
+        this.video.style.opacity = 1;
     }
 
     // this video의 모든 이벤트 해제

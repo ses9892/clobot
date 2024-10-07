@@ -80,7 +80,9 @@ class TimerController {
             gameConfig.game1.timeoutGame();
           }
 
-
+          if(gameConfig.current_gameId == 'game3'){
+            gameConfig.game3.failGameEvt();
+          }
         }
       }
 }
@@ -163,7 +165,7 @@ function addEventListenerPopButton(){
           }else if(gameConfig.current_gameId == 'game2'){
             gameConfig.game2.restartGame();
           }else if(gameConfig.current_gameId == 'game3'){
-            console.log('game3 config reset');
+            gameConfig.game3.restartGame();
           }
     });
 
@@ -208,10 +210,8 @@ function goMenu(){
   }else if(gameConfig.current_gameId == 'game2'){
     gameConfig.game2.configReset();
   }else if(gameConfig.current_gameId == 'game3'){
-    console.log('game3 config reset');
+    gameConfig.game3.configReset();
   }
-
-
 
   controlContainerFadeInOut('out' , inGameScreenElement ,
       () => {
