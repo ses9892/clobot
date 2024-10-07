@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const game2Start = document.getElementById('game2Start')
     const game2Clear = document.getElementById('game2Clear')
     const game3Start = document.getElementById('game3Start')
+    const game3Clear = document.getElementById('game3Clear')
     // 겜요소
     const circle = document.getElementById('circle');
     const circle2 = document.getElementById('circle2');
