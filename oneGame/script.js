@@ -792,7 +792,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     outTroVideo.addEventListener('ended', function () {
         setTimeout(function () {
-            window.location.reload();
+            sendContentMessage("end")
         }, 5000);
     });
     // 재도전 버튼 이벤트 리스너
