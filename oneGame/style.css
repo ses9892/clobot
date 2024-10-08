@@ -78,7 +78,7 @@ html {
 #circle2 {
     visibility: hidden;
     position: absolute;
-    top: 1323;
+    top: 1323px;
     left: 306px;
     right: 559px;
     bottom: 224px;
@@ -126,7 +126,56 @@ html {
     cursor: grab;
     z-index: 1;
 }
-
+#circle6 {
+    visibility: hidden;
+    position: absolute;
+    top: 1323px;
+    left: 179px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+#circle7 {
+    visibility: hidden;
+    position: absolute;
+    top: 1323px;
+    left: 430px;
+    width: 91px;
+    height: 91px;
+    cursor: grab;
+    z-index: 1;
+}
+#circle8 {
+    visibility: hidden;
+    position: absolute;
+    top: 1323px;
+    left: 559px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+#circle9 {
+    visibility: hidden;
+    position: absolute;
+    top: 1323px;
+    left: 668px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
+#circle10 {
+    visibility: hidden;
+    position: absolute;
+    top: 1198px;
+    left: 668px;
+    width: 90px;
+    height: 90px;
+    cursor: grab;
+    z-index: 1;
+}
 /* 보물1 */
 #correct1 {
     visibility: hidden;
@@ -394,7 +443,23 @@ img {
     opacity: 0;
     transition: opacity 1s ease;
 }
+#game1Start {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
 #game3Start{
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+#game3Clear{
     position: absolute;
     top: 0;
     left: 0;
