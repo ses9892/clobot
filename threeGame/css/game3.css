@@ -65,6 +65,17 @@
     left: 360px;
 }
 
+.game_body[current_game='game3']  .game_item_tree_shadow{
+    position: absolute;
+    top: 1268px;
+    left: 355px;
+    width: 370px;
+    height: 51px;
+    background-image: url('../assets/images/game3/game3-tree-shadow.png');
+    background-size: cover;
+    background-position: center;
+}
+
 .game_body[current_game='game3']  .game_drag_drop_box{
     position: absolute;
     top: 40%;
@@ -82,7 +93,8 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    opacity: 0;
+    opacity: 1;
+    animation: fadeInOut 0.5s ease-in-out forwards;
 }
 
 .game_item_fire[scale='3'] .fire-burn-1 {
@@ -109,6 +121,40 @@
     background-image: url('../assets/images/game3/game3-fire-section1-2.png');
 }
 
+
+.game_body[current_game='game3'] .game_result_item{
+    position: absolute;
+    width: 390px;
+    height: 389px;
+    background-size: cover;
+    background-position: center;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    top: 251px;
+    left: 375px;
+}
+
+.trans_opacity_ease{    
+    transition: opacity 0.3s ease-in-out;
+}
+
+
+.game_body[current_game='game3'] #game_result_item_0{
+    background-image: url('../assets/images/game3/game3-result-1.png');
+}
+
+.game_body[current_game='game3'] #game_result_item_1{
+    background-image: url('../assets/images/game3/game3-result-2.png');
+}
+
+.game_body[current_game='game3'] #game_result_item_2{
+    background-image: url('../assets/images/game3/game3-result-3.png');
+}
+
+.game_body[current_game='game3'] #game_result_item_3{
+    background-image: url('../assets/images/game3/game3-result-4.png');
+}
 
 .heartbeat{-webkit-animation:heartbeat 1.5s ease-in-out infinite both;animation:heartbeat 1.5s ease-in-out infinite both}
 

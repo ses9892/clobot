@@ -60,6 +60,11 @@ const game3_assets = [
         "./assets/images/game3/game3-fire-section3-1.png",
         "./assets/images/game3/game3-fire-section3-2.png",
         "./assets/images/game3/game3-tree.webp",
+        "./assets/images/game3/game3-result-1.png",
+        "./assets/images/game3/game3-result-2.png",
+        "./assets/images/game3/game3-result-3.png",
+        "./assets/images/game3/game3-result-4.png",
+        "./assets/images/game3/game3-tree-shadow.png",
 ]
 
 const game2_assets = [
