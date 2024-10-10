@@ -344,3 +344,30 @@ body {
   background-image: url('./assets/images/game1_result_itme_3.png');
 }
 
+.wing-image{
+  width: 170px;
+  height: 369px;
+  position: absolute;
+  z-index: 150;
+  top: 547px;
+  left: 582px;
+  background-size: cover;
+  background-position: center;
+}
+
+.user-out-timer-section{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 210px;
+  height: 99px;
+  left: 435px;
+  top: 35px;
+  position: absolute;
+  z-index: 999;
+  font-size: 38pt;
+  background-color: black;
+  border-radius: 20px;
+  color: #66ff33;
+  font-weight: bold;
+}

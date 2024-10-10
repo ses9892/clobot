@@ -7,7 +7,7 @@ const dev_video_delay = 3;
 
 class userOutController {
     constructor(){
-        this.default_out_check_time = 30;
+        this.default_out_check_time = 15;
         this.current_out_check_time = this.default_out_check_time;
 
         document.body.addEventListener('touchstart' , () => {
@@ -28,7 +28,7 @@ class userOutController {
                             introVideo.reset();     // 인트로 리셋
 
                             subtitleController.reset();     // 자막 리셋 및 숨김
-                            gameStartButton.hide(); // 시작하기 버튼 숨김
+                            // gameStartButton.hide(); // 시작하기 버튼 숨김
 
                             introVideo.play();      // 인트로 표시 및 시작
                             break;
@@ -36,13 +36,14 @@ class userOutController {
                         case 'game-timeout' :
                             alert('인터렉션 (현재) 10초타임아웃 발생')
                             this.currnet_time_reset();
-                            location.href = 'about:blank';
+                            sendContentMessage('end');
                     }
                     this.current_out_check_time = this.default_out_check_time;
                 }
             }
+            document.getElementById('user-out-timer-section').innerHTML = this.current_out_check_time;
             console.log(this.current_out_check_time + '초 남음');
-        } , 1000);
+        } , 1300);
     }
 
     stop(){
@@ -52,10 +53,8 @@ class userOutController {
     
     currnet_time_reset(){
         this.current_out_check_time = this.default_out_check_time;
+        document.getElementById('user-out-timer-section').innerHTML = this.current_out_check_time;
     }
-
-
-
 }
 
 // 비디오 컨트롤러 클래스
@@ -179,7 +178,7 @@ class SubtitleController {
             this.subtitleIndex++;
         } else {
             this.hideSubtitle();
-            gameStartButton.show();
+            // gameStartButton.show();
         }
     }
 
@@ -284,7 +283,7 @@ const onStartButtonClick = () => {
     startButton.hide();
 
     //Dev
-    gameStartButton.show();
+    // gameStartButton.show();
 
 
     introVideo.pause();
@@ -299,7 +298,7 @@ const onStartButtonClick = () => {
 const onGameStartButtonClick = () => {
     
     // 버튼 숨김
-    gameStartButton.hide();
+    // gameStartButton.hide();
 
     // 인트로 비디오 fade out
     controlContainerFadeInOut('out' , introVideoElement , 
@@ -334,9 +333,7 @@ const onAudioEnded = () => {
 const introVideo = new VideoController(introVideoElement, onIntroVideoEnded);
 const secondVideo = new VideoController(secondVideoElement, onSecondVideoEnded); // 두 번째 비디오 끝났을 때 "시작하기" 버튼 표시
 const gameClearVideo = new VideoController(gameClearVideoElement, ()=>{}); // 두 번째 비디오 끝났을 때 "시작하기" 버튼 표시
-const startButton = new ButtonController(startButtonElement, onStartButtonClick);
-const subtitleController = new SubtitleController(subtitleElement , audioElement , onAudioEnded);
-const gameStartButton = new ButtonController(gameStartButtonElement, onGameStartButtonClick); // "시작하기" 버튼 클릭 시 게임 화면 전환
+// const subtitleController = new SubtitleController(subtitleElement , audioElement , onAudioEnded);
 const timerController = new TimerController(document.getElementById('game-timer'),timerSecond);
 const effectAudioController = new AudioController(document.getElementById('effectAudio' , () => {}));
 const userOutObejct = new userOutController();
@@ -348,7 +345,7 @@ const preloadImage = (url) => {
   };
 // 개발 모드에 따른 버튼 표시
 window.addEventListener('load', function () {
-
+    sendContentMessage('start');
     audioElement.muted = true;
     audioElement.play();
 
