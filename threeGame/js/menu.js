@@ -8,6 +8,8 @@ const outCheckTime = 30;
 const isDevMode = true;
 let isIntroVideoEnded = false;
 
+let isDoubleTouch = false;
+
 
 
 
@@ -129,7 +131,6 @@ class VideoController {
         this.video.style.display = 'block'; // 비디오 표시
         this.video.muted = false;
         this.video.volume = 1;
-        this.video.style.opacity = 1;
         this.video.play();
 
         // if(this.devCallBack){
@@ -141,6 +142,9 @@ class VideoController {
     hide() {
         this.video.style.display = 'none'; // 비디오 숨기기
         this.video.style.opacity = 0;
+
+        // z-index 최하위로 변경
+        this.video.style.zIndex = -1000;
     }
 
     pause() {
@@ -159,7 +163,8 @@ class VideoController {
 
     show(){
         this.video.style.display = 'block';
-        this.video.style.opacity = 1;
+        // z-index 최상위로 변경
+        this.video.style.zIndex = 1000;
     }
 
     // this video의 모든 이벤트 해제
@@ -355,9 +360,20 @@ const createGameMenu = () => {
         // 5. 최종적으로 부모 컨테이너에 추가
         gameMenuContainerBody.appendChild(gameMenuButton);
 
-        gameMenuButton.addEventListener('touchstart' , (event) => {
-            if(isIntroVideoEnded){
+        gameMenuButton.addEventListener('touchstart', (event) => {
+            if (isIntroVideoEnded) {
+                if(isDoubleTouch){
+                    event.preventDefault();
+                    return;
+                }
+
+                isDoubleTouch = true;
+                console.log('더블 터치 방지');
                 convertGameScreen(event.target.gameId);
+
+                setTimeout(() => {
+                    isDoubleTouch = false;
+                }, 2000);
             }
         });
 
@@ -453,12 +469,10 @@ window.addEventListener('load', function () {
 
     console.log('메뉴 로드 완료');
 
-    setTimeout(() => {
-        if(isDevMode){
-            isIntroVideoEnded = true;
-            showGameMenu();
-        }
-    }, 2500);
+    // setTimeout(() => {
+    //     isIntroVideoEnded = true;
+    //     showGameMenu();
+    // }, 2500);
 });
 
 
