@@ -34,7 +34,7 @@ class userOutController {
                             break;
                         
                         case 'game-timeout' :
-                            alert('인터렉션 (현재) 10초타임아웃 발생')
+                            // alert('인터렉션 (현재) 10초타임아웃 발생')
                             this.currnet_time_reset();
                             sendContentMessage('end');
                     }
