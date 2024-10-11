@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const circle10 = document.getElementById('circle10');
     const correctSound = document.getElementById('correctSound')
     const failSound = document.getElementById('failSound')
+    const missionSuccessSound = document.getElementById('mission_success')
+    const missionFailedSound = document.getElementById('missionFailedSound')
 
     const correct1 = document.getElementById('correct1');
     const correct2 = document.getElementById('correct2');
@@ -58,10 +60,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // 변수 초기화
     // 타이머 시간초
     let timerInterval;
-    let mainTimerCheck  = false
+    let mainTimerCheck = false
     // 미션실패시 메인화면 보내는 시간
     let mainTimer;
-    let timeLeft = 60;
+    let timeLeft = 10;
     let maintimeLeft;
     let Status = "main";
     let cnt = 0;
@@ -432,18 +434,16 @@ document.addEventListener('DOMContentLoaded', function () {
         clearInterval(mainTimer)
         clearInterval(timerInterval);
         const endGameButtons = document.getElementById('endGameButtons');
-        endGameButtons.style.display = 'flex';
-        setTimeout(() => {
-            endGameButtons.classList.add('visible');
-            startMainTimer()
-        }, 50);
         disableDrag()
         viewMissionFailed()
-        window.addEventListener("DOMContentLoaded", function () {
-            this.document.body.style.cursor = 'none';
+        missionFailedSound.play()
+        missionFailedSound.addEventListener('ended', () => {
+            endGameButtons.style.display = 'flex';
+            setTimeout(() => {
+                endGameButtons.classList.add('visible');
+                startMainTimer()
+                }, 50);
         })
-
-
     }
     function resetGame() {
         const endGameButtons = document.getElementById('endGameButtons');
@@ -606,7 +606,7 @@ document.addEventListener('DOMContentLoaded', function () {
         outTroVideo.style.opacity = '1'
         outTroVideo.play()
     }
-    function PlayGame3Clear(){
+    function PlayGame3Clear() {
         game3Clear.style.visibility = 'visible';
         game3Clear.style.opacity = "1"
         game3Clear.play()
@@ -829,10 +829,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.log("미션성공")
                         resetTimer()
                         hideTimer()
-                        ViewMissionComplete()
                         disableDrag()
-                        setTimeout(PlayGame1Clear, 2000);
+                        ViewMissionComplete()
                         cnt = 0;
+                        missionSuccessSound.play()
+                        missionSuccessSound.addEventListener('ended', () => {
+                            setTimeout(PlayGame1Clear, 2000);
+                        })
                     }
                 } else {
                     PlayFailSound()
@@ -864,11 +867,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.log("미션성공")
                         resetTimer()
                         hideTimer()
-                        ViewMissionComplete()
                         disableDrag()
+                        ViewMissionComplete()
+                        missionSuccessSound.play()
+                        missionSuccessSound.addEventListener('ended', () => {
+                            setTimeout(PlayGame2Clear, 2000);
+                        })
                         cnt = 0;
-                        console.log(cnt)
-                        setTimeout(PlayGame2Clear, 2000);
                     }
                 } else {
                     PlayFailSound()
@@ -899,11 +904,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.log("미션성공")
                         resetTimer()
                         hideTimer()
-                        ViewMissionComplete()
                         disableDrag()
+                        ViewMissionComplete()
+                        missionSuccessSound.play()
+                        missionSuccessSound.addEventListener('ended', () => {
+                            setTimeout(clearGame3Setting, 2000);
+                        })
                         cnt = 0;
-                        console.log(cnt)
-                        setTimeout(clearGame3Setting, 2000);
                     }
                 } else {
                     PlayFailSound()
@@ -938,11 +945,11 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     // body 터치 이벤트 시
     window.addEventListener('touchstart', function () {
-        if (mainTimerCheck == true){
+        if (mainTimerCheck == true) {
             clearInterval(mainTimer)
-        startMainTimer()
+            startMainTimer()
         }
-        
+
     })
     //게임완성시 이벤트
     function hideGame1Clear() {
@@ -968,7 +975,7 @@ document.addEventListener('DOMContentLoaded', function () {
     game3Start.addEventListener('ended', function () {
         game3Setting()
     });
-    game3Clear.addEventListener('ended',()=>{
+    game3Clear.addEventListener('ended', () => {
         PlayoutTroVideo()
     })
     outTroVideo.addEventListener('ended', function () {
@@ -978,7 +985,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // 재도전 버튼 이벤트 리스너
     document.getElementById('retryButton').addEventListener('click', function () {
-        mainTimerCheck  =false
+        mainTimerCheck = false
         cnt = 0
         clearInterval(mainTimer)
         if (Status == 'game1') {
@@ -1039,11 +1046,14 @@ document.addEventListener('DOMContentLoaded', function () {
         handleTouchStart(e, circle10);
     });
     //클로봇 관련
+    window.addEventListener("DOMContentLoaded", function () {
+        this.document.body.style.cursor = 'none';
+    })
     // 게임시작시 
     sendContentMessage("start")
     // sendContentMessage(value="start")
     // 게임종료 버튼을 누를 시
-    // sendContentMessage(value="end")
+    // sendContentMessage(value="end")  
     function sendEventMessage(param) {
         // window.parent가 있는지 확인
         if (window.parent) {
