@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let mainTimerCheck = false
     // 미션실패시 메인화면 보내는 시간
     let mainTimer;
-    let timeLeft = 10;
+    let timeLeft = 60;
     let maintimeLeft;
     let Status = "main";
     let cnt = 0;
