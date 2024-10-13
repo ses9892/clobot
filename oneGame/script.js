@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const circle10 = document.getElementById('circle10');
     const correctSound = document.getElementById('correctSound')
     const failSound = document.getElementById('failSound')
+    const missionfailedSound = document.getElementById('missionfailedSound')
+    const missionsuccessSound = document.getElementById('missionsuccessSound')
 
     const correct1 = document.getElementById('correct1');
     const correct2 = document.getElementById('correct2');
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 변수 초기화
     // 타이머 시간초
     let timerInterval;
-    let mainTimerCheck  = false
+    let mainTimerCheck = false
     // 미션실패시 메인화면 보내는 시간
     let mainTimer;
     let timeLeft = 60;
@@ -428,6 +430,7 @@ document.addEventListener('DOMContentLoaded', function () {
         mission_complete.style.visibility = 'hidden';
     }
     function endGame() {
+        missionfailedSound.play()
         mainTimerCheck = true
         clearInterval(mainTimer)
         clearInterval(timerInterval);
@@ -606,7 +609,7 @@ document.addEventListener('DOMContentLoaded', function () {
         outTroVideo.style.opacity = '1'
         outTroVideo.play()
     }
-    function PlayGame3Clear(){
+    function PlayGame3Clear() {
         game3Clear.style.visibility = 'visible';
         game3Clear.style.opacity = "1"
         game3Clear.play()
@@ -649,27 +652,35 @@ document.addEventListener('DOMContentLoaded', function () {
         if (Status == "game1") {
             correct1.style.top = "354px";
             correct1.style.left = "462px";
+            correct1.style.width = "103px"; correct1.style.height = "103px";
             correct1.className = "white";
             correct2.style.top = "481px";
             correct2.style.left = "750px";
+            correct2.style.width = "103px"; correct2.style.height = "103px";
             correct2.className = "white";
             correct3.style.top = "735px";
             correct3.style.left = "673px";
+            correct3.style.width = "103px"; correct3.style.height = "103px";
             correct3.className = "red";
             correct4.style.top = "833px";
             correct4.style.left = "600px";
+            correct4.style.width = "103px"; correct4.style.height = "103px";
             correct4.className = "blue";
             correct5.style.top = "781px";
             correct5.style.left = "438px";
+            correct5.style.width = "103px"; correct5.style.height = "103px";
             correct5.className = "blue";
             correct6.style.top = "807px";
             correct6.style.left = "333px";
+            correct6.style.width = "103px"; correct6.style.height = "103px";
             correct6.className = "white"
             correct7.style.top = "790px";
             correct7.style.left = "222px";
+            correct7.style.width = "103px"; correct7.style.height = "103px";
             correct7.className = "red";
             correct8.style.top = "680px";
             correct8.style.left = "160px";
+            correct8.style.width = "103px"; correct8.style.height = "103px";
             correct8.className = "white";
         }
         if (Status == "game2") {
@@ -759,11 +770,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // 사운드 재생
     function PlayCorrectSound() {
         correctSound.play()
-        setTimeout(() => {
-            // 1초 후에 실행될 코드
-            console.log('1초 지연 후 실행');
-            // 여기에 1초 후에 실행하고 싶은 다른 코드를 추가할 수 있습니다.
-        }, 1000);
     }
     function PlayFailSound() {
         failSound.play()
@@ -803,7 +809,23 @@ document.addEventListener('DOMContentLoaded', function () {
         currentElement.style.left = newLeft + "px";
         currentElement.style.top = newTop + "px";
     }
+    function delayFunction() {
+        console.log('2초뒤 실행됌 ')
+        ViewMissionComplete()
+        missionsuccessSound.play()
+        setTimeout(PlayGame1Clear, 2000);
+    }
+    function delayFunction2() {
+        ViewMissionComplete()
+        missionsuccessSound.play()
+        setTimeout(PlayGame2Clear, 2000);
+    }
+    function delayFunction3() {
+        ViewMissionComplete()
+        missionsuccessSound.play()
 
+        setTimeout(clearGame3Setting, 2000);
+    }
     function onTouchEnd() {
         document.removeEventListener('touchmove', onTouchMove);
         document.removeEventListener('touchend', onTouchEnd);
@@ -826,13 +848,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     cnt += 1
                     PlayCorrectSound()
                     if (cnt == 8) {
-                        console.log("미션성공")
+                        cnt = 0;
+                        disableDrag()
                         resetTimer()
                         hideTimer()
-                        ViewMissionComplete()
-                        disableDrag()
-                        setTimeout(PlayGame1Clear, 2000);
-                        cnt = 0;
+                        setTimeout(delayFunction, 700)
                     }
                 } else {
                     PlayFailSound()
@@ -861,14 +881,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     // console.log(`${currentElement.id}이(가) 올바른 위치에 도달했습니다!`);
                     cnt += 1
                     if (cnt == 8) {
-                        console.log("미션성공")
+                        cnt = 0;
+                        disableDrag()
                         resetTimer()
                         hideTimer()
-                        ViewMissionComplete()
-                        disableDrag()
-                        cnt = 0;
-                        console.log(cnt)
-                        setTimeout(PlayGame2Clear, 2000);
+                        setTimeout(delayFunction2, 700)
                     }
                 } else {
                     PlayFailSound()
@@ -896,14 +913,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     currentElement.style.opacity = "0"
                     cnt += 1
                     if (cnt == 5) {
-                        console.log("미션성공")
+                        disableDrag()
                         resetTimer()
                         hideTimer()
-                        ViewMissionComplete()
-                        disableDrag()
                         cnt = 0;
-                        console.log(cnt)
-                        setTimeout(clearGame3Setting, 2000);
+                        setTimeout(delayFunction3,700)
+
                     }
                 } else {
                     PlayFailSound()
@@ -938,11 +953,11 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     // body 터치 이벤트 시
     window.addEventListener('touchstart', function () {
-        if (mainTimerCheck == true){
+        if (mainTimerCheck == true) {
             clearInterval(mainTimer)
-        startMainTimer()
+            startMainTimer()
         }
-        
+
     })
     //게임완성시 이벤트
     function hideGame1Clear() {
@@ -968,7 +983,7 @@ document.addEventListener('DOMContentLoaded', function () {
     game3Start.addEventListener('ended', function () {
         game3Setting()
     });
-    game3Clear.addEventListener('ended',()=>{
+    game3Clear.addEventListener('ended', () => {
         PlayoutTroVideo()
     })
     outTroVideo.addEventListener('ended', function () {
@@ -978,8 +993,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // 재도전 버튼 이벤트 리스너
     document.getElementById('retryButton').addEventListener('click', function () {
-        mainTimerCheck  =false
-        cnt = 0
+        mainTimerCheck = false
+        cnt = 0;
         clearInterval(mainTimer)
         if (Status == 'game1') {
             game1Setting()
@@ -1002,6 +1017,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 종료 버튼 이벤트 리스너
     document.getElementById('exitButton').addEventListener('click', function () {
+        clearInterval(mainTimer)
         // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
         sendContentMessage("end")
         // window.location.reload(); // 페이지 새로고침
