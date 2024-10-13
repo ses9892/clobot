@@ -435,18 +435,16 @@ document.addEventListener('DOMContentLoaded', function () {
         clearInterval(mainTimer)
         clearInterval(timerInterval);
         const endGameButtons = document.getElementById('endGameButtons');
-        endGameButtons.style.display = 'flex';
-        setTimeout(() => {
-            endGameButtons.classList.add('visible');
-            startMainTimer()
-        }, 50);
         disableDrag()
         viewMissionFailed()
-        window.addEventListener("DOMContentLoaded", function () {
-            this.document.body.style.cursor = 'none';
+        missionFailedSound.play()
+        missionFailedSound.addEventListener('ended', () => {
+            endGameButtons.style.display = 'flex';
+            setTimeout(() => {
+                endGameButtons.classList.add('visible');
+                startMainTimer()
+                }, 50);
         })
-
-
     }
     function resetGame() {
         const endGameButtons = document.getElementById('endGameButtons');
@@ -1055,11 +1053,14 @@ document.addEventListener('DOMContentLoaded', function () {
         handleTouchStart(e, circle10);
     });
     //클로봇 관련
+    window.addEventListener("DOMContentLoaded", function () {
+        this.document.body.style.cursor = 'none';
+    })
     // 게임시작시 
     sendContentMessage("start")
     // sendContentMessage(value="start")
     // 게임종료 버튼을 누를 시
-    // sendContentMessage(value="end")
+    // sendContentMessage(value="end")  
     function sendEventMessage(param) {
         // window.parent가 있는지 확인
         if (window.parent) {
