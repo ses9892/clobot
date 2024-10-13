@@ -36,19 +36,12 @@
 
         <!-- 자막 -->
         <div id="subtitle" class="subtitle" style="display: none;"></div>
-
-        <!-- 게임 시작 버튼 -->
-        <button id="startButton">게임 시작</button>
-
-
-        <!-- 시작하기 버튼 -->
-        <button id="gameStartButton" style="display: none;">시작하기</button>
-
     </div>
 
     <div class="ingame-container" id="ingame_container">
         <div class="top-section" id="top-section">
           <img class="main-image image-hidden" id="main-image" src="" alt=""/>
+          <img class="wing-image image-hidden" id="wing-image" src="./assets/images/wing_item.png" alt=""/>
           <img class="sub-image image-hidden" id="sub-image" src="" alt=""/>
           
           <div class="timer-section" id="game-timer"></div>
@@ -73,6 +66,7 @@
     
 
     <div class="popup-overlay" id="popup">
+        <div class="user-out-timer-section" id="user-out-timer-section"></div>
         <div class="mission-fail" id="mission-fail"></div>
         <div class="popup-content">
           <!-- 팝업 헤더 -->
@@ -95,6 +89,7 @@
     <script src="./lib/gsap/gsap.min.js"></script>
     <script src="./subtitles.js"></script>
     <script src="./resources/common.js"></script>
+    <script src="postMsg.js"></script>
     <script src="inGame.js"></script>
     <script src="script.js"></script>
 

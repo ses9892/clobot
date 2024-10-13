@@ -30,7 +30,7 @@ const level1_images = [
   img_default_path + 'level1_loop3.png',
   img_default_path + 'level1_loop4.png',
   img_default_path + 'level1_loop5.png',
-];
+]; 
 
 const level2_images = [
   img_default_path + 'level2_loop1.png',
@@ -167,8 +167,8 @@ function createMainImageClassArray(currentIndex , currentLevel){
 }
 
 
-// 루프 이미지에 대한 터치 이벤트 (정답 확인)
-mainImage.addEventListener('touchstart', () => {
+
+const imageTouchStart = () => {
   if (currentImageIndex === correctAnswerIndex) {
     effectAudioController.update(effect_mpeg.correct);
     effectAudioController.play();
@@ -194,7 +194,11 @@ mainImage.addEventListener('touchstart', () => {
     effectAudioController.update(effect_mpeg.fail);
     effectAudioController.play();
   }
-});
+}
+
+// 루프 이미지 에 대한 터치 이벤트 (정답 확인)
+mainImage.addEventListener('touchstart', imageTouchStart);
+document.getElementById('wing-image').addEventListener('touchstart', imageTouchStart);
 
 
 const restartButton = document.getElementById('restart-button');
@@ -203,6 +207,10 @@ restartButton.addEventListener('touchstart', () => {
 
   // 상태 변환
   status = "in-game"; // 상태: 게임 중
+
+  // 레벨 1로 변경
+  current_level = 1;
+  initGameLevel();
 
   timerController.reset();
   timerController.start();
@@ -215,8 +223,7 @@ const endButton = document.getElementById('end-button');
 endButton.addEventListener('touchstart', () => {
   closePop();
   resetInGame();
-  alert('클로봇 게임선택으로 이동')
-  location.href = 'about:blank';
+  sendContentMessage('end');
   // introScreenConvert( undefined , () => {
   //   introVideo.play();
 
@@ -230,8 +237,7 @@ const completeVideoEnded = () => {
   if(current_level < max_game_level){
     inGameCompleteVideoConvert();
   }else{
-    alert('end 요청 보냄');
-    location.href = 'about:blank';
+    sendContentMessage('end');
   }
 };
 
@@ -287,6 +293,7 @@ function initGameLevel(){
   }
 
   const mImage = document.querySelector('.main-image');
+  const wingImage = document.getElementById('wing-image');
   const sImages = document.getElementById('sub-image');
 
   currentImageIndex = 0;
@@ -303,6 +310,12 @@ function initGameLevel(){
   
   // 변경 후 다시 보여주기 (페이드 인 효과)
   sImages.classList.remove('image-hidden');
+
+  if(current_level == 2){
+    wingImage.classList.remove('image-hidden');
+  }else{
+    wingImage.classList.add('image-hidden');  
+  }
 
   // // 이미지가 사라지는 시간에 맞춰서 이미지를 변경
   // setTimeout(() => {
