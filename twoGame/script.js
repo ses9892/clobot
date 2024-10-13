@@ -122,6 +122,15 @@ class AudioController {
         this.audio.src = src_path;
     }
 
+    timeoutSound(){
+        this.audio.src = "./assets/audio/game_timeout.mp3";
+        this.play();
+    }
+
+    gameClearSound(){
+        this.audio.src = "./assets/audio/game_clear.mp3";
+        this.play();
+    }
 }
 
 

@@ -1,5 +1,5 @@
 let current_level = 1;
-let timerSecond = 30;
+let timerSecond = 3;
 let loopInterval;
 
 const max_game_level = 3;
@@ -170,6 +170,7 @@ function createMainImageClassArray(currentIndex , currentLevel){
 
 const imageTouchStart = () => {
   if (currentImageIndex === correctAnswerIndex) {
+    document.getElementById('overlay').style.display = 'block';
     effectAudioController.update(effect_mpeg.correct);
     effectAudioController.play();
 
@@ -177,7 +178,10 @@ const imageTouchStart = () => {
     timerController.pause();    // 잠시 중지
     timerController.reset();
     clearInterval(loopInterval);
-    gameCompleteVideoPlay();
+
+    setTimeout(() => {
+      gameCompleteVideoPlay();
+    }, 2000);
 
     // if(current_level < max_game_level){
     //   timerController.pause();    // 잠시 중지
@@ -234,6 +238,7 @@ endButton.addEventListener('touchstart', () => {
 });
 
 const completeVideoEnded = () => {
+  document.getElementById('overlay').style.display = 'none';
   if(current_level < max_game_level){
     inGameCompleteVideoConvert();
   }else{
@@ -263,6 +268,7 @@ function timerTimeoutEvt(controller){
   }else{
     // 타임아웃 일때
     status = 'game-timeout';
+    effectAudioController.timeoutSound();
     userOutObejct.currnet_time_reset();
     showPopupGame('', '');
     controller.hide();
