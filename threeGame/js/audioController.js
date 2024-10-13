@@ -75,6 +75,12 @@ class AudioController {
     setAudioSound(volume){
         this.audio.volume = volume;
     }
+
+    timeoutSound(){
+        this.audio.src = "./assets/audio/game_timeout.mp3";
+        this.play();
+    }
+    
 }
 
 const audioController = new AudioController(undefined , () => {

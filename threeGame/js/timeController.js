@@ -73,6 +73,8 @@ class TimerController {
           userOut.currnet_time_reset();
           userOut.showTimer();
 
+          audioController.timeoutSound();
+
           showTimeoutPopup('' , '' , true);
           
           // 하드코딩...

@@ -115,6 +115,7 @@ const assetsToPreload = [
     "./assets/audio/fail.mp3",
     "./assets/audio/game_clear.mp3",
     "./assets/audio/fire_burn.mp3",
+    "./assets/audio/game_timeout.mp3",
 
 
     // Video
