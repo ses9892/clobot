@@ -1,5 +1,5 @@
 let current_level = 1;
-let timerSecond = 3;
+let timerSecond = 30;
 let loopInterval;
 
 const max_game_level = 3;
@@ -240,7 +240,17 @@ endButton.addEventListener('touchstart', () => {
 const completeVideoEnded = () => {
   document.getElementById('overlay').style.display = 'none';
   if(current_level < max_game_level){
-    inGameCompleteVideoConvert();
+    gameDescriptionVideoPlay();    
+    // inGameCompleteVideoConvert();
+  }else{
+    sendContentMessage('end');
+  }
+};
+
+const desVideoEnded = () => {
+  document.getElementById('overlay').style.display = 'none';
+  if(current_level < max_game_level){
+    gameDescriptionVideoConvert();
   }else{
     sendContentMessage('end');
   }
@@ -249,6 +259,9 @@ const completeVideoEnded = () => {
 document.getElementById('game1-complete-video').addEventListener('ended', completeVideoEnded);
 document.getElementById('game2-complete-video').addEventListener('ended', completeVideoEnded);
 document.getElementById('game3-complete-video').addEventListener('ended', completeVideoEnded);
+
+document.getElementById('game2-des-video').addEventListener('ended', desVideoEnded);
+document.getElementById('game3-des-video').addEventListener('ended', desVideoEnded);
 
 
 
@@ -518,15 +531,82 @@ function inGameCompleteVideoConvert(){
   
           // 인게임 컨테이너 fade in
           gsap.to(topSection, { opacity: 1, duration: 0.7, onStart: () => {
-            gameLevelUp();
-            topSection.style.display = 'block';
+            // gameLevelUp();
+            // topSection.style.display = 'block';
             },
             onComplete: () => {
               
             }
           });
-  
       }
-                                 
     });
 }
+
+function gameDescriptionVideoPlay(){
+  let desVideo;
+  let completeVideo;
+
+  if(current_level == 1){
+    completeVideo = document.getElementById('game1-complete-video');
+    desVideo = document.getElementById('game2-des-video');
+  }
+  
+  if(current_level == 2){
+    completeVideo = document.getElementById('game2-complete-video');
+    desVideo = document.getElementById('game3-des-video');
+  }
+
+  gsap.to(completeVideo, { opacity: 0, duration: 0.7,
+    onComplete: () => {
+
+      completeVideo.style.display = 'none';
+      completeVideo.currentTime = 0;
+      completeVideo.pause();
+
+        // 인게임 컨테이너 fade in
+        gsap.to(desVideo, { opacity: 1, duration: 0.7, onStart: () => {
+          // gameLevelUp();
+          // topSection.style.display = 'block';
+          },
+          onComplete: () => {
+            desVideo.play();
+          }
+        });
+    }
+  });
+}
+
+function gameDescriptionVideoConvert(){
+  let desVideo;
+  const topSection = document.getElementById('top-section');
+
+  if(current_level == 1){
+    desVideo = document.getElementById('game2-des-video');
+  }
+
+  if(current_level == 2){
+    desVideo = document.getElementById('game3-des-video');
+  }
+
+
+
+  gsap.to(desVideo, { opacity: 0, duration: 0.7,
+    onComplete: () => {
+
+      desVideo.style.display = 'none';
+      desVideo.currentTime = 0;
+      desVideo.pause();
+
+        // 인게임 컨테이너 fade in
+        gsap.to(topSection, { opacity: 1, duration: 0.7, onStart: () => {
+          gameLevelUp();
+          topSection.style.display = 'block';
+          },
+          onComplete: () => {
+            
+          }
+        });
+    }
+  });
+}
+
