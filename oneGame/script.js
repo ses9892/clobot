@@ -437,8 +437,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const endGameButtons = document.getElementById('endGameButtons');
         disableDrag()
         viewMissionFailed()
-        missionFailedSound.play()
-        missionFailedSound.addEventListener('ended', () => {
+        missionfailedSound.play()
+        missionfailedSound.addEventListener('ended', () => {
             endGameButtons.style.display = 'flex';
             setTimeout(() => {
                 endGameButtons.classList.add('visible');
