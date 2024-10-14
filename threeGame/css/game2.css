@@ -112,7 +112,9 @@
 }
 
 .game_body[current_game='game2'] .component_container[current_section="2"] #result-image {
-    animation: slideshow1 0.55s steps(15) 1 forwards;
+    animation: 
+        slideshow1 0.55s steps(15) 1 forwards,
+        slideshow3 1s steps(2) infinite 0.55s;
     background-image: url('../assets/images/game2/section/key1.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -259,4 +261,19 @@
     88.89% { right: 17.78px; background-image: url('../assets/images/game2/section/key17.png'); }
     94.44% { right: 18.89px; background-image: url('../assets/images/game2/section/key18.png'); }
     100% { right: 20px; background-image: url('../assets/images/game2/section/key18.png'); }
+}
+
+@keyframes slideshow3 {
+    0% { 
+        top: 282px;
+        left: -1.5px;
+        background-image: url('../assets/images/game2/section/key15_1.png'); }
+    50% { 
+        top: 282px;
+        left: -1.5px;
+        background-image: url('../assets/images/game2/section/key15_2.png'); }
+    100% { 
+        top: 282px;
+        left: -1.5px;
+        background-image: url('../assets/images/game2/section/key15_1.png'); }
 }

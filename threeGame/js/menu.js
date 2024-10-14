@@ -469,10 +469,10 @@ window.addEventListener('load', function () {
 
     console.log('메뉴 로드 완료');
 
-    // setTimeout(() => {
-    //     isIntroVideoEnded = true;
-    //     showGameMenu();
-    // }, 2500);
+    setTimeout(() => {
+        isIntroVideoEnded = true;
+        showGameMenu();
+    }, 2500);
 });
 
 

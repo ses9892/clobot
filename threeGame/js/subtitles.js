@@ -45,6 +45,8 @@ const game2_key_img = [
     './assets/images/game2/section/key13.png',
     './assets/images/game2/section/key14.png',
     './assets/images/game2/section/key15.png',
+    './assets/images/game2/section/key15_1.png',
+    './assets/images/game2/section/key15_2.png',
     './assets/images/game2/section/key16.png',
     './assets/images/game2/section/key17.png',
     './assets/images/game2/section/key18.png',
