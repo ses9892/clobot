@@ -832,6 +832,9 @@ function game2_layout_setting(bodyElement) {
     const gauge = game2_createGauge();
     const target = game2_createTarget();
     const furnaceImage = game2_createFurnaceImage(gameObject);
+    const resultTarget = game2_createResultTarget();
+
+    furnaceImage.appendChild(resultTarget);
 
     preloadAssets(game2_key_img);
 
@@ -839,9 +842,9 @@ function game2_layout_setting(bodyElement) {
     gaugeContainer.appendChild(gauge);
     gaugeContainer.appendChild(target);
 
+
     componentContainer.appendChild(resultImage);
     componentContainer.appendChild(gaugeContainer);
-
     gameContainer.appendChild(componentContainer);
 
     gameContainer.appendChild(furnaceImage);
@@ -946,6 +949,22 @@ function game2_updateResultImage(position) {
                         // component_container fade out
                         audioController.gameClearSound();
                         resultImage.style.opacity = '0';
+
+                        const resultTarget = document.getElementById('result_target');
+                        controlContainerFadeInOut('in' , resultTarget , 
+                            () => {
+                                const furnaceImage = document.querySelectorAll('.furnace-image');
+                                if(furnaceImage != undefined){
+                                    furnaceImage.forEach(el => {
+                                        el.style.opacity = '1';
+                                    })
+                                }
+                            },
+                            () => {
+
+                                resultTarget.classList.add('move_up');
+                            }
+                        );
                         timerController.hide();
                         game2_level_up();
 
@@ -1504,3 +1523,9 @@ function game3_result_item_opacity_controller(){
     }
 }
 
+function game2_createResultTarget(){
+    const resultTarget = document.createElement('div');
+    resultTarget.className = 'result_target';
+    resultTarget.id = 'result_target';
+    return resultTarget;
+}

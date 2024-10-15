@@ -277,3 +277,34 @@
         left: -1.5px;
         background-image: url('../assets/images/game2/section/key15_1.png'); }
 }
+
+
+.game_body[current_game='game2'] .furnace-container .result_target {
+    width: 819px;
+    height: 217px;
+    background-image: url('../assets/images/game2/game2_result.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    top: 110px;
+    right: 44px;
+    z-index: 200;
+
+    opacity: 0;
+
+}
+
+@keyframes moveUp {
+    0% {
+        top: 110px;  /* 시작 위치 */
+    }
+    100% {
+        top: -220px;  /* 최종 위치 */
+    }
+}
+
+.move_up {
+    animation: moveUp 1s linear forwards paused;
+    animation-play-state: running;
+}
