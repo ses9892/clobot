@@ -811,18 +811,18 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('2초뒤 실행됌 ')
         ViewMissionComplete()
         missionsuccessSound.play()
-        setTimeout(PlayGame1Clear, 2000);
+        setTimeout(PlayGame1Clear, 1000);
     }
     function delayFunction2() {
         ViewMissionComplete()
         missionsuccessSound.play()
-        setTimeout(PlayGame2Clear, 2000);
+        setTimeout(PlayGame2Clear, 1000);
     }
     function delayFunction3() {
         ViewMissionComplete()
         missionsuccessSound.play()
 
-        setTimeout(clearGame3Setting, 2000);
+        setTimeout(clearGame3Setting, 1000);
     }
     function onTouchEnd() {
         document.removeEventListener('touchmove', onTouchMove);
