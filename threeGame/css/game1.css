@@ -97,7 +97,7 @@
 
 
   .progress-bar-container {
-    display: flex;
+    display: none;
     position: absolute;
     top: 1216px;
     left: 190px;
@@ -174,7 +174,7 @@
 .game1_item_magchi {
     position: relative;
     top: 0px;
-    left: 0px;
+    left: 50px;
     width: 248px;
     height: 356px;
     background-image: url('../assets/images/game1/game1_item_magchi.png');
@@ -182,7 +182,7 @@
 }
 
 .game1_item_magchi.magchi_rotate {
-    animation: move-and-rotate 3s linear forwards;
+    animation: move-and-rotate2 0.3s linear forwards;
 }
  
 .game1_item_target {
@@ -224,4 +224,22 @@
     100% {
         transform: translateX(0px) rotate(0deg);
     }
+}
+
+@keyframes move-and-rotate2 {
+  0% {
+      transform: translateX(0) rotate(0deg);
+  }
+  20% {
+      transform: translateX(0px) rotate(0deg);
+  }
+  60% {
+      transform: translateX(0px) rotate(30deg);
+  }
+  80% {
+      transform: translateX(0px) rotate(0deg);
+  }
+  100% {
+      transform: translateX(0px) rotate(0deg);
+  }
 }

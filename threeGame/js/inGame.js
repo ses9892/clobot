@@ -5,6 +5,8 @@
 
 const inGameScreenElement = document.querySelector('.in-game-container');
 
+const game1_default_completion_count = 3;
+
 // 게임 설정 객체
 let gameConfig = {
     current_gameId : undefined,  // 현재 게임 ID
@@ -26,6 +28,7 @@ let gameConfig = {
             }
         ),
         gameCompletionQueue : ['B-box' , 'C-box' , 'A-box'],
+        gameCompletionCount : game1_default_completion_count,
         gameCompletion : {  // 게임1 완료 상태
             'A-box' : false,
             'B-box ': false,
@@ -45,6 +48,8 @@ let gameConfig = {
             gameConfig.game1.gameCompletionQueue = ['B-box' , 'C-box' , 'A-box'];
 
             gameConfig.game1.isTargetTouch = false;
+
+            gameConfig.game1.gameCompletionCount = game1_default_completion_count;
         } ,
 
         restartGame : () => {
@@ -488,6 +493,8 @@ function game1_layout_setting(bodyElement){
     game1ItemContainer.appendChild(magchiItem);
     game1ItemContainer.appendChild(targetItem);
 
+    game1_mangchi_touch_event(magchiItem);
+
     // 컨테이너를 body에 추가
     // 게이지바 추가
     const gaugeBar = createGaugeBar();
@@ -495,6 +502,17 @@ function game1_layout_setting(bodyElement){
     bodyElement.appendChild(gaugeBar);
     bodyElement.appendChild(game1ItemContainer);
 
+}
+
+function game1_mangchi_touch_event(magchiItem){
+    magchiItem.addEventListener('touchstart' , (event) => {
+        console.log('막대기 터치');
+
+        if(gameConfig.game1.checkDuplicateTouch()){
+            return;
+        }
+        game1BoxTouchEvent_2(event.target);
+    });
 }
 
 // 게이지바 생성 함수
@@ -681,6 +699,104 @@ function game1BoxTouchEvent(box) {
         gameConfig.game1.isTargetTouch = false;
     }, 3000);
 
+}
+
+// 게임1 박스 터치 이벤트 처리 함수
+function game1BoxTouchEvent_2(box) {
+    // 중복 터치 방지
+    gameConfig.game1.isTargetTouch = true;
+
+    const gameObject = getGameObject();
+
+    gameObject.gameCompletionCount--;
+
+    let isClear = false;
+    if(gameObject.gameCompletionCount <= 0){    // 클리어
+        isClear = true;
+        gameObject.gameCompletionCount = game1_default_completion_count;
+    }else{                                      // 횟수만 줄인 상태로 타임아웃만 실행
+        isClear = false;
+    }
+
+    if(isClear){
+        game1_clear(gameObject);
+    }else{
+        game1_non_clear(gameObject);
+    }
+
+    function game1_clear(gameObject){
+        const gameCompletion = gameObject.gameCompletion;
+        const gameCompletionQueue = gameObject.gameCompletionQueue;
+    
+        const clearBoxId = gameCompletionQueue.shift();
+        const clearBoxElement = document.querySelector('.' + clearBoxId);
+        
+        gameCompletion[clearBoxId] = true;
+    
+        audioController.correctSound2();
+    
+        const magchiItem = document.getElementById('game1_item_magchi');
+        magchiItem.classList.add('magchi_rotate');
+    
+        gameObject.gameSetTimeout = setTimeout(() => {
+    
+    
+            // 막대기 아이템 회전 종료
+            magchiItem.classList.remove('magchi_rotate');
+    
+            if(status == 'game-timeout'){
+                return;
+            }
+    
+    
+            // 게임 완료 큐 업데이트
+            const game1ItemContainer = document.getElementById('game1_item_container');
+            if(gameCompletionQueue.length > 0){
+                game1ItemContainer.setAttribute('Completion', gameCompletionQueue[0]);
+            }
+    
+            // 클리어 박스 투명도 0
+            clearBoxElement.style.opacity = 0;
+            
+            setTimeout(() => {
+                clearBoxElement.style.display = 'none';
+            }, 500);
+    
+            if(gameCompletion['A-box'] && gameCompletion['B-box'] && gameCompletion['C-box']){
+                timerController.pause();
+                timerController.hide();
+    
+                audioController.gameClearSound();
+                controlContainerFadeInOut('out' , document.querySelector('.game1_item_container') , 
+                    () => {},() => {});
+    
+                common_game_clear(game1EndVideoEndCallback);
+    
+            }
+            // 중복 터치 방지
+            gameConfig.game1.isTargetTouch = false;
+        }, 1000);
+    }
+
+    function game1_non_clear(gameObject){
+        // audioController.correctSound();
+    
+        const magchiItem = document.getElementById('game1_item_magchi');
+        magchiItem.classList.add('magchi_rotate');
+    
+        gameObject.gameSetTimeout = setTimeout(() => {
+    
+    
+            // 막대기 아이템 회전 종료
+            magchiItem.classList.remove('magchi_rotate');
+    
+            if(status == 'game-timeout'){
+                return;
+            }
+            // 중복 터치 방지
+            gameConfig.game1.isTargetTouch = false;
+        }, 200);
+    }
 }
 
 // 게임2의 메인 컨테이너를 생성하는 함수
