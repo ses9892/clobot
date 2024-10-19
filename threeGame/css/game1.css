@@ -42,7 +42,7 @@
       width: 680px;
       height: 346px;
 
-      background-image: url('../assets/images/B_stone.png');
+      /* background-image: url('../assets/images/B_stone.png'); */
 
       top: 684px;
       left: 245px;
@@ -51,13 +51,43 @@
 
       transition: opacity 0.5s ease-out;
   }
+
+  .A-box > .game1_box_comp_1 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/B_stone1.png');
+    z-index: 105;
+  }
+
+  .A-box > .game1_box_comp_2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/B_stone2.png');
+    z-index: 104;
+  }
+
+  .A-box > .game1_box_comp_3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/B_stone3.png');
+    z-index: 103;
+  }
   
   .aaaaa > .B-box{
     position: absolute;
     width: 417px;
     height: 322px;
 
-    background-image: url('../assets/images/A_stone.png');
+    /* background-image: url('../assets/images/A_stone.png'); */
 
     top: 789px;
     left: 73px;
@@ -66,13 +96,43 @@
 
     transition: opacity 0.5s ease-out;
   }
+
+  .B-box > .game1_box_comp_1 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/A_stone1.png');
+    z-index: 105;
+  }
+
+  .B-box > .game1_box_comp_2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/A_stone2.png');
+    z-index: 104;
+  }
+
+  .B-box > .game1_box_comp_3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/A_stone3.png');
+    z-index: 103;
+  }
   
   .aaaaa > .C-box{
     position: absolute;
     width: 605px;
     height: 271px;
 
-    background-image: url('../assets/images/C_stone.png');
+    /* background-image: url('../assets/images/C_stone.png'); */
 
     top: 850px;
     left: 396px;
@@ -80,6 +140,36 @@
     z-index: 102;
 
     transition: opacity 0.5s ease-out;
+  }
+
+  .C-box > .game1_box_comp_1 {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/C_stone1.png');
+    z-index: 105;
+  }
+
+  .C-box > .game1_box_comp_2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/C_stone2.png');
+    z-index: 104;
+  }
+
+  .C-box > .game1_box_comp_3 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/game1/C_stone3.png');
+    z-index: 103;
   }
   
   
@@ -242,4 +332,8 @@
   100% {
       transform: translateX(0px) rotate(0deg);
   }
+}
+
+.fade-animation {
+  transition: opacity 0.5s ease-out;
 }

@@ -5,7 +5,7 @@
 
 const inGameScreenElement = document.querySelector('.in-game-container');
 
-const game1_default_completion_count = 3;
+const game1_default_completion_count = 30;
 
 // 게임 설정 객체
 let gameConfig = {
@@ -435,6 +435,20 @@ function game1_layout_setting(bodyElement){
         box.className = `gameBox ${letter}-box`;
         // box.textContent = `${letter} layout`;
         box.boxId = letter;
+
+        // 박스 태그 내부에 1번,2번,3번 div생성
+
+        const div1 = document.createElement('div');
+        div1.className = 'game1_box_comp_1 fade-animation';
+        box.appendChild(div1);
+
+        const div2 = document.createElement('div');
+        div2.className = 'game1_box_comp_2 fade-animation';
+        box.appendChild(div2);
+
+        const div3 = document.createElement('div');
+        div3.className = 'game1_box_comp_3 fade-animation';
+        box.appendChild(div3);
         return box;
     }
 
@@ -719,12 +733,12 @@ function game1BoxTouchEvent_2(box) {
     }
 
     if(isClear){
-        game1_clear(gameObject);
+        game1_clear(gameObject , gameObject.gameCompletionCount);
     }else{
-        game1_non_clear(gameObject);
+        game1_non_clear(gameObject , gameObject.gameCompletionCount);
     }
 
-    function game1_clear(gameObject){
+    function game1_clear(gameObject , currentCount){
         const gameCompletion = gameObject.gameCompletion;
         const gameCompletionQueue = gameObject.gameCompletionQueue;
     
@@ -740,6 +754,7 @@ function game1BoxTouchEvent_2(box) {
     
         gameObject.gameSetTimeout = setTimeout(() => {
     
+            game1_each_stone_opacity(clearBoxId , currentCount);
     
             // 막대기 아이템 회전 종료
             magchiItem.classList.remove('magchi_rotate');
@@ -778,15 +793,18 @@ function game1BoxTouchEvent_2(box) {
         }, 1000);
     }
 
-    function game1_non_clear(gameObject){
+    function game1_non_clear(gameObject , currentCount){
         // audioController.correctSound();
     
         const magchiItem = document.getElementById('game1_item_magchi');
         magchiItem.classList.add('magchi_rotate');
     
         gameObject.gameSetTimeout = setTimeout(() => {
-    
-    
+            const gameCompletionQueue = gameObject.gameCompletionQueue;
+        
+            const currentBoxId = gameCompletionQueue[0];
+            game1_each_stone_opacity(currentBoxId , currentCount);
+
             // 막대기 아이템 회전 종료
             magchiItem.classList.remove('magchi_rotate');
     
@@ -1644,4 +1662,27 @@ function game2_createResultTarget(){
     resultTarget.className = 'result_target';
     resultTarget.id = 'result_target';
     return resultTarget;
+}
+
+function game1_each_stone_opacity(currentBoxId , currentCount){
+    const calcCount = Math.floor(currentCount / 10);
+    const cal = currentCount % 10;
+
+
+
+    console.log(calcCount , cal);
+
+    let opacityTarget;
+    if(calcCount == 2 && cal == 0){
+        opacityTarget = document.querySelector( '.' + currentBoxId + ' .game1_box_comp_1');
+    }else if(calcCount == 1 && cal == 0){
+        opacityTarget = document.querySelector( '.' + currentBoxId + ' .game1_box_comp_2');
+    }else if(calcCount == 0 && cal == 0){
+        opacityTarget = document.querySelector( '.' + currentBoxId + ' .game1_box_comp_3');
+    }
+
+    console.log(opacityTarget);
+    if(opacityTarget){
+        opacityTarget.style.opacity = 0;
+    }
 }
