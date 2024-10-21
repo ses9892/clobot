@@ -45,7 +45,7 @@ let gameConfig = {
                 'B-box ': false,
                 'C-box' : false
             };
-            gameConfig.game1.gameCompletionQueue = ['B-box' , 'C-box' , 'A-box'];
+            gameConfig.game1.gameCompletionQueue = ['B-box' , 'A-box' , 'C-box'];
 
             gameConfig.game1.isTargetTouch = false;
 
@@ -70,6 +70,11 @@ let gameConfig = {
             const game1ItemContainer = document.getElementById('game1_item_container');
             console.log(gameConfig.game1.gameCompletionQueue[0])
             game1ItemContainer.setAttribute('Completion', gameConfig.game1.gameCompletionQueue[0]);
+
+            // 타켓 opacity 초기화
+            document.querySelectorAll('.fade-animation').forEach(el => {
+                el.style.opacity = '1';
+            });
         } ,
 
         timeoutGame : () => {
