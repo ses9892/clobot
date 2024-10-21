@@ -1,5 +1,5 @@
 // 타이머 관련 컨트롤러
-const timerSecond = 60;
+const timerSecond = 999;
 
 class TimerController {
     constructor(timerElement , time) {
@@ -80,6 +80,13 @@ class TimerController {
           // 하드코딩...
           if(gameConfig.current_gameId == 'game1'){
             gameConfig.game1.timeoutGame();
+          }
+
+          if(gameConfig.current_gameId == 'game2'){
+            if (game2_target_position_check_timeout != null) {
+              clearTimeout(game2_target_position_check_timeout);
+              game2_target_position_check_timeout = null;
+            }
           }
 
           if(gameConfig.current_gameId == 'game3'){

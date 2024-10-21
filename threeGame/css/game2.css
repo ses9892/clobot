@@ -6,16 +6,17 @@
 .game_body[current_game='game2'] .gauge-container {
     display: flex;
     width: 120px;
-    height: 350px;
+    height: 420px;
     position: relative;
     overflow: hidden;
+    top: 70px;
     margin-left: -20px;
     justify-content: center;
 }
 
 .game_body[current_game='game2'] #gauge {
-    width: 64px;
-    height: 350px;
+    width: 87px;
+    height: 420px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -34,13 +35,31 @@
     background-position: center; /* 이미지 중앙 정렬 */
 
 
-    width: 84px;
-    height: 84px;
+    width: 57px;
+    height: 57px;
     position: absolute;
-    left: 19px;
     bottom: 0;
     cursor: move;
     transition: box-shadow 0.3s ease;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.move_up_target {
+    animation: moveTargetUp 3s linear forwards;
+}
+
+ 
+.animation_paused {
+    animation-play-state: paused !important;
+}
+
+@keyframes moveTargetUp {
+    0% {
+        top: 354px;
+    }
+    100% {
+        top: 10px;
+    }
 }
 
 .game_body[current_game='game2'] .gauge-section {
@@ -92,8 +111,8 @@
 }
 
 .game_body[current_game='game2'] .component_container[current_section="1"] #result-image {
-    animation: slideshow2 0.65s steps(15) 1 forwards;
-    background-image: url('../assets/images/game2/section/key1.png');
+    animation: slideshow4 1s steps(5) 1 forwards;
+    background-image: url('../assets/images/game2/section/key15.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -113,15 +132,14 @@
 
 .game_body[current_game='game2'] .component_container[current_section="2"] #result-image {
     animation: 
-        slideshow1 0.55s steps(15) 1 forwards,
-        slideshow3 1s steps(2) infinite 0.55s;
+        slideshow1 2s steps(15) 1 forwards,
+        slideshow3 1s steps(2) infinite 2s;
     background-image: url('../assets/images/game2/section/key1.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
-    animation-direction: alternate;
+    animation-direction: no;
     animation-timing-function: ease-in;
-
 }
 
 .game_body[current_game='game2'] #toggle-sections {
@@ -276,6 +294,14 @@
         top: 282px;
         left: -1.5px;
         background-image: url('../assets/images/game2/section/key15_1.png'); }
+}
+
+@keyframes slideshow4 {
+    0% { right: 15.56px; background-image: url('../assets/images/game2/section/key15.png'); }
+    25% { right: 16.67px; background-image: url('../assets/images/game2/section/key16.png'); }
+    50% { right: 17.78px; background-image: url('../assets/images/game2/section/key17.png'); }
+    75% { right: 18.89px; background-image: url('../assets/images/game2/section/key18.png'); }
+    100% { right: 20px; background-image: url('../assets/images/game2/section/key18.png'); }
 }
 
 
