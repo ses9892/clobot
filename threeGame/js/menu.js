@@ -5,7 +5,7 @@ const dev_video_delay = 1;
 const outCheckTime = 30;
 
 // 개발 모드 변수 설정
-const isDevMode = true;
+const isDevMode = false;
 let isIntroVideoEnded = false;
 
 let isDoubleTouch = false;
@@ -14,28 +14,28 @@ let isDoubleTouch = false;
 
 
 class userOutController {
-    constructor(){
+    constructor() {
         this.default_out_check_time = outCheckTime;
         this.current_out_check_time = this.default_out_check_time;
 
-        document.body.addEventListener('touchstart' , () => {
+        document.body.addEventListener('touchstart', () => {
             this.current_out_check_time = this.default_out_check_time;
             // console.log('체크 햇더니 다시 돌아왓넹?? ==> ' + this.current_out_check_time);
         });
     }
-    start(){
-        
+    start() {
+
         this.interval = setInterval(() => {
             document.getElementById('user-out-timer').textContent = this.current_out_check_time;
             this.current_out_check_time--;
-            if(this.current_out_check_time < 0 ){
-                if(status == 'intro'){
+            if (this.current_out_check_time < 0) {
+                if (status == 'intro') {
                     console.log('인트로에서는 무반응 + 시간초돌리기');
                     this.current_out_check_time = this.default_out_check_time;
-                }else{
+                } else {
 
-                    switch(status){
-                        case 'game-menu-select' :
+                    switch (status) {
+                        case 'game-menu-select':
                             // controlContainerFadeInOut('out' , gameMenuContainer , 
                             //     () => {
                             //         introVideo.reset();
@@ -46,12 +46,12 @@ class userOutController {
                             //  );      // 메뉴 fade out
                             sendContentMessage('end');
                             break;
-                        case 'game-timeout' :
+                        case 'game-timeout':
                             this.currnet_time_reset(false);
                             sendContentMessage('end');
                             // goMenu();
                             break;
-                        case 'end-game' :
+                        case 'end-game':
                             sendContentMessage('end');
                             break;
                     }
@@ -62,32 +62,32 @@ class userOutController {
             }
             document.getElementById('user-out-timer').textContent = this.current_out_check_time;
             // console.log(this.current_out_check_time + '초 남음');
-        } , 1000);
+        }, 1000);
     }
 
-    stop(){
+    stop() {
         clearInterval(this.interval);
         this.interval = undefined;
     }
 
-    showTimer(){
+    showTimer() {
         document.getElementById('user-out-timer').classList.remove('hide');
     }
 
-    hideTimer(){
+    hideTimer() {
         document.getElementById('user-out-timer').classList.add('hide');
     }
 
-    toggleTimer(){
+    toggleTimer() {
         // 타이머 표시 여부에 따라 전환
         document.getElementById('user-out-timer').classList.toggle('hide');
     }
 
-    currnet_time_reset(isGameEnding){
+    currnet_time_reset(isGameEnding) {
         // console.log('user out reset');
-        if(isGameEnding){
+        if (isGameEnding) {
             this.current_out_check_time = 15;
-        }else{
+        } else {
             this.current_out_check_time = this.default_out_check_time;
         }
         document.getElementById('user-out-timer').textContent = this.current_out_check_time;
@@ -96,7 +96,7 @@ class userOutController {
 
 // 비디오 컨트롤러 클래스
 class VideoController {
-    constructor(videoElement, onEndedCallback , devCallBack , controlStatus , isAllEvent) {
+    constructor(videoElement, onEndedCallback, devCallBack, controlStatus, isAllEvent) {
         this.video = videoElement;
         // console.log(isAllEvent);
         this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
@@ -104,7 +104,7 @@ class VideoController {
 
         // 비디오 컨트롤러 초기화
 
-        if(devCallBack){
+        if (devCallBack) {
             // console.log('헤이헤이');
             devCallBack();
         }
@@ -112,7 +112,7 @@ class VideoController {
         //     if(controlStatus == undefined){
         //         this.video.addEventListener('touchstart' , onEndedCallback);
         //     }
-            
+
         //     if(controlStatus == 'end'){
         //         this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
         //     }
@@ -125,7 +125,7 @@ class VideoController {
     }
 
     play(isIntro) {
-        if(isIntro){
+        if (isIntro) {
             status = 'intro';
         }
         this.video.style.display = 'block'; // 비디오 표시
@@ -155,35 +155,35 @@ class VideoController {
         return this.video.duration; // 비디오 길이 반환
     }
 
-    reset(){
+    reset() {
         this.video.currentTime = 0;
         this.video.pause();
         this.video.removeAttribute('style');
     }
 
-    show(){
+    show() {
         this.video.style.display = 'block';
         // z-index 최상위로 변경
         this.video.style.zIndex = 1000;
     }
 
     // this video의 모든 이벤트 해제
-    removeEvent(){
+    removeEvent() {
         // 모든 이벤트 리스너 제거
         this.video.replaceWith(this.video.cloneNode(true));
         this.video = document.getElementById(this.video.id); // 새로운 요소 참조 업데이트
     }
 
-    updateEvent(onEndedCallback){
+    updateEvent(onEndedCallback) {
         this.removeEvent();
-        this.video.addEventListener('touchstart' , onEndedCallback);
+        this.video.addEventListener('touchstart', onEndedCallback);
         this.video.addEventListener('ended', onEndedCallback); // 비디오 끝 이벤트
     }
 
-    load(src){
-        if(src == undefined){
+    load(src) {
+        if (src == undefined) {
             this.video.load();
-        }else{
+        } else {
             this.video.src = src;
             this.video.load();
         }
@@ -214,7 +214,7 @@ class SubtitleController {
         this.subtitleIndex = 0;
 
         this.audioElement = audioElement;
-        this.audioElement.addEventListener('ended' , onAudioEndedCallback);
+        this.audioElement.addEventListener('ended', onAudioEndedCallback);
     }
 
     loadSubtitles(subtitles) {
@@ -230,7 +230,7 @@ class SubtitleController {
         if (this.subtitleIndex < this.subtitles.length) {
             this.subtitleElement.textContent = this.subtitles[this.subtitleIndex];
             this.subtitleElement.style.display = 'flex'; // 자막 표시
-            
+
             this.audioElement.src = subtitle.defaultPath + subtitle.tts[this.subtitleIndex];    // 현재 재생 해야할 TTS 파일 셋업
             // this.audioElement.muted = false;
 
@@ -246,7 +246,7 @@ class SubtitleController {
         }
     }
 
-    hideSubtitle(){     // 자막 숨김
+    hideSubtitle() {     // 자막 숨김
         this.subtitleElement.style.display = 'none';
     }
 
@@ -274,13 +274,13 @@ const onIntroVideoEnded = () => {
 
 const showGameMenu = () => {
     introVideo.pause();
-    controlContainerFadeInOut('in' , gameMenuContainer , 
+    controlContainerFadeInOut('in', gameMenuContainer,
         undefined,
-        ()=>{                           // fade-in  성공 시 콜백 실행
+        () => {                           // fade-in  성공 시 콜백 실행
             status = 'game-menu-select';
             userOut.currnet_time_reset(false);
             userOut.toggleTimer();
-        }, 
+        },
     );
     // console.log('1111');
 
@@ -297,39 +297,41 @@ const onAudioEnded = () => {
     subtitleController.showNextSubtitle();
 }
 
-const controlContainerFadeInOut = ( faceCode , containerObject , onStartCallback , onCompleteCallback) => {
+const controlContainerFadeInOut = (faceCode, containerObject, onStartCallback, onCompleteCallback) => {
 
-    if(faceCode == 'in'){
-        gsap.to(containerObject, { opacity: 1, duration: 0.7, 
+    if (faceCode == 'in') {
+        gsap.to(containerObject, {
+            opacity: 1, duration: 0.7,
             onStart: () => {
-                if(onStartCallback){
-                   onStartCallback(); 
+                if (onStartCallback) {
+                    onStartCallback();
                 }
             },
             onComplete: () => {
-                if(onCompleteCallback){
+                if (onCompleteCallback) {
                     onCompleteCallback();
                 }
             }
         }
-    ); 
+        );
 
     }
 
-    if(faceCode == 'out'){
-        gsap.to(containerObject, { opacity: 0, duration: 0.7, 
+    if (faceCode == 'out') {
+        gsap.to(containerObject, {
+            opacity: 0, duration: 0.7,
             onStart: () => {
-                if(onStartCallback){
-                   onStartCallback(); 
+                if (onStartCallback) {
+                    onStartCallback();
                 }
             },
             onComplete: () => {
-                if(onCompleteCallback){
+                if (onCompleteCallback) {
                     onCompleteCallback();
                 }
             }
         }
-    ); 
+        );
     }
 }
 
@@ -340,7 +342,7 @@ const createGameMenu = () => {
         const gameMenuButton = document.createElement('div');
         gameMenuButton.classList.add('game-menu-button', 'flex');
         gameMenuButton.id = `game-menu-item${i + 1}`;  // ID 설정
-        gameMenuButton.gameId = 'game'+(i+1);
+        gameMenuButton.gameId = 'game' + (i + 1);
 
         // 2. 이미지 요소 생성
         const img = document.createElement('img');
@@ -362,7 +364,7 @@ const createGameMenu = () => {
 
         gameMenuButton.addEventListener('touchstart', (event) => {
             if (isIntroVideoEnded) {
-                if(isDoubleTouch){
+                if (isDoubleTouch) {
                     event.preventDefault();
                     return;
                 }
@@ -385,77 +387,47 @@ const createGameMenu = () => {
 
 
 // 인스턴스 생성
-const introVideo = new VideoController(introVideoElement, onIntroVideoEnded , () => {
-} , 'end' , false);
+const introVideo = new VideoController(introVideoElement, onIntroVideoEnded, () => {
+}, 'end', false);
 const startButton = new ButtonController(startButtonElement, onStartButtonClick);
 const userOut = new userOutController();
 
 const preloadImage = (url) => {
     const img = new Image();
     img.src = url;
-  };
+};
 
 
 const loadStart = () => {
-    // 진행률 애니메이션
-    bar.animate(1.0, {
-        duration: loadingTime, // 3초 동안 0%에서 100%로 진행
-        step: function(state, circle) {
-            // 애니메이션 진행에 따라 텍스트 업데이트
-            var value = Math.round(circle.value() * 100);
-            circle.setText(value + '%');
 
+    createGameMenu();  // 메뉴 생성
+    addEventListenerPopButton(); //팝업 버튼 이벤트 추가
 
-            // 30%일 때 한 번만 함수 호출
-            if (value >= 30 && !called30) {
-                // console.log("30%에 도달!");
-                called30 = true;  // 플래그를 true로 변경하여 다시 호출되지 않도록 설정
-                createGameMenu();  // 메뉴 생성
-                addEventListenerPopButton(); //팝업 버튼 이벤트 추가
+    // 애니메이션 완료 후 실행될 콜백 함수
+    controlContainerFadeInOut('out', document.getElementById('progress-container'),
+        () => {
+            // console.log('프로그래스 사라지기 시작')
+        },
 
-            }
+        () => {
+            document.getElementById('progress-container').style.display = 'none';
+            // console.log('프로그래스 사라짐!')
+            controlContainerFadeInOut('in', document.querySelector('.intro_container'),
+                () => {
+                    document.querySelector('.intro_container').style.display = 'block';
+                },
+                () => {
+                    // console.log('인트로 컨테이너 fade in 완료');
+                    introVideo.play(true);
+                    setTimeout(() => {
+                        isIntroVideoEnded = true;
+                    }, 8500);
 
-            // 60%일 때 한 번만 함수 호출
-            if (value >= 60 && !called60) {
-                // console.log("60%에 도달!");
-                called60 = true;
-            }
-
-            // 90%일 때 한 번만 함수 호출
-            if (value >= 90 && !called90) {
-                // console.log("90%에 도달!");
-                called90 = true;
-            }
-
-
+                    userOut.start();
+                }
+            )
         }
-    }, function() {
-        // 애니메이션 완료 후 실행될 콜백 함수
-        controlContainerFadeInOut('out' ,document.getElementById('progress-container') , 
-            () => {
-                // console.log('프로그래스 사라지기 시작')
-            },
-
-            () => {
-                document.getElementById('progress-container').style.display = 'none';
-                // console.log('프로그래스 사라짐!')
-                controlContainerFadeInOut('in' , document.querySelector('.intro_container'),
-                    () => {
-                        document.querySelector('.intro_container').style.display = 'block';
-                    },
-                    () => {
-                        // console.log('인트로 컨테이너 fade in 완료');
-                        introVideo.play(true);
-                        setTimeout(() => {
-                            isIntroVideoEnded = true;
-                        }, 8500);
-
-                        userOut.start();
-                    }
-                )
-            }
-        );
-    });
+    );
 }
 
 
@@ -469,10 +441,10 @@ window.addEventListener('load', function () {
 
     console.log('메뉴 로드 완료');
 
-    setTimeout(() => {
-        isIntroVideoEnded = true;
-        showGameMenu();
-    }, 2500);
+    // setTimeout(() => {
+    //     isIntroVideoEnded = true;
+    //     showGameMenu();
+    // }, 2500);
 });
 
 
