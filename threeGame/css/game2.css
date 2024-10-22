@@ -111,15 +111,14 @@
 }
 
 .game_body[current_game='game2'] .component_container[current_section="1"] #result-image {
-    animation: slideshow4 1s steps(5) 1 forwards;
+    animation: slideshow4 0.3s steps(5) 1 forwards;
     background-image: url('../assets/images/game2/section/key15.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
-
-    background-position: center;
-    animation-direction: alternate;
-    animation-timing-function: ease-out;
+    animation-direction: normal;
+    animation-timing-function: step-end;
+    will-change: background-image;
 }
 
 
@@ -131,15 +130,18 @@
 }
 
 .game_body[current_game='game2'] .component_container[current_section="2"] #result-image {
-    animation: 
-        slideshow1 0.7s steps(15) 1 forwards,
-        slideshow3 1s steps(2) infinite 0.7s;
     background-image: url('../assets/images/game2/section/key1.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
-    animation-direction: no;
-    animation-timing-function: ease-in;
+    will-change: background-image;
+
+    animation-name: slideshow1, slideshow3;
+    animation-duration: 0.7s, 1s;
+    animation-timing-function: step-end, linear;
+    animation-iteration-count: 1, infinite;
+    animation-delay: 0s, 0.7s;
+    animation-fill-mode: forwards, none;
 }
 
 .game_body[current_game='game2'] #toggle-sections {
