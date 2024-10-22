@@ -269,21 +269,23 @@
     height: 356px;
     background-image: url('../assets/images/game1/game1_item_magchi.png');
     z-index: 10;
+
 }
 
 .game1_item_magchi.magchi_rotate {
     animation: move-and-rotate2 0.3s linear forwards;
+    transform-origin: left bottom;
 }
  
 .game1_item_target {
-    position: relative;
-    top: -190px; 
-    left: 280px; 
-    width: 85px; 
-    height: 86px;
-    background-image: url('../assets/images/game1/game1_item_target.png');
-    z-index: 9;
-    rotate: 10deg;
+  position: relative;
+  top: -177px;
+  left: 300px;
+  width: 85px;
+  height: 86px;
+  background-image: url('../assets/images/game1/game1_item_target.png');
+  z-index: 9;
+  rotate: 10deg;
 }
 
 @keyframes move-and-rotate {
@@ -318,19 +320,47 @@
 
 @keyframes move-and-rotate2 {
   0% {
-      transform: translateX(0) rotate(0deg);
+    transform: translateX(0) rotate(0deg);
   }
+
+  10% {
+    transform: translateX(0px) rotate(4deg);
+  }
+
   20% {
-      transform: translateX(0px) rotate(0deg);
+    transform: translateX(0px) rotate(8deg);
   }
+
+  30% {
+    transform: translateX(0px) rotate(12deg);
+  }
+
+  40% {
+    transform: translateX(0px) rotate(16deg);
+  }
+
+  50% {
+    transform: translateX(0px) rotate(20deg);
+  }
+
   60% {
-      transform: translateX(0px) rotate(30deg);
+    transform: translateX(0px) rotate(16deg);
   }
+
+  70% {
+    transform: translateX(0px) rotate(12deg);
+  }
+
   80% {
-      transform: translateX(0px) rotate(0deg);
+    transform: translateX(0px) rotate(8deg);
   }
+
+  90% {
+    transform: translateX(0px) rotate(4deg);
+  }
+
   100% {
-      transform: translateX(0px) rotate(0deg);
+    transform: translateX(0px) rotate(0deg);
   }
 }
 

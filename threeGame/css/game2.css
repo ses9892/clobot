@@ -45,7 +45,7 @@
 }
 
 .move_up_target {
-    animation: moveTargetUp 3s linear forwards;
+    animation: moveTargetUp 1.0s linear forwards;
 }
 
  
@@ -132,8 +132,8 @@
 
 .game_body[current_game='game2'] .component_container[current_section="2"] #result-image {
     animation: 
-        slideshow1 2s steps(15) 1 forwards,
-        slideshow3 1s steps(2) infinite 2s;
+        slideshow1 0.7s steps(15) 1 forwards,
+        slideshow3 1s steps(2) infinite 0.7s;
     background-image: url('../assets/images/game2/section/key1.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;

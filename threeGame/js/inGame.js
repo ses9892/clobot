@@ -7,6 +7,7 @@ const inGameScreenElement = document.querySelector('.in-game-container');
 
 const game1_default_completion_count = 30;
 
+let gameFailedCheckTimeout = null;
 // 게임 설정 객체
 let gameConfig = {
     current_gameId: undefined,  // 현재 게임 ID
@@ -101,6 +102,8 @@ let gameConfig = {
 
     },
     game2: {
+        'isGaugeTouchYN': true,
+        'isGaugeStop': true,
         'background-url': "url('./assets/images/game2/game2_background.png')",  // 게임2 배경 이미지 URL
         'component-img': {  // 게임2 컴포넌트 이미지 URL
             'section1': "./assets/images/game2/game2-section1.png",
@@ -131,17 +134,30 @@ let gameConfig = {
             gameConfig.game2['current-section'] = 3;
             gameConfig.game2['sectionOneTimer'] = null;
             gameConfig.game2['sectionTwoTimer'] = null;
-        },
 
-        restartGame: () => {
-            gameConfig.game2.configReset();
-            game2_target_animation_reset();
-            game2_result_image_reset();
+            gameConfig.game2.isGaugeTouchYN = true;
+            gameConfig.game2.isGaugeStop = true;
+
+
+            game2_position_audio_play_count = 0;
 
             if (game2_target_position_check_timeout != null) {
                 clearTimeout(game2_target_position_check_timeout);
                 game2_target_position_check_timeout = null;
             }
+
+            if(gameFailedCheckTimeout != null){
+                clearTimeout(gameFailedCheckTimeout);
+                gameFailedCheckTimeout = null;
+            }
+        },
+
+        restartGame: () => {
+            gameConfig.game2.configReset();
+
+            game2_gauge_target_move_toggle();
+            game2_target_animation_reset();
+            game2_result_image_reset();
 
             const furnaceImage = document.querySelectorAll('.furnace-image');
             if (furnaceImage != undefined) {
@@ -149,8 +165,6 @@ let gameConfig = {
                     el.style.opacity = '1';
                 })
             }
-            
-
             document.querySelector('.game2-container').setAttribute('current_level', gameConfig.game2['current-level']);
             document.querySelector('.component_container').setAttribute('current_level', gameConfig.game2['current-level']);
         }
@@ -745,6 +759,8 @@ function game1BoxTouchEvent_2(box) {
         isClear = false;
     }
 
+    audioController.correctSound();
+
     if (isClear) {
         game1_clear(gameObject, gameObject.gameCompletionCount);
     } else {
@@ -864,6 +880,25 @@ function game2_resultImageAddEventListeners(resultImage) {
 
     resultImage.addEventListener('touchstart', () => {
 
+    });
+
+    resultImage.addEventListener('touchend', () => {
+
+        if(!gameConfig.game2.isGaugeTouchYN){
+            return;
+        }
+
+        if (gameConfig.game2.isGaugeStop) {
+            gameConfig.game2.isGaugeStop = false;
+        } else {
+            gameConfig.game2.isGaugeStop = true;
+        }
+
+        if (gameFailedCheckTimeout != null) {
+            clearTimeout(gameFailedCheckTimeout);
+            gameFailedCheckTimeout = null;
+        }
+
         if (game2_target_position_check_timeout != null) {
             clearTimeout(game2_target_position_check_timeout);
             game2_target_position_check_timeout = null;
@@ -875,57 +910,34 @@ function game2_resultImageAddEventListeners(resultImage) {
         }
 
         const target = document.getElementById('target');
+        const resultImage = document.getElementById('result-image');
+
         // target의 style 초기화의 top속성제거
         target.style.top = '';
 
-        if (target.classList.contains('animation_paused')) {
-            target.classList.remove('animation_paused');
+
+        game2_gauge_target_move_toggle();
+
+        // 게이지 진행 시 타겟 위치 체크
+        if (!gameConfig.game2.isGaugeStop) {
+            trackTargetPosition();
+            return;
         }
 
-        const resultImage = document.getElementById('result-image');
-        if (resultImage.classList.contains('animation_paused')) {
-            resultImage.classList.remove('animation_paused');
-        }
-
-        trackTargetPosition();
-    });
-
-    resultImage.addEventListener('touchend', () => {
-
-        const target = document.getElementById('target');
-        if (!target.classList.contains('animation_paused')) {
-            target.classList.add('animation_paused');
-        }
-
-        const resultImage = document.getElementById('result-image');
-        if (!resultImage.classList.contains('animation_paused')) {
-            if ('Y' != game2_target_position_check) {
-                resultImage.classList.add('animation_paused');
-            }
-        }
+        gameConfig.game2.isGaugeTouchYN = false;
 
         game2_target_position_check_timeout = setTimeout(() => {
             if (game2_target_position_check == 'F') {
-                resultImage.style.opacity = '0';
-                target.style.opacity = '0';
-
-                setTimeout(() => {
-                    resultImage.style.opacity = '1';
-                    target.style.opacity = '1';
-
-                    game2_target_animation_reset();
-
-                    audioController.failSound();
-
-                    document.querySelector('.component_container').setAttribute('current_section', '3');
-                }, 500);
-
+                game2_fail_event(resultImage, target);
             } else if (game2_target_position_check == 'Y') {
+
+
                 const gameObject = getGameObject();
                 const componentContainer = document.querySelector('.component_container');
                 resultImage.classList.remove('tilted');
                 gameObject.sectionTwoTimer = setTimeout(() => {
 
+                    game2_position_audio_play_count = 0;
                     if (gameObject['current-level'] < gameObject.maxLevel) {
                         audioController.correctSound2();
                         // component_container fade out
@@ -946,6 +958,7 @@ function game2_resultImageAddEventListeners(resultImage) {
                                     () => {
                                     },
                                     () => {
+                                        gameConfig.game2.isGaugeTouchYN = true;
                                     }
                                 );
                             }
@@ -989,9 +1002,15 @@ function game2_resultImageAddEventListeners(resultImage) {
                     }
                 }, 1);
 
+            }else{
+                gameConfig.game2.isGaugeTouchYN = true;
             }
         }, 1000);
 
+        if(game2_target_position_check == 'N'){
+            gameConfig.game2.isGaugeTouchYN = true;
+            return;
+        }
     });
 }
 
@@ -1836,6 +1855,7 @@ function game1_each_stone_opacity(currentBoxId, currentCount) {
     console.log(opacityTarget);
     if (opacityTarget) {
         opacityTarget.style.opacity = 0;
+        stoneDeleteAudioController.stoneDelete();
     }
 }
 
@@ -1843,9 +1863,11 @@ function game1_each_stone_opacity(currentBoxId, currentCount) {
 let animationFrameId;
 // N : 파랑 , Y : 클리어 , F : 넘침
 let game2_target_position_check = 'N';
+let game2_position_audio_play_count = 0;
 
 function trackTargetPosition() {
     const target = document.getElementById('target');
+
 
     function updatePosition() {
         const computedStyle = window.getComputedStyle(target);
@@ -1864,8 +1886,36 @@ function trackTargetPosition() {
         if (game2_target_position_check == 'F') {
             // .component_container 속성 current_section="3"  으로 변경
             document.querySelector('.component_container').setAttribute('current_section', '1');
+
+            if (gameFailedCheckTimeout == null) {
+                gameFailedCheckTimeout = setTimeout(() => {
+                    console.log('gameFailedCheckTimeout');
+                    const resultImage = document.getElementById('result-image');
+                    const target = document.getElementById('target');
+
+                    if (!gameConfig.game2.isGaugeStop) {
+
+                        if (game2_target_position_check_timeout != null) {
+                            clearTimeout(game2_target_position_check_timeout);
+                            game2_target_position_check_timeout = null;
+                        }
+
+                        game2_fail_event(resultImage, target);
+                        target.classList.add('animation_paused');
+                        resultImage.classList.add('animation_paused');
+                        gameConfig.game2.isGaugeStop = true;
+                        game2_target_position_check = 'N';
+                    }
+                }, 1000);
+            }
         }
 
+        if (game2_target_position_check == 'Y') {
+            game2_position_audio_play_count++;
+            if (game2_position_audio_play_count == 1) {
+                throwWaterAudioController.throwWater();
+            }
+        }
 
         // 애니메이션이 끝났거나 일시정지되었는지 확인
         if (topValueInt === 10 || target.classList.contains('animation_paused')) {
@@ -1893,4 +1943,47 @@ function game2_target_animation_reset() {
 
 function game2_result_image_reset() {
     document.querySelector('.component_container').setAttribute('current_section', '3');
+}
+
+function game2_fail_event(resultImage, target) {
+    resultImage.style.opacity = '0';
+    target.style.opacity = '0';
+
+    setTimeout(() => {
+        if (gameConfig.game2.isGaugeStop) {
+            resultImage.style.opacity = '1';
+            target.style.opacity = '1';
+
+            game2_target_animation_reset();
+
+            audioController.failSound();
+
+            document.querySelector('.component_container').setAttribute('current_section', '3');
+
+            game2_position_audio_play_count = 0;
+        }else{
+            console.log('게이지가 움직이고 있어 실패이벤트를 실행 하지 않음')
+        }
+
+        gameConfig.game2.isGaugeTouchYN = true;
+
+    }, 500);
+}
+
+function game2_gauge_target_move_toggle(){
+
+    const target = document.getElementById('target');
+    const resultImage = document.getElementById('result-image');
+
+    if (gameConfig.game2.isGaugeStop) {       // 게이지가 멈추기
+
+        target.classList.add('animation_paused');
+
+        if ('Y' != game2_target_position_check) {
+            resultImage.classList.add('animation_paused');
+        }
+    } else {                                  // 게이지 멈춤 해제
+        resultImage.classList.remove('animation_paused');
+        target.classList.remove('animation_paused');
+    }
 }
