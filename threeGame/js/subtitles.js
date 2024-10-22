@@ -114,6 +114,9 @@ const assetsToPreload = [
     // Audio
     "./assets/audio/correct.mp3",
     "./assets/audio/game1_stone_crash.wav",
+    "./assets/audio/game1_stone_delete.wav",
+    "./assets/audio/game2_throw_water.wav",
+
     "./assets/audio/fail.mp3",
     "./assets/audio/game_clear.mp3",
     "./assets/audio/fire_burn.mp3",
