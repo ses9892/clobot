@@ -15,7 +15,14 @@ html {
 
 }
 
-
+/* 오답시 나오는 이미지 */
+#wrong_asnwer{
+    visibility: hidden;
+    position: absolute;
+    top: 107px;
+    left: 677px;
+    z-index: 1;
+}
 /* 미션 성공 실패 */
 #mission_failed {
     visibility: hidden;
