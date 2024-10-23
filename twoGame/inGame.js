@@ -75,7 +75,7 @@ class TimerController {
     // 표시
     this.show();
     clearInterval(loopInterval);
-    loopInterval = setInterval(loopImages, 2000);
+    loopInterval = setInterval(loopImages, 500);
 
     this.timerTimeout = setTimeout(() => {
       timerTimeoutEvt(this);
@@ -117,31 +117,38 @@ function loopImages() {
   if(!timerController.isPause){
     const nextImageIndex = (currentImageIndex + 1) % images.length;
 
-    
-    // 현재 이미지 페이드 아웃
-    gsap.to(mainImage, {
-      opacity: 0,
-      duration: 0.3,
-      onComplete: () => {
-        // 이미지 소스 및 클래스 변경
-        mainImage.src = images[nextImageIndex];
-        currentImageIndex = nextImageIndex;
-        mainImage.className = 'main-image';
-        const classArray = createMainImageClassArray(nextImageIndex, current_level);
-        mainImage.classList.add(...classArray);
-        // 새 이미지 페이드 인
-        gsap.to(mainImage, {
-          opacity: 1,
-          duration: 0.3,
-          onStart: () => {
+    // 이미지 소스 및 클래스 변경
+    mainImage.src = images[nextImageIndex];
+    currentImageIndex = nextImageIndex;
+    mainImage.className = 'main-image';
+    const classArray = createMainImageClassArray(nextImageIndex, current_level);
+    mainImage.classList.add(...classArray);
 
-          },
-          onComplete: () => {
-          }
-        });
+    
+    // // 현재 이미지 페이드 아웃
+    // gsap.to(mainImage, {
+    //   opacity: 0,
+    //   duration: 0.3,
+    //   onComplete: () => {
+    //     // 이미지 소스 및 클래스 변경
+    //     mainImage.src = images[nextImageIndex];
+    //     currentImageIndex = nextImageIndex;
+    //     mainImage.className = 'main-image';
+    //     const classArray = createMainImageClassArray(nextImageIndex, current_level);
+    //     mainImage.classList.add(...classArray);
+    //     // 새 이미지 페이드 인
+    //     gsap.to(mainImage, {
+    //       opacity: 1,
+    //       duration: 0.3,
+    //       onStart: () => {
+
+    //       },
+    //       onComplete: () => {
+    //       }
+    //     });
         
-      }
-    });
+    //   }
+    // });
   }
 }
 
@@ -167,9 +174,15 @@ function createMainImageClassArray(currentIndex , currentLevel){
 }
 
 
-
+let isTouchStart = false;
 const imageTouchStart = () => {
+  if(isTouchStart){
+    return;
+  }
+  isTouchStart = true;
+  clearInterval(loopInterval);
   if (currentImageIndex === correctAnswerIndex) {
+    isTouchStart = false;
     document.getElementById('overlay').style.display = 'block';
     effectAudioController.update(effect_mpeg.correct);
     effectAudioController.play();
@@ -177,7 +190,6 @@ const imageTouchStart = () => {
 
     timerController.pause();    // 잠시 중지
     timerController.reset();
-    clearInterval(loopInterval);
 
     setTimeout(() => {
       gameCompleteVideoPlay();
@@ -195,6 +207,7 @@ const imageTouchStart = () => {
 
 
   } else {
+    handleNoAnswerPopup();
     effectAudioController.update(effect_mpeg.fail);
     effectAudioController.play();
   }
@@ -208,6 +221,8 @@ document.getElementById('wing-image').addEventListener('touchstart', imageTouchS
 const restartButton = document.getElementById('restart-button');
 // 재시작 버튼 터치 이벤트
 restartButton.addEventListener('touchstart', () => {
+  clearInterval(loopInterval);
+  isTouchStart = false;
 
   // 상태 변환
   status = "in-game"; // 상태: 게임 중
@@ -610,3 +625,21 @@ function gameDescriptionVideoConvert(){
   });
 }
 
+function showNoAnswerPopup(){
+  document.getElementById('game_no_answer_popup').classList.remove('hide');
+}
+
+function hideNoAnswerPopup(){
+  document.getElementById('game_no_answer_popup').classList.add('hide');
+}
+
+function handleNoAnswerPopup(){
+  showNoAnswerPopup();
+
+  setTimeout(() => {
+    hideNoAnswerPopup();
+    clearInterval(loopInterval);
+    loopInterval = setInterval(loopImages, 500);
+    isTouchStart = false;
+  }, 1000);
+}

@@ -371,3 +371,15 @@ body {
   color: #66ff33;
   font-weight: bold;
 }
+
+.game_no_answer_popup{
+  width:283px;
+  height: 282px;
+  background-image: url('./assets/images/component/game_no_answer.png');
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+  z-index: 150;
+  top: 107px;
+  left: 677px;
+}

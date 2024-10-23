@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>인트로 게임</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="inGame.css">
-    <link rel="stylesheet" href="./resources/pop.css">
+    <link rel="stylesheet" href="style.css?v=1">
+    <link rel="stylesheet" href="inGame.css?v=1">
+    <link rel="stylesheet" href="./resources/pop.css?v=1">
     
 </head>
 <body>
 
     <div id="intro_container">
         <!-- 첫 번째 비디오 -->
-        <video id="introVideo" autoplay>
+        <video id="introVideo" muted autoplay>
             <source src="./assets/video/game2_intro.mp4" type="video/mp4">
         </video>
 
@@ -98,13 +98,15 @@
         </div>
     </div>
 
+    <div class="game_no_answer_popup hide" id="game_no_answer_popup"></div>
 
-    <script src="./lib/gsap/gsap.min.js"></script>
-    <script src="./subtitles.js"></script>
-    <script src="./resources/common.js"></script>
-    <script src="postMsg.js"></script>
-    <script src="inGame.js"></script>
-    <script src="script.js"></script>
+
+    <script src="./lib/gsap/gsap.min.js?v=1"></script>
+    <script src="./subtitles.js?v=1"></script>
+    <script src="./resources/common.js?v=1"></script>
+    <script src="postMsg.js?v=1"></script>
+    <script src="inGame.js?v=1"></script>
+    <script src="script.js?v=1"></script>
 
 </body>
 </html>
