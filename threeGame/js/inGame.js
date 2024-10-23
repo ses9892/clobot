@@ -146,7 +146,7 @@ let gameConfig = {
                 game2_target_position_check_timeout = null;
             }
 
-            if(gameFailedCheckTimeout != null){
+            if (gameFailedCheckTimeout != null) {
                 clearTimeout(gameFailedCheckTimeout);
                 gameFailedCheckTimeout = null;
             }
@@ -934,11 +934,11 @@ function game2_resultImageAddEventListeners(resultImage) {
                 resultImage.classList.add('animation_paused');
             }
         }
-        
+
         game2_target_position_check_timeout = setTimeout(() => {
             if (game2_target_position_check == 'N') {
                 game2_fail_event(resultImage, target);
-            }else if (game2_target_position_check == 'F') {
+            } else if (game2_target_position_check == 'F') {
                 game2_fail_event(resultImage, target);
             } else if (game2_target_position_check == 'Y') {
                 const gameObject = getGameObject();
@@ -1475,10 +1475,17 @@ function game3_createGameBackground() {
 function game3_level_check_timer() {
     // console.log('게임3 레벨 체크 타이머 시작');
     const gameObject = getGameObject();
+
+    if (gameObject['level-check-timer'] != null) {
+        clearTimeout(gameObject['level-check-timer']);
+        gameObject['level-check-timer'] = null;
+    }
+
     gameObject['level-check-timer'] = setTimeout(() => {
         if (gameObject['current-level'] == 1) {
             gameObject.failGame();
         } else if (gameObject['current-level'] == 2 || gameObject['current-level'] == 3) {
+            game3_no_answer_popup_show();
             gameObject.downLevel();
             audioController.failSound();
             game3_result_item_opacity_controller();
@@ -1488,6 +1495,8 @@ function game3_level_check_timer() {
     }, gameObject['level-check-timer-interval']);
 }
 
+
+let isTreeAnimation = false;
 // 게임 초기화 함수
 function game3_initializeGame() {
 
@@ -1498,49 +1507,74 @@ function game3_initializeGame() {
         const treeElement = document.getElementById('game_item_tree');
         const dropZone = document.getElementById('game_drag_drop_box');
         if (treeElement && dropZone) {
-            interact(treeElement).draggable({
-                listeners: {
-                    start(event) {
-                        gameConfig.game3.clearLevelCheckTimer();
-                        // tree 애니메이션 정지
-                        game3_remove_tree_animation();
-                        event.preventDefault();
-                    },
-                    move(event) {
-                        const target = event.target;
-                        const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
-                        const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-                        target.style.transform = `translate(${x}px, ${y}px)`;
-                        target.setAttribute('data-x', x);
-                        target.setAttribute('data-y', y);
-                    },
-                    end(event) {
-                        const target = event.target;
-                        // 드래그 종료 시 트리가 드롭 영역에 놓였는지 확인
-                        game3_checkDropZone(target, dropZone);
-                        // 드래그 종료 시 트리 위치 초기화
-                        game3_resetTreePosition(target);
-                        // tree 애니메이션 추가
-                        setTimeout(() => {
-                            game3_add_tree_animation(treeElement);
-                        }, 500);
-                        if (!gameConfig.game3['is-game-complete']) {
-                            game3_level_check_timer();
-                        }
-                    }
-                },
-                inertia: false,
-                modifiers: [
-                    interact.modifiers.restrictRect({
-                        restriction: 'parent',
-                        endOnly: true
-                    })
-                ],
-            });
+            // interact(treeElement).draggable({
+            //     listeners: {
+            //         start(event) {
+            //             gameConfig.game3.clearLevelCheckTimer();
+            //             // tree 애니메이션 정지
+            //             game3_remove_tree_animation();
+            //             event.preventDefault();
+            //         },
+            //         move(event) {
+            //             const target = event.target;
+            //             const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+            //             const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+            //             target.style.transform = `translate(${x}px, ${y}px)`;
+            //             target.setAttribute('data-x', x);
+            //             target.setAttribute('data-y', y);
+            //         },
+            //         end(event) {
+            //             const target = event.target;
+            //             // 드래그 종료 시 트리가 드롭 영역에 놓였는지 확인
+            //             game3_checkDropZone(target, dropZone);
+            //             // 드래그 종료 시 트리 위치 초기화
+            //             game3_resetTreePosition(target);
+            //             // tree 애니메이션 추가
+            //             setTimeout(() => {
+            //                 game3_add_tree_animation(treeElement);
+            //             }, 500);
+            //             if (!gameConfig.game3['is-game-complete']) {
+            //                 game3_level_check_timer();
+            //             }
+            //         }
+            //     },
+            //     inertia: false,
+            //     modifiers: [
+            //         interact.modifiers.restrictRect({
+            //             restriction: 'parent',
+            //             endOnly: true
+            //         })
+            //     ],
+            // });
 
             // 터치 이벤트 방지
-            treeElement.addEventListener('touchstart', function (e) {
+            treeElement.addEventListener('touchend', function (e) {
                 e.preventDefault();
+
+                if (isTreeAnimation) {
+                    return;
+                }
+
+                const gameItemTreeShadow = document.getElementById('game_item_tree_shadow');
+
+                isTreeAnimation = true;
+                treeElement.classList.add('treeAnimation');
+                gameItemTreeShadow.style.display = 'none';
+
+                setTimeout(() => {
+                    treeElement.classList.remove('treeAnimation');
+                    gameItemTreeShadow.style.display = null;
+
+                    game3_check_Complete();
+
+                    if (!gameConfig.game3['is-game-complete']) {
+                        game3_level_check_timer();
+                    }
+
+                    isTreeAnimation = false;
+
+
+                }, 320);
             }, { passive: false });
         } else {
             console.error('game_item_tree 또는 game_drag_drop_box 요소를 찾을 수 없습니다.');
@@ -1956,14 +1990,14 @@ function game2_fail_event(resultImage, target) {
             document.querySelector('.component_container').setAttribute('current_section', '3');
 
             game2_position_audio_play_count = 0;
-        }else{
+        } else {
             // console.log('게이지가 움직이고 있어 실패이벤트를 실행 하지 않음')
         }
         gameConfig.game2.isGaugeTouchYN = true;
     }, 500);
 }
 
-function game2_gauge_target_move_toggle(){
+function game2_gauge_target_move_toggle() {
 
     const target = document.getElementById('target');
     const resultImage = document.getElementById('result-image');
@@ -1980,3 +2014,22 @@ function game2_gauge_target_move_toggle(){
         target.classList.remove('animation_paused');
     }
 }
+
+function game3_no_answer_show() {
+    const noAnswerContainer = document.getElementById('no-answer-container');
+    noAnswerContainer.classList.remove('hide');
+}
+
+function game3_no_answer_hide() {
+    const noAnswerContainer = document.getElementById('no-answer-container');
+    noAnswerContainer.classList.add('hide');
+}
+
+function game3_no_answer_popup_show() {
+    game3_no_answer_show();
+
+    setTimeout(() => {
+        game3_no_answer_hide();
+    }, 1000);
+}
+

@@ -67,6 +67,7 @@ const game3_assets = [
         "./assets/images/game3/game3-result-3.png",
         "./assets/images/game3/game3-result-4.png",
         "./assets/images/game3/game3-tree-shadow.png",
+        "./assets/images/component/game_no_answer.png",
 ]
 
 const game2_assets = [

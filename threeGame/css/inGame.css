@@ -309,3 +309,21 @@
 .progress-bar-container.shake {
     animation: shakeAnimation 0.52s cubic-bezier(.36,.07,.19,.97) both;
 }
+
+.no-answer-container{
+    width: 282px;
+    height: 281px;
+    position: absolute;
+    top: 107px;
+    left: 677px;
+    background-image: url('../assets/images/component/game_no_answer.png');
+    background-size: cover;
+    background-position: center;
+
+    z-index: 9999;
+
+}
+
+.opacity-ani{
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
