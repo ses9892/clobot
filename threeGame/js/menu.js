@@ -5,7 +5,7 @@ const dev_video_delay = 1;
 const outCheckTime = 30;
 
 // 개발 모드 변수 설정
-const isDevMode = false;
+const isDevMode = true;
 let isIntroVideoEnded = false;
 
 let isDoubleTouch = false;

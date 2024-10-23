@@ -7,6 +7,9 @@ const inGameScreenElement = document.querySelector('.in-game-container');
 
 const game1_default_completion_count = 30;
 
+let game3_fire_count = 5;
+let game3_each_level_count_array = [5,5,5,10];
+
 let gameFailedCheckTimeout = null;
 // 게임 설정 객체
 let gameConfig = {
@@ -192,7 +195,7 @@ let gameConfig = {
         ),
         'is-game-complete': false,
         'current-level': 1,  // 게임3 현재 레벨
-        'maxLevel': 3,  // 게임2 최대 레벨
+        'maxLevel': 4,  // 게임2 최대 레벨
         'bonus-level': 1,  // 초월한 레벨
         'level-check-timer': null,
         'level-check-timer-interval': 5000,
@@ -200,14 +203,10 @@ let gameConfig = {
         'fire-animation-timeline': null,
         downLevel: () => {
 
-
+            game3_fire_count == 5;
             const gameItemFire = document.getElementById('game_item_fire');
             gameItemFire.style.opacity = '0';
-
-            gameConfig.game3['current-level']--;
             gameConfig.game3['current-fire-scale']--;
-            gameConfig.game3['bonus-level'] = 1;
-
             setTimeout(() => {
                 gameItemFire.setAttribute('scale', gameConfig.game3['current-fire-scale']);
                 gameItemFire.style.opacity = '1';
@@ -220,6 +219,9 @@ let gameConfig = {
         },
 
         restartGame: () => {
+            game3_fire_count = 5;
+            game3_each_level_count_array = [5,5,5,10];
+            isTreeAnimation = false;
             gameConfig.game3['is-game-complete'] = false;
             gameConfig.game3['current-level'] = 1;
             gameConfig.game3['current-fire-scale'] = 1;
@@ -227,7 +229,7 @@ let gameConfig = {
             document.getElementById('game_item_fire').setAttribute('scale', gameConfig.game3['current-fire-scale']);
 
             // 게임 결과 아이템 투명도 초기화
-            game3_result_item_opacity_controller();
+            game3_result_item_opacity_controller(true);
 
             // 트리 애니메이션 추가
             game3_add_tree_animation();
@@ -271,7 +273,10 @@ let gameConfig = {
         },
 
         configReset: () => {
+            game3_fire_count = 5;
+            game3_each_level_count_array = [5,5,5,10];
             // console.log('game3 config reset');
+            isTreeAnimation = false;
             gameConfig.game3['is-game-complete'] = false;
             gameConfig.game3['current-level'] = 1;
             gameConfig.game3['current-fire-scale'] = 1;
@@ -1409,7 +1414,6 @@ function game3_createGameBackground() {
     gameItemFire.setAttribute('scale', gameConfig.game3['current-fire-scale']);
     gameItemFire.style.zIndex = '1'; // 불에 z-index 1 설정
 
-
     const fireBurn1 = document.createElement('div');
     fireBurn1.className = 'fire-burn fire-burn-1';
     fireBurn1.id = 'fire-burn-1';
@@ -1432,6 +1436,12 @@ function game3_createGameBackground() {
     gameItemTree.className = 'game_item_tree heartbeat';
     gameItemTree.id = 'game_item_tree';
     gameItemTree.style.zIndex = '2'; // 트리에 z-index 2 설정 (불보다 높게)
+
+    const gameItemTree2 = document.createElement('div');
+    gameItemTree2.className = 'game_item_tree heartbeat';
+    gameItemTree2.id = 'game_item_tree_2';
+    gameItemTree2.style.zIndex = '1'; // 트리에 z-index 2 설정 (불보다 높게)
+
 
     const gameItemTreeShadow = document.createElement('div');
     gameItemTreeShadow.className = 'game_item_tree_shadow heartbeat';
@@ -1464,6 +1474,7 @@ function game3_createGameBackground() {
     // 요소들을 gameBackground에 추가
     gameBackground.appendChild(gameItemFire);
     gameBackground.appendChild(gameItemTree);
+    gameBackground.appendChild(gameItemTree2);
     gameBackground.appendChild(gameItemTreeShadow);
     gameBackground.appendChild(gameItemResult);
     gameBackground.appendChild(gameDragDropBox);
@@ -1482,13 +1493,12 @@ function game3_level_check_timer() {
     }
 
     gameObject['level-check-timer'] = setTimeout(() => {
-        if (gameObject['current-level'] == 1) {
+        if (gameObject['current-fire-scale'] == 1) {
             gameObject.failGame();
-        } else if (gameObject['current-level'] == 2 || gameObject['current-level'] == 3) {
+        } else if (gameObject['current-fire-scale'] == 2 || gameObject['current-fire-scale'] == 3) {
             game3_no_answer_popup_show();
             gameObject.downLevel();
             audioController.failSound();
-            game3_result_item_opacity_controller();
             game3_level_check_timer();
         }
         game3_set_fire_sound();
@@ -1505,6 +1515,7 @@ function game3_initializeGame() {
 
     setTimeout(() => {
         const treeElement = document.getElementById('game_item_tree');
+        const treeElement2 = document.getElementById('game_item_tree_2');
         const dropZone = document.getElementById('game_drag_drop_box');
         if (treeElement && dropZone) {
             // interact(treeElement).draggable({
@@ -1555,25 +1566,21 @@ function game3_initializeGame() {
                     return;
                 }
 
-                const gameItemTreeShadow = document.getElementById('game_item_tree_shadow');
+                game3_remove_tree_animation();
+
 
                 isTreeAnimation = true;
-                treeElement.classList.add('treeAnimation');
-                gameItemTreeShadow.style.display = 'none';
+                treeElement2.classList.add('treeAnimation');
 
                 setTimeout(() => {
-                    treeElement.classList.remove('treeAnimation');
-                    gameItemTreeShadow.style.display = null;
+                    treeElement2.classList.remove('treeAnimation');
 
+                    game3_check_fire_count();
                     game3_check_Complete();
 
                     if (!gameConfig.game3['is-game-complete']) {
                         game3_level_check_timer();
                     }
-
-                    isTreeAnimation = false;
-
-
                 }, 320);
             }, { passive: false });
         } else {
@@ -1618,16 +1625,18 @@ function game3_resetTreePosition(target) {
 // 게임3의 게임 완료 체크 함수
 function game3_check_Complete() {
     const currentLevel = gameConfig.game3['current-level'];
-    if (currentLevel == gameConfig.game3['maxLevel']) {
-        if (gameConfig.game3['bonus-level'] >= 3) {
-            game3_complete_game();
-        } else {
-            console.log('게임3 보너스 레벨 생성 ===> ' + gameConfig.game3['bonus-level']);
-            game3_create_next_bonus_level();
-        }
-    } else {
-        game3_create_next_level();
+
+    game3_create_next_level(currentLevel);
+
+
+    // console.log('currentLevel : ' , currentLevel);
+
+    if(gameConfig.game3['current-level'] > gameConfig.game3['maxLevel']){
+        game3_complete_game();
+        return;
     }
+
+    isTreeAnimation = false;
 }
 
 // 게임3의 게임 완료 함수
@@ -1666,21 +1675,17 @@ function game3_complete_game() {
 }
 
 // 게임3의 다음 레벨 생성 함수
-function game3_create_next_level() {
-    gameConfig.game3['current-level']++;
-    gameConfig.game3['current-fire-scale']++;
+function game3_create_next_level(currentLevel) {
 
-    game3_result_item_opacity_controller();
+    // console.log('currentLevel : ' , currentLevel);
+    // console.log('current count : ' ,game3_each_level_count_array[currentLevel - 1]);
+    let game3_current_fire_count = --game3_each_level_count_array[currentLevel - 1];
 
-    const gameItemFire = document.getElementById('game_item_fire');
-    gameItemFire.style.opacity = '0';
-    setTimeout(() => {
-        gameItemFire.setAttribute('scale', gameConfig.game3['current-fire-scale']);
-        gameItemFire.style.opacity = '1';
-    }, 500);
-    audioController.correctSound2();
-    // current-level 에 따라 burn 사운드 조절 
-    game3_set_fire_sound();
+    if (game3_current_fire_count <= 0) {
+        game3_result_item_opacity_controller();
+        gameConfig.game3['current-level']++;
+    }
+    // audioController.correctSound2();
 }
 
 // 게임3의 다음 레벨 생성 함수
@@ -1690,13 +1695,12 @@ function game3_create_next_bonus_level() {
     game3_result_item_opacity_controller();
     audioController.correctSound2();
     // current-level 에 따라 burn 사운드 조절 
-    game3_set_fire_sound();
 }
 
 function game3_set_fire_sound() {
     const gameObject = getGameObject();
     const fireBurnAudio = gameObject['fire-burn-audio-controller'];
-    const currentLevel = gameConfig.game3['current-level'];
+    const currentLevel = gameConfig.game3['current-fire-scale']
     if (currentLevel == 1) {
         fireBurnAudio.setAudioSound(0.3);
     } else if (currentLevel == 2) {
@@ -1847,6 +1851,9 @@ function game3_add_tree_animation() {
     const treeElement = document.getElementById('game_item_tree');
     treeElement.classList.add('heartbeat');
 
+    const treeElement2 = document.getElementById('game_item_tree_2');
+    treeElement2.classList.add('heartbeat');
+
     const treeShadowElement = document.getElementById('game_item_tree_shadow');
     treeShadowElement.classList.add('heartbeat');
 }
@@ -1855,28 +1862,59 @@ function game3_remove_tree_animation() {
     const treeElement = document.getElementById('game_item_tree');
     treeElement.classList.remove('heartbeat');
 
+    const treeElement2 = document.getElementById('game_item_tree_2');
+    treeElement2.classList.remove('heartbeat');
+
     const treeShadowElement = document.getElementById('game_item_tree_shadow');
     treeShadowElement.classList.remove('heartbeat');
 }
 
-function game3_result_item_opacity_controller() {
-    if (gameConfig.game3['current-level'] == 3) {
-        if (gameConfig.game3['bonus-level'] == 1) {
-            const gameResultItem = document.getElementById('game_result_item_0');
-            gameResultItem.style.opacity = '0';
-        } else if (gameConfig.game3['bonus-level'] == 2) {
-            const gameResultItem = document.getElementById('game_result_item_1');
-            gameResultItem.style.opacity = '0';
-        } else if (gameConfig.game3['bonus-level'] == 3) {
-            const gameResultItem = document.getElementById('game_result_item_2');
-            gameResultItem.style.opacity = '0';
-        }
-    } else {
-        // 게임3의 레벨이 3 이하일 때 모든 결과 아이템 투명도 0으로 설정
+function game3_result_item_opacity_controller(isGameRestart) {
+
+    if(isGameRestart){
         document.querySelectorAll('.game_result_item').forEach(item => {
             item.style.opacity = '1';
         });
+        return;
     }
+
+    switch (gameConfig.game3['current-level']) {
+        case 1:
+            const gameResultItem0 = document.getElementById('game_result_item_0');
+            gameResultItem0.style.opacity = '0'
+            break;
+        case 2:
+            const gameResultItem1 = document.getElementById('game_result_item_1');
+            gameResultItem1.style.opacity = '0';
+            break;
+        case 3:
+            const gameResultItem2 = document.getElementById('game_result_item_2');
+            gameResultItem2.style.opacity = '0';
+            break;
+        case 4:
+            // 게임3의 레벨이 3 이하일 때 모든 결과 아이템 투명도 0으로 설정
+            document.querySelectorAll('.game_result_item').forEach(item => {
+                item.style.opacity = '1';
+            });
+            break;
+    }
+    // if (gameConfig.game3['current-level'] == 3) {
+    //     if (gameConfig.game3['bonus-level'] == 1) {
+    //         const gameResultItem = document.getElementById('game_result_item_0');
+    //         gameResultItem.style.opacity = '0';
+    //     } else if (gameConfig.game3['bonus-level'] == 2) {
+    //         const gameResultItem = document.getElementById('game_result_item_1');
+    //         gameResultItem.style.opacity = '0';
+    //     } else if (gameConfig.game3['bonus-level'] == 3) {
+    //         const gameResultItem = document.getElementById('game_result_item_2');
+    //         gameResultItem.style.opacity = '0';
+    //     }
+    // } else {
+    //     // 게임3의 레벨이 3 이하일 때 모든 결과 아이템 투명도 0으로 설정
+    //     document.querySelectorAll('.game_result_item').forEach(item => {
+    //         item.style.opacity = '1';
+    //     });
+    // }
 }
 
 function game2_createResultTarget() {
@@ -2033,3 +2071,26 @@ function game3_no_answer_popup_show() {
     }, 1000);
 }
 
+function game3_check_fire_count() {
+    game3_fire_count--;
+
+    console.log('game3_fire_count : ' , game3_fire_count);
+
+    if(game3_fire_count == 0){
+        // 불크기 키우기
+        console.log('불크기 키우기');
+        if(gameConfig.game3['current-fire-scale'] < 3){
+            gameConfig.game3['current-fire-scale']++;
+            const gameItemFire = document.getElementById('game_item_fire');
+            gameItemFire.style.opacity = '0';
+            setTimeout(() => {
+            gameItemFire.setAttribute('scale', gameConfig.game3['current-fire-scale']);
+            gameItemFire.style.opacity = '1';
+            }, 500);
+        }
+        game3_fire_count = 5;
+    }
+    audioController.correctSound2();
+
+    game3_set_fire_sound();
+}
