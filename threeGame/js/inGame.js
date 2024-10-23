@@ -877,11 +877,16 @@ function game2_createResultImage(gameObject) {
 let game2_target_position_check_timeout = null;
 
 function game2_resultImageAddEventListeners(resultImage) {
+    let touchStartTime;
+    let isLongPress = false;
+    const longPressThreshold = 500; // 0.5초
 
-    resultImage.addEventListener('touchstart', () => {
+    function handleStart(e) {
+        e.preventDefault();
+        touchStartTime = Date.now();
+        isLongPress = false;
 
         if (!gameConfig.game2.isGaugeTouchYN) {
-            // console.log('game2_resultImageAddEventListeners');
             return;
         }
 
@@ -891,35 +896,31 @@ function game2_resultImageAddEventListeners(resultImage) {
         }
 
         if (document.querySelector('.component_container').getAttribute('current_section') == '3') {
-            // 첫 터치시 2섹션으로 변경
             document.querySelector('.component_container').setAttribute('current_section', '2');
         }
 
         const target = document.getElementById('target');
-        // target의 style 초기화의 top속성제거
         target.style.top = '';
 
         if (target.classList.contains('animation_paused')) {
             target.classList.remove('animation_paused');
         }
 
-        const resultImage = document.getElementById('result-image');
         if (resultImage.classList.contains('animation_paused')) {
             resultImage.classList.remove('animation_paused');
         }
 
         trackTargetPosition();
-    });
+    }
 
-    resultImage.addEventListener('touchend', () => {
-
-        // console.log('touchend');
-        // console.log(gameConfig.game2.isGaugeTouchYN);
+    function handleEnd(e) {
+        e.preventDefault();
+        const touchEndTime = Date.now();
+        isLongPress = (touchEndTime - touchStartTime) >= longPressThreshold;
 
         if (!gameConfig.game2.isGaugeTouchYN) {
-            // console.log('game2_resultImageAddEventListeners');
             return;
-        }else{
+        } else {
             gameConfig.game2.isGaugeTouchYN = false;
         }
 
@@ -928,7 +929,6 @@ function game2_resultImageAddEventListeners(resultImage) {
             target.classList.add('animation_paused');
         }
 
-        const resultImage = document.getElementById('result-image');
         if (!resultImage.classList.contains('animation_paused')) {
             if ('Y' != game2_target_position_check) {
                 resultImage.classList.add('animation_paused');
@@ -1016,10 +1016,20 @@ function game2_resultImageAddEventListeners(resultImage) {
 
             }
         }, 1000);
+    }
 
-    });
+    // 터치 이벤트
+    resultImage.addEventListener('touchstart', handleStart);
+    resultImage.addEventListener('touchend', handleEnd);
+
+    // 마우스 이벤트
+    resultImage.addEventListener('mousedown', handleStart);
+    resultImage.addEventListener('mouseup', handleEnd);
+
+    // 포인터 이벤트 (옵션)
+    resultImage.addEventListener('pointerdown', handleStart);
+    resultImage.addEventListener('pointerup', handleEnd);
 }
-
 // 게임2의 게이지 컨테이너를 생성하는 함수
 function game2_createGaugeContainer() {
     const gaugeContainer = document.createElement('div');
