@@ -45,6 +45,9 @@ body {
 }
 
 .main-image.level1.item0{
+  background-image: url('./assets/images/level1_loop1.png');
+  background-size: cover;
+  background-position: center;
   width: 333px;
   height: 334px;
   top: 534px;
@@ -52,6 +55,9 @@ body {
 }
 
 .main-image.level1.item1{
+  background-image: url('./assets/images/level1_loop2.png');
+  background-size: cover;
+  background-position: center;
   width: 383px;
   height: 411px;
   top: 473px;
@@ -59,6 +65,9 @@ body {
 }
 
 .main-image.level1.item2{
+  background-image: url('./assets/images/level1_loop3.png');
+  background-size: cover;
+  background-position: center;
   width: 324px;
   height: 228px;
   top: 647px;
@@ -66,6 +75,9 @@ body {
 }
 
 .main-image.level1.item3{
+  background-image: url('./assets/images/level1_loop4.png');
+  background-size: cover;
+  background-position: center;
   width: 459px;
   height: 474px;
   top: 401px;
@@ -73,6 +85,9 @@ body {
 }
 
 .main-image.level1.item4{
+  background-image: url('./assets/images/level1_loop5.png');
+  background-size: cover;
+  background-position: center;
   width: 354px;
   height: 396px;
   top: 471px;
@@ -80,6 +95,9 @@ body {
 }
 
 .main-image.level2.item0{
+  background-image: url('./assets/images/level2_loop1.png');
+  background-size: cover;
+  background-position: center;
   width: 389px;
   height: 306px;
   top: 543px;
@@ -87,13 +105,19 @@ body {
 }
 
 .main-image.level2.item1{
-  width: 335px;
+  background-image: url('./assets/images/level2_loop2.png');
+  background-size: cover;
+  background-position: center;
+  width: 351px;
   height: 221px;
-  top: 652px;
+  top: 650px;
   left: 354px;
 }
 
 .main-image.level2.item2{
+  background-image: url('./assets/images/level2_loop3.png');
+  background-size: cover;
+  background-position: center;
   width: 322px;
   height: 218px;
   top: 632px;
@@ -101,6 +125,9 @@ body {
 }
 
 .main-image.level2.item3{
+  background-image: url('./assets/images/level2_loop4.png');
+  background-size: cover;
+  background-position: center;
   width: 380px;
   height: 300px;
   top: 574px;
@@ -108,6 +135,9 @@ body {
 }
 
 .main-image.level2.item4{
+  background-image: url('./assets/images/level2_loop5.png');
+  background-size: cover;
+  background-position: center;
   width: 287px;
   height: 348px;
   top: 502px;
@@ -115,34 +145,49 @@ body {
 }
 
 .main-image.level3.item0{
-  width: 354px;
+  background-image: url('./assets/images/level3_loop1.png');
+  background-size: cover;
+  background-position: center;
+  width: 345px;
   height: 561px;
   top: 720px;
   left: 368px;
 }
 
 .main-image.level3.item1{
-  width: 537px;
-  height: 535px;
+  background-image: url('./assets/images/level3_loop2.png');
+  background-size: cover;
+  background-position: center;
+  width: 545px;
+  height: 536px;
   top: 704px;
   left: 272px;
 }
 
 .main-image.level3.item2{
-  width: 422px;
+  background-image: url('./assets/images/level3_loop3.png');
+  background-size: cover;
+  background-position: center;
+  width: 433px;
   height: 304px;
   top: 976px;
-  left: 330px;
+  left: 326px;
 }
 
 .main-image.level3.item3{
-  width: 473px;
-  height: 465px;
+  background-image: url('./assets/images/level3_loop4.png');
+  background-size: cover;
+  background-position: center;
+  width: 470px;
+  height: 474px;
   top: 800px;
-  left: 352px;
+  left: 367px;
 }
 
 .main-image.level3.item4{
+  background-image: url('./assets/images/level3_loop5.png');
+  background-size: cover;
+  background-position: center;
   width: 423px;
   height: 596px;
   top: 688px;

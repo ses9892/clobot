@@ -116,9 +116,8 @@ let correctAnswerIndex = 4; // 필요에 따라 이 값을 변경하면 정답�
 function loopImages() {
   if(!timerController.isPause){
     const nextImageIndex = (currentImageIndex + 1) % images.length;
-
     // 이미지 소스 및 클래스 변경
-    mainImage.src = images[nextImageIndex];
+    // mainImage.src = images[nextImageIndex];
     currentImageIndex = nextImageIndex;
     mainImage.className = 'main-image';
     const classArray = createMainImageClassArray(nextImageIndex, current_level);
@@ -157,7 +156,7 @@ function indexResetImages() {
   currentImageIndex = 0;
 
   mainImage.className = 'main-image';
-  mainImage.src = images[currentImageIndex];
+  // mainImage.src = images[currentImageIndex];
 
   const classArray = createMainImageClassArray(currentImageIndex , current_level);
   mainImage.classList.add(...classArray);
