@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     // UI
+    const wrong_answer = document.getElementById('wrong_answer')
     const backGroundimage = document.getElementById('backGroundimage');
     const backGroundimageLine = document.getElementById('backGroundimageLine');
     const outTroVideo = document.getElementById('outTroVideo');
@@ -88,6 +89,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function resetUI() {
         hideMissionFailed()
         enableDrag()
+    }
+    function viewWronganswer(){
+        wrong_answer.style.visibility="visible";
+    }
+    function hideWronganswer(){
+        wrong_answer.style.visibility = 'hidden';
     }
     function disableDrag() {
         circle.style.pointerEvents = 'none';
@@ -754,6 +761,7 @@ document.addEventListener('DOMContentLoaded', function () {
             timeLeft--;
             timer.textContent = timeLeft;
             if (timeLeft <= 0) {
+                clearInterval(mainTimer)
                 clearInterval(timerInterval);
                 endGame();
             }
@@ -808,21 +816,19 @@ document.addEventListener('DOMContentLoaded', function () {
         currentElement.style.top = newTop + "px";
     }
     function delayFunction() {
-        console.log('2초뒤 실행됌 ')
         ViewMissionComplete()
         missionsuccessSound.play()
-        setTimeout(PlayGame1Clear, 1000);
+        setTimeout(PlayGame1Clear, 700);
     }
     function delayFunction2() {
         ViewMissionComplete()
         missionsuccessSound.play()
-        setTimeout(PlayGame2Clear, 1000);
+        setTimeout(PlayGame2Clear, 700);
     }
     function delayFunction3() {
         ViewMissionComplete()
         missionsuccessSound.play()
-
-        setTimeout(clearGame3Setting, 1000);
+        setTimeout(clearGame3Setting, 700);
     }
     function onTouchEnd() {
         document.removeEventListener('touchmove', onTouchMove);
@@ -850,10 +856,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         disableDrag()
                         resetTimer()
                         hideTimer()
-                        setTimeout(delayFunction, 700)
+                        setTimeout(delayFunction,700)
                     }
                 } else {
+                    viewWronganswer()
                     PlayFailSound()
+                    setTimeout(hideWronganswer,1000)
+                    // hideWronganswer()
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
@@ -886,7 +895,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         setTimeout(delayFunction2, 700)
                     }
                 } else {
+                    viewWronganswer()
                     PlayFailSound()
+                    setTimeout(hideWronganswer,1000)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
@@ -919,7 +930,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     }
                 } else {
+                   viewWronganswer()
                     PlayFailSound()
+                    setTimeout(hideWronganswer,1000)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
