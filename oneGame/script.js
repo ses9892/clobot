@@ -443,21 +443,18 @@ document.addEventListener('DOMContentLoaded', function () {
         mission_complete.style.visibility = 'hidden';
     }
     function endGame() {
+        clearInterval(mainTimer)
         missionfailedSound.play()
         mainTimerCheck = true
-        clearInterval(mainTimer)
         clearInterval(timerInterval);
         const endGameButtons = document.getElementById('endGameButtons');
         disableDrag()
         viewMissionFailed()
         missionfailedSound.play()
-        missionfailedSound.addEventListener('ended', () => {
-            endGameButtons.style.display = 'flex';
-            setTimeout(() => {
-                endGameButtons.classList.add('visible');
-                startMainTimer()
-                }, 50);
-        })
+        missionfailedSound.addEventListener('ended')
+        endGameButtons.style.display = 'flex';
+        endGameButtons.classList.add('visible');
+        setTimeout(startMainTimer, 600);
     }
     function resetGame() {
         const endGameButtons = document.getElementById('endGameButtons');
@@ -491,7 +488,6 @@ document.addEventListener('DOMContentLoaded', function () {
             box1.style.opacity = '1';
         }
         if (Status == "game2") {
-            console.log('dd')
             box2.style.visibility = 'visible';
             box2.style.opacity = '1';
         }
@@ -762,7 +758,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function startTimer() {
         clearInterval(mainTimer)
-        clearInterval(timerInterval);
+        clearInterval(timerInterval)
         timerInterval = setInterval(function () {
             timeLeft--;
             timer.textContent = timeLeft;
@@ -864,16 +860,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         setTimeout(delayFunction,700)
                     }
                 } else {
-<<<<<<< HEAD
-                    viewWronganswer()
-                    PlayFailSound()
-                    setTimeout(hideWronganswer,1000)
-                    // hideWronganswer()
-=======
                     viewWrongAnswer()
                     PlayFailSound()
                     setTimeout(hideWrongAnswer,500)
->>>>>>> b930010239f00c9f99e6331867b2d056346e6a53
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                 }
@@ -1013,9 +1002,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     });
     // 재도전 버튼 이벤트 리스너
-    function handleStatus(){
-        
-    }
+
     function HandleRetryLogic(){
         console.log(Status)
         if (Status == 'game1') {
@@ -1040,19 +1027,21 @@ document.addEventListener('DOMContentLoaded', function () {
         return new Promise((r)=> setTimeout(r,ms))
     }
     document.getElementById('retryButton').addEventListener('click', function () {
+        console.log('click retry')
+        clearInterval(mainTimer)
         mainTimerCheck = false
         cnt = 0;
         clearInterval(mainTimer)
         sleep(3000)
-        .then(()=>HandleRetryLogic())
         .then(()=> resetGame())
+        .then(()=>HandleRetryLogic())
     });
 
     // 종료 버튼 이벤트 리스너
     document.getElementById('exitButton').addEventListener('click', function () {
         clearInterval(mainTimer)
         // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
-        setTimeout(() => sendContentMessage("end"), 5000);
+        sleep(5000).then(sendContentMessage("end"))
         //clobot end
     });
     // 이벤트 리스너 설정
