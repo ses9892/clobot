@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const game3Clear = document.getElementById('game3Clear')
     const game1Start = document.getElementById('game1Start')
     // 겜요소
+    const wrong_answer =document.getElementById('wrong_answer')
     const circle = document.getElementById('circle');
     const circle2 = document.getElementById('circle2');
     const circle3 = document.getElementById('circle3');
@@ -191,6 +192,12 @@ document.addEventListener('DOMContentLoaded', function () {
         correct8.style.visibility = 'hidden'
         correct8.style.opacity = '0'
 
+    }
+    function viewWrongAnswer(){
+        wrong_answer.style.visibility = 'visible'
+    }
+    function hideWrongAnswer(){
+        wrong_answer.style.visibility = 'hidden'
     }
     function viewCircles(Status) {
         for (let circleName in initialPositions) {
@@ -848,7 +855,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     collidedElement.className = "correct!"
                     currentElement.style.transition = "opacity 1s ease;"
                     currentElement.style.opacity = "0"
-                    console.log(`${collidedElement.className}이(가) 올바른 위치에 도달했습니다!`);
                     cnt += 1
                     PlayCorrectSound()
                     if (cnt == 8) {
@@ -859,13 +865,18 @@ document.addEventListener('DOMContentLoaded', function () {
                         setTimeout(delayFunction,700)
                     }
                 } else {
+<<<<<<< HEAD
                     viewWronganswer()
                     PlayFailSound()
                     setTimeout(hideWronganswer,1000)
                     // hideWronganswer()
+=======
+                    viewWrongAnswer()
+                    PlayFailSound()
+                    setTimeout(hideWrongAnswer,500)
+>>>>>>> b930010239f00c9f99e6331867b2d056346e6a53
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
-                    console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
                 }
             }
         }
@@ -1003,12 +1014,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     });
     // 재도전 버튼 이벤트 리스너
-    document.getElementById('retryButton').addEventListener('click', function () {
-        mainTimerCheck = false
-        cnt = 0;
-        clearInterval(mainTimer)
+    function handleStatus(){
+        
+    }
+    function HandleRetryLogic(){
+        console.log(Status)
         if (Status == 'game1') {
-            game1Setting()
+            game1Setting()  
             switchingCorrect(Status)
         }
         else if (Status == 'game2') {
@@ -1023,15 +1035,26 @@ document.addEventListener('DOMContentLoaded', function () {
             game1Setting()
             switchingCorrect(Status)
         }
-        resetGame();
+
+    }
+    function sleep(ms){
+        return new Promise((r)=> setTimeout(r,ms))
+    }
+    document.getElementById('retryButton').addEventListener('click', function () {
+        mainTimerCheck = false
+        cnt = 0;
+        clearInterval(mainTimer)
+        sleep(3000)
+        .then(()=>HandleRetryLogic())
+        .then(()=> resetGame())
     });
 
     // 종료 버튼 이벤트 리스너
     document.getElementById('exitButton').addEventListener('click', function () {
         clearInterval(mainTimer)
         // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
-        sendContentMessage("end")
-        // window.location.reload(); // 페이지 새로고침
+        setTimeout(() => sendContentMessage("end"), 5000);
+        //clobot end
     });
     // 이벤트 리스너 설정
     circle.addEventListener('touchstart', function (e) {
