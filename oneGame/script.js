@@ -451,10 +451,9 @@ document.addEventListener('DOMContentLoaded', function () {
         disableDrag()
         viewMissionFailed()
         missionfailedSound.play()
-        missionfailedSound.addEventListener('ended')
-        endGameButtons.style.display = 'flex';
-        endGameButtons.classList.add('visible');
-        setTimeout(startMainTimer, 600);
+        sleep(500).then(
+            ()=>endGameButtons.style.display = 'flex',endGameButtons.classList.add('visible'))
+        startMainTimer()
     }
     function resetGame() {
         const endGameButtons = document.getElementById('endGameButtons');
