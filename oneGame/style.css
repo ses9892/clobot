@@ -16,7 +16,7 @@ html {
 }
 
 /* 오답시 나오는 이미지 */
-#wrong_asnwer{
+#wrong_answer{
     visibility: hidden;
     position: absolute;
     top: 107px;

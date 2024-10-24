@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const game3Clear = document.getElementById('game3Clear')
     const game1Start = document.getElementById('game1Start')
     // 겜요소
+    const wrong_answer =document.getElementById('wrong_answer')
     const circle = document.getElementById('circle');
     const circle2 = document.getElementById('circle2');
     const circle3 = document.getElementById('circle3');
@@ -184,6 +185,12 @@ document.addEventListener('DOMContentLoaded', function () {
         correct8.style.visibility = 'hidden'
         correct8.style.opacity = '0'
 
+    }
+    function viewWrongAnswer(){
+        wrong_answer.style.visibility = 'visible'
+    }
+    function hideWrongAnswer(){
+        wrong_answer.style.visibility = 'hidden'
     }
     function viewCircles(Status) {
         for (let circleName in initialPositions) {
@@ -842,7 +849,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     collidedElement.className = "correct!"
                     currentElement.style.transition = "opacity 1s ease;"
                     currentElement.style.opacity = "0"
-                    console.log(`${collidedElement.className}이(가) 올바른 위치에 도달했습니다!`);
                     cnt += 1
                     PlayCorrectSound()
                     if (cnt == 8) {
@@ -853,10 +859,11 @@ document.addEventListener('DOMContentLoaded', function () {
                         setTimeout(delayFunction, 700)
                     }
                 } else {
+                    viewWrongAnswer()
                     PlayFailSound()
+                    setTimeout(hideWrongAnswer,500)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
-                    console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
                 }
             }
         }
