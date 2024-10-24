@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const game3Clear = document.getElementById('game3Clear')
     const game1Start = document.getElementById('game1Start')
     // 겜요소
-    const wrong_answer =document.getElementById('wrong_answer')
     const circle = document.getElementById('circle');
     const circle2 = document.getElementById('circle2');
     const circle3 = document.getElementById('circle3');
