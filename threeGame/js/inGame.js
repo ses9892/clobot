@@ -299,10 +299,15 @@ let gameConfig = {
         }
     }
 }
-
+let isIntro = false;
 // 게임 인트로 비디오 종료 콜백 함수
 const gameIntroVideoEndCallback = () => {
-    // console.log('end callback');
+    if(isIntro){
+        return;
+    }
+    isIntro = true;
+
+    console.log('end callback');
     userOut.hideTimer();
     const gameObject = getGameObject();
     // 비디오 페이드 아웃 + 인게임 페이드 인
@@ -335,8 +340,12 @@ const game1EndVideoEndCallback = () => {
 
 // 인게임 바디 페이드 인 시작 콜백
 const inGameBodyFadeInStartCallback = () => {
+    isIntro = false;
     // 게임 오브젝트 관련 사전 추가
     // console.log('사진 추가 하기');
+
+    const gameTime = customGameTime[gameConfig.current_gameId];
+    timerController.setTimeOut(gameTime);
 
     timerController.show();
 
@@ -360,6 +369,7 @@ const inGameBodyFadeInStartCallback = () => {
 const inGameBodyFadeInCompleteCallback = () => {
     // 게임시작관련 함수
     // console.log('in game body fade in complete');
+    isIntro = false;
     timerController.start();
 }
 
@@ -378,6 +388,7 @@ const introScreenFadeOutCompleteCallback = () => {
 
 // 인게임 스크린 페이드 인 시작 콜백
 const inGameScreenFadeInStartCallback = () => {
+    console.log('in game screen fade in start');
     const introScreenElement = document.querySelector('.intro_container');
     introScreenElement.style.display = 'none';              // 인트로 제거
     inGameScreenElement.style.display = 'block';            // 인게임 뷰
@@ -397,7 +408,11 @@ const inGameScreenFadeInStartCallback = () => {
     }
     // console.log('선택한 게임레벨 : ' + gameConfig.current_gameId);
 
+
+    console.log('videoController 초기화');
+    console.log(gameObject.videoController);
     if (gameObject.videoController != undefined) {
+        console.log('헤이~~');
         // 비디오 컨트롤러 초기화
         gameObject.videoController.removeEvent();
 
@@ -1147,6 +1162,7 @@ function game2_createFurnaceImage(gameObject) {
 
 // 게임2의 전체 레이아웃을 설정하는 함수
 function game2_layout_setting(bodyElement) {
+    console.log('layout setting')
     const gameObject = getGameObject();
 
     // 각 요소 생성
@@ -2025,6 +2041,8 @@ function game2_fail_event(resultImage, target) {
 
             audioController.failSound();
 
+            game2_no_answer_popup_show();
+
             document.querySelector('.component_container').setAttribute('current_section', '3');
 
             game2_position_audio_play_count = 0;
@@ -2054,12 +2072,12 @@ function game2_gauge_target_move_toggle() {
 }
 
 function game3_no_answer_show() {
-    const noAnswerContainer = document.getElementById('no-answer-container');
+    const noAnswerContainer = document.getElementById('no-answer-container_game3');
     noAnswerContainer.classList.remove('hide');
 }
 
 function game3_no_answer_hide() {
-    const noAnswerContainer = document.getElementById('no-answer-container');
+    const noAnswerContainer = document.getElementById('no-answer-container_game3');
     noAnswerContainer.classList.add('hide');
 }
 
@@ -2093,4 +2111,22 @@ function game3_check_fire_count() {
     audioController.correctSound2();
 
     game3_set_fire_sound();
+}
+
+function game2_no_answer_show() {
+    const noAnswerContainer = document.getElementById('no-answer-container_game2');
+    noAnswerContainer.classList.remove('hide');
+}
+
+function game2_no_answer_hide() {
+    const noAnswerContainer = document.getElementById('no-answer-container_game2');
+    noAnswerContainer.classList.add('hide');
+}
+
+function game2_no_answer_popup_show() {
+    game2_no_answer_show();
+
+    setTimeout(() => {
+        game2_no_answer_hide();
+    }, 1000);
 }

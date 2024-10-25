@@ -310,19 +310,35 @@
     animation: shakeAnimation 0.52s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-.no-answer-container{
+.no-answer-container_game2{
     width: 282px;
     height: 281px;
     position: absolute;
     top: 107px;
     left: 677px;
-    background-image: url('../assets/images/component/game_no_answer.png');
+    background-image: url('../assets/images/component/game_no_answer_game2.png');
     background-size: cover;
     background-position: center;
 
     z-index: 9999;
 
 }
+
+.no-answer-container_game3{
+  width: 282px;
+  height: 281px;
+  position: absolute;
+  top: 107px;
+  left: 677px;
+  background-image: url('../assets/images/component/game_no_answer_game3.png');
+  background-size: cover;
+  background-position: center;
+
+  z-index: 9999;
+
+}
+
+
 
 .opacity-ani{
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;

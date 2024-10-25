@@ -1,6 +1,12 @@
 // 타이머 관련 컨트롤러
 const timerSecond = 60;
 
+const customGameTime = {
+  game1: 40,
+  game2: 60,
+  game3: 40
+}
+
 class TimerController {
   constructor(timerElement, time) {
     this.timer = timerElement;
@@ -46,6 +52,12 @@ class TimerController {
   reset() {
     clearTimeout(this.timerTimeout);
     this.current_time = this.default_time;
+    this.timer.innerHTML = this.current_time;
+  }
+
+  setTimeOut(time) {
+    this.default_time = time;
+    this.current_time = time;
     this.timer.innerHTML = this.current_time;
   }
 

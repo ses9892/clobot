@@ -163,6 +163,7 @@ class VideoController {
 
     show() {
         this.video.style.display = 'block';
+        this.video.style.opacity = 1;
         // z-index 최상위로 변경
         this.video.style.zIndex = 1000;
     }
