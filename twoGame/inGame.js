@@ -393,6 +393,8 @@ function gameCompleteVideoPlay(){
     onComplete: () => {
         // 인게임 컨테이너 fade in
         topSection.style.display = 'none';
+
+        video.style.opacity = 0;
         gsap.to(video, { opacity: 1, duration: 0.7, onStart: () => {
           video.style.display = 'block';
         },
@@ -577,8 +579,11 @@ function gameDescriptionVideoPlay(){
       completeVideo.currentTime = 0;
       completeVideo.pause();
 
+      desVideo.style.opacity = 0;
+
         // 인게임 컨테이너 fade in
         gsap.to(desVideo, { opacity: 1, duration: 0.7, onStart: () => {
+          desVideo.style.display = 'block';
           // gameLevelUp();
           // topSection.style.display = 'block';
           },
