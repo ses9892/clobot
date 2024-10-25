@@ -232,7 +232,6 @@ function goMenu() {
 
   // 하드코딩...
   if (gameConfig.current_gameId == 'game1') {
-    console.log('game1 config reset')
   } else if (gameConfig.current_gameId == 'game2') {
     gameConfig.game2.configReset();
   } else if (gameConfig.current_gameId == 'game3') {
@@ -257,7 +256,6 @@ function goMenu() {
         () => {     // in complete callback
           userOut.currnet_time_reset();
           userOut.showTimer();
-          console.log('status : ' + status);
         }
       );
     }

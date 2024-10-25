@@ -72,7 +72,6 @@ let gameConfig = {
 
             // game1_item_container 속성 초기화
             const game1ItemContainer = document.getElementById('game1_item_container');
-            // console.log(gameConfig.game1.gameCompletionQueue[0])
             game1ItemContainer.setAttribute('Completion', gameConfig.game1.gameCompletionQueue[0]);
 
             // 타켓 opacity 초기화
@@ -82,7 +81,6 @@ let gameConfig = {
         },
 
         timeoutGame: () => {
-            // console.log('시간 초과되어 검증 시작 불가');
 
             // 타임아웃 초기화
             clearTimeout(this.gameSetTimeout);
@@ -99,7 +97,6 @@ let gameConfig = {
         },
 
         checkDuplicateTouch: () => {
-            // console.log('중복 터치 방지 체크 : ' + gameConfig.game1.isTargetTouch);
             return gameConfig.game1.isTargetTouch;
         }
 
@@ -190,7 +187,6 @@ let gameConfig = {
         'fire-burn-audio-controller': new AudioController(
             document.getElementById('fire-burn-audio'),
             () => {
-                // console.log('fire burn audio play');
             }
         ),
         'is-game-complete': false,
@@ -264,7 +260,6 @@ let gameConfig = {
         },
 
         clearLevelCheckTimer: () => {
-            // console.log('level-check-timer 초기화');
             clearTimeout(gameConfig.game3['level-check-timer']);
             gameConfig.game3['level-check-timer'] = null;
         },
@@ -275,7 +270,6 @@ let gameConfig = {
         configReset: () => {
             game3_fire_count = 5;
             game3_each_level_count_array = [5,5,5,10];
-            // console.log('game3 config reset');
             isTreeAnimation = false;
             gameConfig.game3['is-game-complete'] = false;
             gameConfig.game3['current-level'] = 1;
@@ -307,7 +301,6 @@ const gameIntroVideoEndCallback = () => {
     }
     isIntro = true;
 
-    console.log('end callback');
     userOut.hideTimer();
     const gameObject = getGameObject();
     // 비디오 페이드 아웃 + 인게임 페이드 인
@@ -333,7 +326,6 @@ const gameIntroVideoEndCallback = () => {
 
 // 게임1 완료 비디오 종료 콜백
 const game1EndVideoEndCallback = () => {
-    // console.log('game1EndVideoEndCallback');
 }
 
 
@@ -342,7 +334,6 @@ const game1EndVideoEndCallback = () => {
 const inGameBodyFadeInStartCallback = () => {
     isIntro = false;
     // 게임 오브젝트 관련 사전 추가
-    // console.log('사진 추가 하기');
 
     const gameTime = customGameTime[gameConfig.current_gameId];
     timerController.setTimeOut(gameTime);
@@ -368,7 +359,6 @@ const inGameBodyFadeInStartCallback = () => {
 // 인게임 바디 페이드 인 완료 콜백
 const inGameBodyFadeInCompleteCallback = () => {
     // 게임시작관련 함수
-    // console.log('in game body fade in complete');
     isIntro = false;
     timerController.start();
 }
@@ -388,7 +378,6 @@ const introScreenFadeOutCompleteCallback = () => {
 
 // 인게임 스크린 페이드 인 시작 콜백
 const inGameScreenFadeInStartCallback = () => {
-    console.log('in game screen fade in start');
     const introScreenElement = document.querySelector('.intro_container');
     introScreenElement.style.display = 'none';              // 인트로 제거
     inGameScreenElement.style.display = 'block';            // 인게임 뷰
@@ -406,13 +395,8 @@ const inGameScreenFadeInStartCallback = () => {
     if (gameConfig.current_gameId == 'game3') {
         preloadAssets(game3_assets);
     }
-    // console.log('선택한 게임레벨 : ' + gameConfig.current_gameId);
 
-
-    console.log('videoController 초기화');
-    console.log(gameObject.videoController);
     if (gameObject.videoController != undefined) {
-        console.log('헤이~~');
         // 비디오 컨트롤러 초기화
         gameObject.videoController.removeEvent();
 
@@ -567,7 +551,6 @@ function game1_layout_setting(bodyElement) {
 
 function game1_mangchi_touch_event(magchiItem) {
     magchiItem.addEventListener('touchstart', (event) => {
-        // console.log('막대기 터치');
 
         if (gameConfig.game1.checkDuplicateTouch()) {
             return;
@@ -999,7 +982,6 @@ function game2_resultImageAddEventListeners(resultImage) {
                         // game2_resetTargetPosition(target);
                     } else {
                         // component_container fade out
-                        console.log('############ game clear')
                         audioController.gameClearSound();
                         resultImage.style.opacity = '0';
 
@@ -1162,7 +1144,6 @@ function game2_createFurnaceImage(gameObject) {
 
 // 게임2의 전체 레이아웃을 설정하는 함수
 function game2_layout_setting(bodyElement) {
-    console.log('layout setting')
     const gameObject = getGameObject();
 
     // 각 요소 생성
@@ -1288,7 +1269,6 @@ function game2_updateResultImage(position) {
                         // game2_resetTargetPosition(target);
                     } else {
                         // component_container fade out
-                        console.log('############ game clear')
                         audioController.gameClearSound();
                         resultImage.style.opacity = '0';
 
@@ -1353,7 +1333,6 @@ function game2_level_up() {
         furnaceImage.style.opacity = '0';
     }
 
-    // console.log(`레벨이 ${gameObject['current-level']}로 올라갔습니다.`);
 
 }
 
@@ -1500,7 +1479,6 @@ function game3_createGameBackground() {
 
 // 게임3의 레벨 체크 타이머 함수
 function game3_level_check_timer() {
-    // console.log('게임3 레벨 체크 타이머 시작');
     const gameObject = getGameObject();
 
     if (gameObject['level-check-timer'] != null) {
@@ -1645,7 +1623,6 @@ function game3_check_Complete() {
     game3_create_next_level(currentLevel);
 
 
-    // console.log('currentLevel : ' , currentLevel);
 
     if(gameConfig.game3['current-level'] > gameConfig.game3['maxLevel']){
         game3_complete_game();
@@ -1693,8 +1670,6 @@ function game3_complete_game() {
 // 게임3의 다음 레벨 생성 함수
 function game3_create_next_level(currentLevel) {
 
-    // console.log('currentLevel : ' , currentLevel);
-    // console.log('current count : ' ,game3_each_level_count_array[currentLevel - 1]);
     let game3_current_fire_count = --game3_each_level_count_array[currentLevel - 1];
 
     if (game3_current_fire_count <= 0) {
@@ -1774,7 +1749,6 @@ function common_game_clear(videoEndCallback) {
         // game_body fade out
         controlContainerFadeInOut('out', document.querySelector('.game_body'),
             () => {
-                console.log('game_body fade out');
             },
             () => {
 
@@ -1783,12 +1757,10 @@ function common_game_clear(videoEndCallback) {
                 //gameIntroVideo fade in
                 controlContainerFadeInOut('in', document.querySelector('#gameIntroVideo'),
                     () => {
-                        console.log('gameIntroVideo fade in');
                     },
                     () => {
                         videoController.play();
                         // 재생
-                        console.log('gameIntroVideo fade in complete');
                         setTimeout(() => {
                             userOut.currnet_time_reset(true);
                             userOut.showTimer();
@@ -1946,7 +1918,6 @@ function game1_each_stone_opacity(currentBoxId, currentCount) {
 
 
 
-    // console.log(calcCount, cal);
 
     let opacityTarget;
     if (calcCount == 2 && cal == 0) {
@@ -1957,7 +1928,6 @@ function game1_each_stone_opacity(currentBoxId, currentCount) {
         opacityTarget = document.querySelector('.' + currentBoxId + ' .game1_box_comp_3');
     }
 
-    // console.log(opacityTarget);
     if (opacityTarget) {
         opacityTarget.style.opacity = 0;
         stoneDeleteAudioController.stoneDelete();
@@ -2002,7 +1972,6 @@ function trackTargetPosition() {
 
         // 애니메이션이 끝났거나 일시정지되었는지 확인
         if (topValueInt === 10 || target.classList.contains('animation_paused')) {
-            // console.log('애니메이션 완료 또는 일시정지');
             cancelAnimationFrame(animationFrameId);
             return;
         }
@@ -2047,7 +2016,6 @@ function game2_fail_event(resultImage, target) {
 
             game2_position_audio_play_count = 0;
         } else {
-            // console.log('게이지가 움직이고 있어 실패이벤트를 실행 하지 않음')
         }
         gameConfig.game2.isGaugeTouchYN = true;
     }, 500);
@@ -2092,11 +2060,9 @@ function game3_no_answer_popup_show() {
 function game3_check_fire_count() {
     game3_fire_count--;
 
-    console.log('game3_fire_count : ' , game3_fire_count);
 
     if(game3_fire_count == 0){
         // 불크기 키우기
-        console.log('불크기 키우기');
         if(gameConfig.game3['current-fire-scale'] < 3){
             gameConfig.game3['current-fire-scale']++;
             const gameItemFire = document.getElementById('game_item_fire');

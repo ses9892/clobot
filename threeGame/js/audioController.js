@@ -65,7 +65,6 @@ class AudioController {
 
             // 인터벌로 무한 재생
             this.interval = setInterval(() => {
-                console.log('fireBurnSound play');
                 this.audio.currentTime = 0.5;
                 this.play();
             }, 5000);
@@ -91,12 +90,10 @@ class AudioController {
             return; // 오디오가 재생 중이면 함수 종료
         }
 
-        console.log('throwWater');
 
             // 새로운 Audio 객체 생성
         const newAudio = new Audio("./assets/audio/game2_throw_water.wav");
         newAudio.addEventListener('ended', () => {
-            console.log('throwWater ended');
             newAudio.remove(); // 재생 완료 후 객체 제거
         });
 
@@ -111,13 +108,10 @@ class AudioController {
 }
 
 const audioController = new AudioController(undefined, () => {
-    console.log('오디오 끝');
 });
 
 const stoneDeleteAudioController = new AudioController(undefined, () => {
-    console.log('오디오 끝');
 });
 
 const throwWaterAudioController = new AudioController(undefined, () => {
-    console.log('오디오 끝');
 });

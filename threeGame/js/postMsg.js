@@ -1,6 +1,4 @@
 window.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded');
-
     document.body.style.cursor = 'none';
 });
 

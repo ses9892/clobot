@@ -159,9 +159,7 @@ async function preloadAssets(assets) {
 
     try {
         const loadedAssets = await Promise.all(loadPromises);
-        console.log('모든 자산이 성공적으로 로드되었습니다:', loadedAssets);
     } catch (error) {
-        // console.error('자산 로드 중 오류 발생:', error);
     }
 }
 
