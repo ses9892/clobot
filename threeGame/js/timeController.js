@@ -1,6 +1,8 @@
 // 타이머 관련 컨트롤러
 const timerSecond = 60;
 
+let isButtonTouch = false;
+
 const customGameTime = {
   game1: 40,
   game2: 60,
@@ -171,38 +173,69 @@ function addEventListenerPopButton() {
 
   // 재시작 버튼 이벤트 터치 이벤트 추가
   document.getElementById('game-restart-button').addEventListener('touchstart', () => {
-    // 상태 변환
-    status = 'in-game';
 
-    //팝업종료
-    closePop();
-
-    // 인터렉티브 초기화
-    userOut.currnet_time_reset();
-    userOut.hideTimer();
-
-    // 타이머 초기화 & 시작
-    timerController.reset();
-    timerController.start();
-
-    // 하드코딩...
-    if (gameConfig.current_gameId == 'game1') {
-      gameConfig.game1.restartGame();
-    } else if (gameConfig.current_gameId == 'game2') {
-      gameConfig.game2.restartGame();
-    } else if (gameConfig.current_gameId == 'game3') {
-      gameConfig.game3.restartGame();
+    if (isButtonTouch) {
+      return;
     }
+
+    isButtonTouch = true;
+
+    console.log('touchstart');
+
+    setTimeout(() => {
+
+      // 상태 변환
+      status = 'in-game';
+
+      //팝업종료
+      closePop();
+
+      // 인터렉티브 초기화
+      userOut.currnet_time_reset();
+      userOut.hideTimer();
+
+      // 타이머 초기화 & 시작
+      timerController.reset();
+      timerController.start();
+
+      // 하드코딩...
+      if (gameConfig.current_gameId == 'game1') {
+        gameConfig.game1.restartGame();
+      } else if (gameConfig.current_gameId == 'game2') {
+        gameConfig.game2.restartGame();
+      } else if (gameConfig.current_gameId == 'game3') {
+        gameConfig.game3.restartGame();
+      }
+
+      isButtonTouch = false;
+
+
+    }, 3000);
+
   });
 
   // 메뉴선택 버튼 이벤트 터치 이벤트 추가
   document.getElementById('game-menu-select-button').addEventListener('touchstart', () => {
-    goMenu();
+    if (isButtonTouch) {
+      return;
+    }
+    isButtonTouch = true;
+    setTimeout(() => {
+      goMenu();
+    }, 3000);
   });
 
   document.getElementById('end-button').addEventListener('touchstart', () => {
-    closePop();
-    sendContentMessage('end');
+    if (isButtonTouch) {
+      return;
+    }
+
+    isButtonTouch = true;
+    setTimeout(() => {
+      closePop();
+      sendContentMessage('end');
+      isButtonTouch = false;
+    }, 5000);
   });
 }
 
@@ -242,6 +275,8 @@ function goMenu() {
     () => {
     },
     () => {
+
+      isButtonTouch = false;
 
       gameConfig.body.style.backgroundImage = '';
       gameConfig.body.innerHTML = ''

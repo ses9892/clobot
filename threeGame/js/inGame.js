@@ -118,9 +118,9 @@ let gameConfig = {
                 gameIntroVideoEndCallback();  // 비디오 종료 시 콜백
             },
             () => {
-                if (isDevMode) {
-                    setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
-                }
+                // if (isDevMode) {
+                //     setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
+                // }
             }
         ),
         'current-level': 1,  // 게임2 현재 레벨
@@ -179,9 +179,9 @@ let gameConfig = {
                 gameIntroVideoEndCallback();  // 비디오 종료 시 콜백
             },
             () => {
-                if (isDevMode) {
-                    setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
-                }
+                // if (isDevMode) {
+                //     setTimeout(() => gameIntroVideoEndCallback(), dev_video_delay * 1000);  // 개발 모드에서 지연 후 콜백
+                // }
             }
         ),
         'fire-burn-audio-controller': new AudioController(
