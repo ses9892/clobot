@@ -216,39 +216,51 @@ const imageTouchStart = () => {
 mainImage.addEventListener('touchstart', imageTouchStart);
 document.getElementById('wing-image').addEventListener('touchstart', imageTouchStart);
 
-
+let isPopBtnTouch = false;
 const restartButton = document.getElementById('restart-button');
 // 재시작 버튼 터치 이벤트
 restartButton.addEventListener('touchstart', () => {
-  clearInterval(loopInterval);
-  isTouchStart = false;
 
-  // 상태 변환
-  status = "in-game"; // 상태: 게임 중
+  if(isPopBtnTouch){
+    return;
+  }
+  isPopBtnTouch = true;
+  setTimeout(() => {
 
-  // 레벨 1로 변경
-  current_level = 1;
-  initGameLevel();
+    clearInterval(loopInterval);
+    isTouchStart = false;
+    
+    // 상태 변환
+    status = "in-game"; // 상태: 게임 중
+    
+    // 레벨 1로 변경
+    current_level = 1;
+    initGameLevel();
+    
+    timerController.reset();
+    timerController.start();
+    indexResetImages();
+    closePop();
 
-  timerController.reset();
-  timerController.start();
-  indexResetImages();
-  closePop();
+    isPopBtnTouch = false;
+  },3000);
 });
 
 const endButton = document.getElementById('end-button');
 // 종료 버튼 터치이벤트
 endButton.addEventListener('touchstart', () => {
-  closePop();
-  resetInGame();
-  sendContentMessage('end');
-  // introScreenConvert( undefined , () => {
-  //   introVideo.play();
 
-  //   if (isDevMode) {
-  //     setTimeout(() => startButton.show(), dev_video_delay * 1000);
-  //   }
-  // });
+  if(isPopBtnTouch){
+    return;
+  }
+  isPopBtnTouch = true;
+
+  setTimeout(() => {
+    closePop();
+    resetInGame();
+    sendContentMessage('end');
+    isPopBtnTouch = false;
+  },5000);
 });
 
 const completeVideoEnded = () => {
