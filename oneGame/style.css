@@ -14,7 +14,10 @@ html {
     overflow: hidden;
 
 }
-
+/* 더블클릭 방지 */
+.no-double-click {
+    pointer-events: none;
+  }
 /* 오답시 나오는 이미지 */
 #wrong_answer{
     visibility: hidden;

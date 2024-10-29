@@ -1,3 +1,18 @@
+function addNoDragProperties(element) {
+    const properties = {
+        '-webkit-user-drag': 'none',
+        '-webkit-user-select': 'none',
+        '-moz-user-select': 'none',
+        '-ms-user-select': 'none',
+        'user-select': 'none',
+        '-webkit-touch-callout': 'none',
+        '-webkit-tap-highlight-color': 'transparent',
+        'touch-action': 'manipulation'
+    };
+
+    Object.assign(element.style, properties);
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     // UI
     const wrong_answer = document.getElementById('wrong_answer')
@@ -57,7 +72,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const box3 = document.getElementById('box3')
     const bottomBox = document.getElementById('bottomBox');
 
+    // 각 요소에 드래그 방지 속성 적용
+    const elements = [
+        circle, circle2, circle3, circle4, circle5,
+        correct1, correct2, correct3, correct4, correct5,
+        correct6, correct7, correct8,
+        firstProblem, secondProblem, ThridProblem,
+        leftImage, leftImage2, leftImage3,
+        box1, box2, box3,
+        bottomBox
+    ];
 
+    // 각 요소에 드래그 방지 속성 적용
+    elements.forEach(element => {
+        if (element) {  // null 체크
+            addNoDragProperties(element);
+        }
+    });
+    
     // 변수 초기화
     // 타이머 시간초
     let timerInterval;
@@ -90,10 +122,10 @@ document.addEventListener('DOMContentLoaded', function () {
         hideMissionFailed()
         enableDrag()
     }
-    function viewWronganswer(){
-        wrong_answer.style.visibility="visible";
+    function viewWronganswer() {
+        wrong_answer.style.visibility = "visible";
     }
-    function hideWronganswer(){
+    function hideWronganswer() {
         wrong_answer.style.visibility = 'hidden';
     }
     function disableDrag() {
@@ -192,10 +224,10 @@ document.addEventListener('DOMContentLoaded', function () {
         correct8.style.opacity = '0'
 
     }
-    function viewWrongAnswer(){
+    function viewWrongAnswer() {
         wrong_answer.style.visibility = 'visible'
     }
-    function hideWrongAnswer(){
+    function hideWrongAnswer() {
         wrong_answer.style.visibility = 'hidden'
     }
     function viewCircles(Status) {
@@ -452,8 +484,8 @@ document.addEventListener('DOMContentLoaded', function () {
         viewMissionFailed()
         missionfailedSound.play()
         sleep(500).then(
-            ()=>endGameButtons.style.display = 'flex',endGameButtons.classList.add('visible'))
-        startMainTimer()
+            () => endGameButtons.style.display = 'flex', endGameButtons.classList.add('visible'))
+            .then(() => startMainTimer())
     }
     function resetGame() {
         const endGameButtons = document.getElementById('endGameButtons');
@@ -742,7 +774,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 타이머
     function startMainTimer() {
-        console.log('Timer started');
+        console.log('Timer is Running');
         maintimeLeft = 15;
         timer.textContent = maintimeLeft;
         mainTimer = setInterval(function () {
@@ -751,7 +783,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (maintimeLeft <= 0) {
                 clearInterval(mainTimer); // 타이머 중지
                 console.log('Timer ended');
-                sendContentMessage("end"); // 페이지 새로고침
+                // .then(() => resetGame())
+                sleep(5000).then(()=>sendContentMessage("end")); // 페이지 새로고침
             }
         }, 1000);
     }
@@ -856,12 +889,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         disableDrag()
                         resetTimer()
                         hideTimer()
-                        setTimeout(delayFunction,700)
+                        setTimeout(delayFunction, 700)
                     }
                 } else {
                     viewWrongAnswer()
                     PlayFailSound()
-                    setTimeout(hideWrongAnswer,500)
+                    setTimeout(hideWrongAnswer, 500)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                 }
@@ -895,7 +928,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     viewWronganswer()
                     PlayFailSound()
-                    setTimeout(hideWronganswer,1000)
+                    setTimeout(hideWronganswer, 1000)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
@@ -924,13 +957,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         resetTimer()
                         hideTimer()
                         cnt = 0;
-                        setTimeout(delayFunction3,700)
+                        setTimeout(delayFunction3, 700)
 
                     }
                 } else {
-                   viewWronganswer()
+                    viewWronganswer()
                     PlayFailSound()
-                    setTimeout(hideWronganswer,1000)
+                    setTimeout(hideWronganswer, 1000)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
                     console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
@@ -961,13 +994,31 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(playGame1Start, 100)
     })
     // body 터치 이벤트 시
-    window.addEventListener('touchstart', function () {
+    // body터치 이벤트 관련 
+    let lastTouchTime = 0;
+    const touchDelay = 500; // 밀리초 단위, 필요에 따라 조정 가능
+
+    function preventDoubleTouch(e) {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTouchTime;
+    
+        if (tapLength < touchDelay && tapLength > 0) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    
+        lastTouchTime = currentTime;
+        return true;
+    }
+    window.addEventListener('touchstart', function (e) {
+        if(!preventDoubleTouch(e)) return;
         if (mainTimerCheck == true) {
             clearInterval(mainTimer)
             startMainTimer()
         }
-
-    })
+        
+    },{passive:false})
     //게임완성시 이벤트
     function hideGame1Clear() {
         game1Clear.style.opacity = "0";
@@ -1002,10 +1053,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     // 재도전 버튼 이벤트 리스너
 
-    function HandleRetryLogic(){
+    function HandleRetryLogic() {
         console.log(Status)
         if (Status == 'game1') {
-            game1Setting()  
+            game1Setting()
             switchingCorrect(Status)
         }
         else if (Status == 'game2') {
@@ -1022,8 +1073,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     }
-    function sleep(ms){
-        return new Promise((r)=> setTimeout(r,ms))
+    function sleep(ms) {
+        return new Promise((r) => setTimeout(r, ms))
     }
     document.getElementById('retryButton').addEventListener('click', function () {
         console.log('click retry')
@@ -1032,11 +1083,12 @@ document.addEventListener('DOMContentLoaded', function () {
         cnt = 0;
         clearInterval(mainTimer)
         sleep(3000)
-        .then(()=> resetGame())
-        .then(()=>HandleRetryLogic())
+            .then(() => resetGame())
+            .then(() => HandleRetryLogic())
     });
 
     // 종료 버튼 이벤트 리스너
+
     document.getElementById('exitButton').addEventListener('click', function () {
         clearInterval(mainTimer)
         // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
@@ -1075,10 +1127,12 @@ document.addEventListener('DOMContentLoaded', function () {
     circle10.addEventListener('touchstart', function (e) {
         handleTouchStart(e, circle10);
     });
-    //클로봇 관련
-    window.addEventListener("DOMContentLoaded", function () {
+
+    window.addEventListener("DOMContentLoaded", function (e) {
+       
         this.document.body.style.cursor = 'none';
     })
+    // --------클로봇 관련 ----------
     // 게임시작시 
     sendContentMessage("start")
     // sendContentMessage(value="start")
