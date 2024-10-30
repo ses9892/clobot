@@ -19,3 +19,34 @@ function sendContentMessage(param){
     sendEventMessage({type: 'content', value: param})
 }
 
+function sendRobotMessage(param) {
+    var arrData = param.split('/');
+    if (arrData.length < 3) {
+        console.log('Invalid param')
+        return;
+    }
+    const msgForRobot = {
+        p_eye: arrData[0].trim(),
+
+        p_head: arrData[1].trim(),
+
+        p_leg: arrData[2].trim()
+    }
+    sendEventMessage({ type: 'robot', value: msgForRobot })
+}
+
+
+function sendRobotMessageByEye(eye){
+    if(eye.toUpperCase() == 'NORMAL'){
+        sendRobotMessage('Normal/Front/Default');
+    }else if(eye.toUpperCase() == 'FEAR'){
+        sendRobotMessage('Fear/Around_Short/Default');
+    }else if(eye.toUpperCase() == 'HAPPY'){
+        sendRobotMessage('Happy/Left/Default');
+    }else if(eye.toUpperCase() == 'SAD'){
+        sendRobotMessage('Sad/Up/Default');
+    }else if(eye.toUpperCase() == 'PROUD'){
+        sendRobotMessage('Proud/Right/Default');
+    }
+}
+

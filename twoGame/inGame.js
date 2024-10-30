@@ -1,5 +1,5 @@
 let current_level = 1;
-let timerSecond = 30;
+let timerSecond = 5;
 let loopInterval;
 
 const max_game_level = 3;
@@ -226,7 +226,7 @@ restartButton.addEventListener('touchstart', () => {
   }
   isPopBtnTouch = true;
   setTimeout(() => {
-
+    sendRobotMessageByEye('NORMAL');
     clearInterval(loopInterval);
     isTouchStart = false;
     
@@ -256,6 +256,7 @@ endButton.addEventListener('touchstart', () => {
   isPopBtnTouch = true;
 
   setTimeout(() => {
+    sendRobotMessageByEye('NORMAL');
     closePop();
     resetInGame();
     sendContentMessage('end');
@@ -269,6 +270,7 @@ const completeVideoEnded = () => {
     gameDescriptionVideoPlay();    
     // inGameCompleteVideoConvert();
   }else{
+    sendRobotMessageByEye('NORMAL');
     sendContentMessage('end');
   }
 };
@@ -307,6 +309,7 @@ function timerTimeoutEvt(controller){
   }else{
     // 타임아웃 일때
     status = 'game-timeout';
+    sendRobotMessageByEye('SAD');
     effectAudioController.timeoutSound();
     userOutObejct.currnet_time_reset();
     showPopupGame('', '');
@@ -408,6 +411,11 @@ function gameCompleteVideoPlay(){
 
         video.style.opacity = 0;
         gsap.to(video, { opacity: 1, duration: 0.7, onStart: () => {
+          if(current_level < 3){
+            sendRobotMessageByEye('HAPPY');
+          }else{
+            sendRobotMessageByEye('PROUD');
+          }
           video.style.display = 'block';
         },
         onComplete: () => {
@@ -595,6 +603,7 @@ function gameDescriptionVideoPlay(){
 
         // 인게임 컨테이너 fade in
         gsap.to(desVideo, { opacity: 1, duration: 0.7, onStart: () => {
+          sendRobotMessageByEye('NORMAL');
           desVideo.style.display = 'block';
           // gameLevelUp();
           // topSection.style.display = 'block';

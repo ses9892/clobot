@@ -320,7 +320,7 @@ const onGameStartButtonClick = () => {
             // secondVideo fade in
             controlContainerFadeInOut('in' , secondVideoElement , 
                 () => {
-                    
+                    sendRobotMessageByEye('NORMAL');
                 },
                 () => {
                     secondVideoElement.play();
@@ -355,8 +355,13 @@ const preloadImage = (url) => {
 // 개발 모드에 따른 버튼 표시
 window.addEventListener('load', function () {
     sendContentMessage('start');
+    sendRobotMessageByEye('NORMAL');
     audioElement.muted = true;
     audioElement.play();
+
+    setTimeout(() => {
+        sendRobotMessageByEye('FEAR');
+    }, 7000);
 
     level1_images.forEach(image => {
         preloadImage(image);
