@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const game3Start = document.getElementById('game3Start')
     const game3Clear = document.getElementById('game3Clear')
     const game1Start = document.getElementById('game1Start')
+    const endGameButtons = document.getElementById('endGameButtons');
     // 겜요소
     const circle = document.getElementById('circle');
     const circle2 = document.getElementById('circle2');
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
         firstProblem, secondProblem, ThridProblem,
         leftImage, leftImage2, leftImage3,
         box1, box2, box3,
-        bottomBox
+        bottomBox,endGameButtons
     ];
 
     // 각 요소에 드래그 방지 속성 적용
@@ -479,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
         missionfailedSound.play()
         mainTimerCheck = true
         clearInterval(timerInterval);
-        const endGameButtons = document.getElementById('endGameButtons');
+        
         disableDrag()
         viewMissionFailed()
         missionfailedSound.play()
