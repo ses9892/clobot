@@ -102,6 +102,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let Status = "main";
     let cnt = 0;
 
+    // 팝업 버튼 더블체크 유무 (장진호 추가)
+    let isPopBtnTouched = false;
+
     // 보석들의 초기 위치 저장
     const initialPositions = {
         circle: { left: circle.style.left, top: circle.style.top },
@@ -1077,7 +1080,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function sleep(ms) {
         return new Promise((r) => setTimeout(r, ms))
     }
-    document.getElementById('retryButton').addEventListener('click', function () {
+    document.getElementById('retryButton').addEventListener('touchstart', function () {
+
+        if(isPopBtnTouched){
+            return;
+        }
+        isPopBtnTouched = true;
+
         console.log('click retry')
         clearInterval(mainTimer)
         mainTimerCheck = false
@@ -1086,14 +1095,24 @@ document.addEventListener('DOMContentLoaded', function () {
         sleep(3000)
             .then(() => resetGame())
             .then(() => HandleRetryLogic())
+            .then(() => isPopBtnTouched = false)
     });
 
     // 종료 버튼 이벤트 리스너
 
-    document.getElementById('exitButton').addEventListener('click', function () {
+    document.getElementById('exitButton').addEventListener('touchstart', function () {
+
+        if(isPopBtnTouched){
+            return;
+        }
+        isPopBtnTouched = true;
+
         clearInterval(mainTimer)
         // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
-        sleep(5000).then(sendContentMessage("end"))
+        sleep(5000).then(() => {
+            sendContentMessage("end")
+            isPopBtnTouched = false
+        });
         //clobot end
     });
     // 이벤트 리스너 설정
