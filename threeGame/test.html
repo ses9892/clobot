@@ -5,12 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>진행 막대</title>
     <style>
-  
+        .motion{
+            position: absolute;
+            left: 65%;
+            width: 500px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1000;
+        }
+
+        .motion.normal{
+            background-image: url('./assets/clobotTest/normal.png');
+        }
+        .motion.fear{
+            background-image: url('./assets/clobotTest/fear.png');
+        }
+        .motion.happy{
+            background-image: url('./assets/clobotTest/happy.png');
+        }
+        .motion.sad{
+            background-image: url('./assets/clobotTest/sad.png');
+        }
+        .motion.proud{
+            background-image: url('./assets/clobotTest/proud.png');
+        }
     </style>
 </head>
 <body >
     <button id="start">시작</button>
     <iframe src="" frameborder="0"></iframe>   
+    <div class="motion" id="motion"></div>
 </body>
 <style>
 
@@ -39,7 +65,7 @@
 
     // 자식프레임한태 메세지를 받았을때
     window.addEventListener('message', function(event) {
-        // console.log(event.data);
+        console.log(event.data);
 
         if(event.data.type == 'content'){
             if(event.data.value == 'start'){
@@ -50,6 +76,23 @@
             if(event.data.value == 'end'){
                 alert('자식 프레임(스튜디오칙) 에서 부모 프레임(클로봇) 종료메세지를 받았습니다.');
                 document.getElementsByTagName('iframe')[0].src = 'about:blank';
+                document.getElementById('motion').className = 'motion';
+            }
+        }
+
+        if(event.data.type == 'robot'){
+            const robotObject = event.data.value;
+
+            if(robotObject.p_eye.toUpperCase() == 'NORMAL'){
+                document.getElementById('motion').className = 'motion normal';
+            }else if(robotObject.p_eye.toUpperCase() == 'FEAR'){
+                document.getElementById('motion').className = 'motion fear';
+            }else if(robotObject.p_eye.toUpperCase() == 'HAPPY'){
+                document.getElementById('motion').className = 'motion happy';
+            }else if(robotObject.p_eye.toUpperCase() == 'SAD'){
+                document.getElementById('motion').className = 'motion sad';
+            }else if(robotObject.p_eye.toUpperCase() == 'PROUD'){
+                document.getElementById('motion').className = 'motion proud';
             }
         }
     });

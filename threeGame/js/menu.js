@@ -422,6 +422,7 @@ const loadStart = () => {
 // 개발 모드에 따른 버튼 표시
 window.addEventListener('load', function () {
     sendContentMessage('start');
+    sendRobotMessageByEye('NORMAL');
     gameConfig.body = document.getElementById('game_body');
     initAssets();
 

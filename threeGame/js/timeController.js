@@ -79,6 +79,8 @@ class TimerController {
       // 타임아웃 일때
       status = 'game-timeout';
 
+      sendRobotMessageByEye('SAD');
+
       audioController.reset();
 
       this.hide();
@@ -184,6 +186,8 @@ function addEventListenerPopButton() {
 
     setTimeout(() => {
 
+      sendRobotMessageByEye('NORMAL');
+
       // 상태 변환
       status = 'in-game';
 
@@ -223,6 +227,9 @@ function addEventListenerPopButton() {
     }
     isButtonTouch = true;
     setTimeout(() => {
+
+      sendRobotMessageByEye('NORMAL');
+      
       gameCountContainerHide();
       gameCountReset();
       goMenu();
@@ -236,6 +243,9 @@ function addEventListenerPopButton() {
 
     isButtonTouch = true;
     setTimeout(() => {
+
+      sendRobotMessageByEye('NORMAL');
+      
       closePop();
       sendContentMessage('end');
       isButtonTouch = false;

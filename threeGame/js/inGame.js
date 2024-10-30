@@ -1766,6 +1766,8 @@ function common_game_clear(videoEndCallback) {
             },
             () => {
 
+                sendRobotMessageByEye('HAPPY');
+
                 videoController.show();
 
                 //gameIntroVideo fade in
