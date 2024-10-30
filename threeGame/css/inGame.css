@@ -343,3 +343,64 @@
 .opacity-ani{
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
+
+.game-count-container{
+  z-index: 100; 
+  position: absolute;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+
+.game-count-container[current-game="game1"]{
+  width: 197px;
+  height: 132px;
+  top: 80px;
+  left: 62px;
+}
+
+.game-count-container[current-game="game3"]{
+  width: 197px;
+  height: 159px;
+  top: 53px;
+  left: 62px;
+}
+
+.game-count-container[current-game="game2"]{
+  display: none !important;
+}
+
+.game-count-container[current-game="game1"] .game-count-body{
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/images/game1/game3_1_countBar.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.game-count-container[current-game="game3"] .game-count-body{
+  width: 100%;
+  height: 100%;
+  background-image: url('../assets/images/game3/game3_3_countBar.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.game-count-step{
+  position: relative;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  top: -42px;
+  left: 7.1px;
+  gap: 1.5px;
+}
+
+.game-count-step-item{
+  width: 19px;
+  height: 33px;
+  background-image: url('../assets/images/component/game_count_level.png');
+  background-size: cover;
+  background-position: center;
+}

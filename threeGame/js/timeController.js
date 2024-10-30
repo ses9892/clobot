@@ -187,6 +187,8 @@ function addEventListenerPopButton() {
       // 상태 변환
       status = 'in-game';
 
+      gameCountReset();
+
       //팝업종료
       closePop();
 
@@ -221,6 +223,8 @@ function addEventListenerPopButton() {
     }
     isButtonTouch = true;
     setTimeout(() => {
+      gameCountContainerHide();
+      gameCountReset();
       goMenu();
     }, 3000);
   });

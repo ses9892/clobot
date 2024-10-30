@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>고궁박물관 게임</title>
-    <link rel="stylesheet" href="./css/style.css?version=1.3.1">
-    <link rel="stylesheet" href="./resources/pop.css?version=1.3.1">
-    <link rel="stylesheet" href="./css/inGame.css?version=1.3.1"> 
-    <link rel="stylesheet" href="./css/game1.css?version=1.3.1">     
-    <link rel="stylesheet" href="./css/game2.css?version=1.3.1">     
-    <link rel="stylesheet" href="./css/game3.css?version=1.3.1">     
+    <link rel="stylesheet" href="./css/style.css?version=1.3.2">
+    <link rel="stylesheet" href="./resources/pop.css?version=1.3.2">
+    <link rel="stylesheet" href="./css/inGame.css?version=1.3.2"> 
+    <link rel="stylesheet" href="./css/game1.css?version=1.3.2">     
+    <link rel="stylesheet" href="./css/game2.css?version=1.3.2">     
+    <link rel="stylesheet" href="./css/game3.css?version=1.3.2">     
 
     
 </head>
@@ -26,7 +26,7 @@
         </div>
         <!-- 첫 번째 비디오 -->
         <video id="introVideo" disablePictureInPicture>
-            <source src="./assets/video/game_menu_intro.mp4?version=1.3.1" type="video/mp4">
+            <source src="./assets/video/game_menu_intro.mp4?version=1.3.2" type="video/mp4">
         </video>
 
         <audio id="effectAudio">
@@ -81,14 +81,20 @@
 
     <div class="no-answer-container_game3 opacity-ani hide" id="no-answer-container_game3"></div>
 
-    <script src="./lib/interact/interact.min.js?version=1.3.1"></script>
-    <script src="./lib/gsap/gsap.min.js?version=1.3.1"></script>
-    <script src="./js/audioController.js?version=1.3.1"></script>
-    <script src="./js/subtitles.js?version=1.3.1"></script>
-    <script src="./resources/common.js?version=1.3.1"></script>
-    <script src="./js/menu.js?version=1.3.1"></script>
-    <script src="./js/timeController.js?version=1.3.1"></script>
-    <script src="./js/inGame.js?version=1.3.1"></script>
-    <script src="./js/postMsg.js?version=1.3.1"></script>
+    <div class="game-count-container" id="game-count-container" style="display: none;" current-game="game1">
+        <div class="game-count-body" id="game-count-body" ></div>
+        <div class="game-count-step" id="game-count-step">
+        </div>
+    </div>
+
+    <script src="./lib/interact/interact.min.js?version=1.3.2"></script>
+    <script src="./lib/gsap/gsap.min.js?version=1.3.2"></script>
+    <script src="./js/audioController.js?version=1.3.2"></script>
+    <script src="./js/subtitles.js?version=1.3.2"></script>
+    <script src="./resources/common.js?version=1.3.2"></script>
+    <script src="./js/menu.js?version=1.3.2"></script>
+    <script src="./js/timeController.js?version=1.3.2"></script>
+    <script src="./js/inGame.js?version=1.3.2"></script>
+    <script src="./js/postMsg.js?version=1.3.2"></script>
 </body>
 </html>

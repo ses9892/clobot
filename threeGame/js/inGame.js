@@ -341,6 +341,8 @@ const inGameBodyFadeInStartCallback = () => {
     timerController.show();
 
     gameConfig.body.setAttribute('current_game', gameConfig.current_gameId);
+    updateCountContainer(gameConfig.current_gameId);
+    gameCountContainerShow();
 
     if (gameConfig.current_gameId == 'game1') {
         gameConfig.game1.resetGameCompletion();
@@ -785,8 +787,8 @@ function game1BoxTouchEvent_2(box) {
         magchiItem.classList.add('magchi_rotate');
 
         gameObject.gameSetTimeout = setTimeout(() => {
-
             game1_each_stone_opacity(clearBoxId, currentCount);
+            gameCountUp();
 
             // 막대기 아이템 회전 종료
             magchiItem.classList.remove('magchi_rotate');
@@ -1384,7 +1386,7 @@ function game2_resetTargetPosition(target) {
 // 게임3의 전체 레이아웃을 설정하는 함수
 function game3_layout_setting(bodyElement) {
     game3_initializeGame();
-    game3_level_check_timer();
+    // game3_level_check_timer();
 
     // gameConfig 에서 불 오디오 무한재생
     game3_set_fire_sound();
@@ -1672,9 +1674,21 @@ function game3_create_next_level(currentLevel) {
 
     let game3_current_fire_count = --game3_each_level_count_array[currentLevel - 1];
 
+    if(currentLevel == 4){
+        if(game3_current_fire_count == 5){
+            gameCountUp();
+        }
+    }
+
     if (game3_current_fire_count <= 0) {
         game3_result_item_opacity_controller();
         gameConfig.game3['current-level']++;
+        if(currentLevel == 5){
+            gameCountUp();
+        }else{
+            gameCountUp();
+            gameCountUp();
+        }
     }
     // audioController.correctSound2();
 }
@@ -1931,6 +1945,7 @@ function game1_each_stone_opacity(currentBoxId, currentCount) {
     if (opacityTarget) {
         opacityTarget.style.opacity = 0;
         stoneDeleteAudioController.stoneDelete();
+        gameCountUp();
     }
 }
 
@@ -2096,3 +2111,25 @@ function game2_no_answer_popup_show() {
         game2_no_answer_hide();
     }, 1000);
 }
+
+function updateCountContainer(level){
+    document.getElementById('game-count-container').setAttribute('current-game', level);
+}
+
+function gameCountContainerShow(){
+    document.getElementById('game-count-container').style.display = 'block';
+}
+
+function gameCountContainerHide(){
+    document.getElementById('game-count-container').style.display = 'none';
+}
+
+function gameCountUp(){
+    const gameCountStep = document.createElement('div');
+    gameCountStep.className = 'game-count-step-item';
+    document.getElementById('game-count-step').appendChild(gameCountStep);
+}
+
+function gameCountReset(){
+    document.getElementById('game-count-step').innerHTML = '';
+}   
