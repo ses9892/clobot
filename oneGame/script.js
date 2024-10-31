@@ -459,12 +459,14 @@ document.addEventListener('DOMContentLoaded', function () {
         game2Start.style.opacity = '1';
         Status = "game2"
         game2Start.play()
+        sendRobotMessageByEye('NORMAL')
     }
     function playGame3Start() {
         game3Start.style.visibility = 'visible';
         game3Start.style.opacity = '1';
         Status = "game3"
         game3Start.play()
+        sendRobotMessageByEye('NORMAL')
     }
     function viewMissionFailed() {
         mission_failed.style.visibility = 'visible';
@@ -490,6 +492,7 @@ document.addEventListener('DOMContentLoaded', function () {
         sleep(500).then(
             () => endGameButtons.style.display = 'flex', endGameButtons.classList.add('visible'))
             .then(() => startMainTimer())
+            .then(() => sendRobotMessageByEye('SAD'))
     }
     function resetGame() {
         const endGameButtons = document.getElementById('endGameButtons');
@@ -573,6 +576,7 @@ document.addEventListener('DOMContentLoaded', function () {
         game1Clear.style.visibility = 'visible';
         game1Clear.style.opacity = '1';
         game1Clear.play()
+        sendRobotMessageByEye('HAPPY')
     }
     function game1Setting() {
         game1Start.style.opacity = '0'
@@ -606,6 +610,7 @@ document.addEventListener('DOMContentLoaded', function () {
         game2Clear.style.visibility = 'visible';
         game2Clear.style.opacity = '1';
         game2Clear.play()
+        sendRobotMessageByEye('HAPPY')
     }
     function game2Setting() {
         Status == "game2"
@@ -650,11 +655,13 @@ document.addEventListener('DOMContentLoaded', function () {
         outTroVideo.style.visibility = 'visible';
         outTroVideo.style.opacity = '1'
         outTroVideo.play()
+        sendRobotMessageByEye('PROUD');
     }
     function PlayGame3Clear() {
         game3Clear.style.visibility = 'visible';
         game3Clear.style.opacity = "1"
         game3Clear.play()
+        sendRobotMessageByEye('HAPPY')
     }
     function clearGame3Setting() {
         console.log('game3초기화3')
@@ -1053,6 +1060,7 @@ document.addEventListener('DOMContentLoaded', function () {
     outTroVideo.addEventListener('ended', function () {
         setTimeout(function () {
             sendContentMessage("end")
+            sendRobotMessageByEye('NORMAL')
         }, 5000);
     });
     // 재도전 버튼 이벤트 리스너
@@ -1096,6 +1104,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(() => resetGame())
             .then(() => HandleRetryLogic())
             .then(() => isPopBtnTouched = false)
+            .then(() => sendRobotMessageByEye('NORMAL'))
     });
 
     // 종료 버튼 이벤트 리스너
@@ -1112,7 +1121,8 @@ document.addEventListener('DOMContentLoaded', function () {
         sleep(5000).then(() => {
             sendContentMessage("end")
             isPopBtnTouched = false
-        });
+            sendRobotMessageByEye('NORMAL')
+        })
         //clobot end
     });
     // 이벤트 리스너 설정
