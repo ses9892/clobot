@@ -14,6 +14,9 @@ function addNoDragProperties(element) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // 마우스커서 제거
+    document.body.style.cursor = 'none'
+    // this.document.body.style.cursor = 'none';
     // UI
     const wrong_answer = document.getElementById('wrong_answer')
     const backGroundimage = document.getElementById('backGroundimage');
@@ -40,8 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const circle8 = document.getElementById('circle8');
     const circle9 = document.getElementById('circle9');
     const circle10 = document.getElementById('circle10');
-    const correctSound = document.getElementById('correctSound')
-    const failSound = document.getElementById('failSound')
     const missionfailedSound = document.getElementById('missionfailedSound')
     const missionsuccessSound = document.getElementById('missionsuccessSound')
 
@@ -819,11 +820,16 @@ document.addEventListener('DOMContentLoaded', function () {
         timer.textContent = timeLeft;
     }
     // 사운드 재생
+    const correctSoundSrc = document.getElementById('correctSound').src
     function PlayCorrectSound() {
-        correctSound.play()
+        const correctsound = new Audio(correctSoundSrc)
+        correctsound.play().catch(error =>console.log("Error play sound:",error))
+        // correctSound.play()
     }
+    const failSoundSrc = document.getElementById('failSound').src
     function PlayFailSound() {
-        failSound.play()
+        const failsound = new Audio(failSoundSrc)
+        failsound.play().catch(error =>console.log("Error play sound:",error))
     }
 
     // 보석 이동 관련 함수
@@ -838,7 +844,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const rect = currentElement.getBoundingClientRect();
         offsetX = touch.clientX - rect.left;
         offsetY = touch.clientY - rect.top;
-        console.log('offsetX = ', offsetX, 'offsetY = ', offsetY);
+        // console.log('offsetX = ', offsetX, 'offsetY = ', offsetY);
         document.addEventListener('touchmove', onTouchMove);
         document.addEventListener('touchend', onTouchEnd);
     }
@@ -893,8 +899,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     collidedElement.className = "correct!"
                     currentElement.style.transition = "opacity 1s ease;"
                     currentElement.style.opacity = "0"
-                    cnt += 1
                     PlayCorrectSound()
+                    cnt += 1
+                    
                     if (cnt == 8) {
                         cnt = 0;
                         disableDrag()
@@ -922,11 +929,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 if (collidedElement && currentElement.className === collidedElement.className) {
-                    PlayCorrectSound()
+                    
                     collidedElement.style.opacity = '0';
                     collidedElement.className = "correct!"
                     currentElement.style.transition = "opacity 1s ease;"
                     currentElement.style.opacity = "0"
+                    PlayCorrectSound()
                     // console.log(`${currentElement.id}이(가) 올바른 위치에 도달했습니다!`);
                     cnt += 1
                     if (cnt == 8) {
@@ -942,7 +950,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     setTimeout(hideWronganswer, 1000)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
-                    console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
+                    // console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
                 }
             }
         }
@@ -957,11 +965,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
                 if (collidedElement && currentElement.className === collidedElement.className) {
-                    PlayCorrectSound()
+                   
                     collidedElement.style.opacity = '0';
                     collidedElement.className = "correct!"
                     currentElement.style.transition = "opacity 1s ease;"
                     currentElement.style.opacity = "0"
+                    PlayCorrectSound()
                     cnt += 1
                     if (cnt == 5) {
                         disableDrag()
@@ -977,7 +986,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     setTimeout(hideWronganswer, 1000)
                     currentElement.style.left = initialPositions[currentElement.id].left;
                     currentElement.style.top = initialPositions[currentElement.id].top;
-                    console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
+                    // console.log(`${currentElement.id}이(가) 초기 위치로 돌아갔습니다.`);
                 }
             }
         }
@@ -1058,10 +1067,12 @@ document.addEventListener('DOMContentLoaded', function () {
         PlayoutTroVideo()
     })
     outTroVideo.addEventListener('ended', function () {
-        setTimeout(function () {
-            sendContentMessage("end")
-            sendRobotMessageByEye('NORMAL')
-        }, 5000);
+        sleep(5000)
+        .then(()=>sendContentMessage("end"))
+        .then(()=>sendRobotMessageByEye('NORMAL'))
+
+            
+            
     });
     // 재도전 버튼 이벤트 리스너
 
@@ -1157,11 +1168,7 @@ document.addEventListener('DOMContentLoaded', function () {
     circle10.addEventListener('touchstart', function (e) {
         handleTouchStart(e, circle10);
     });
-
-    window.addEventListener("DOMContentLoaded", function (e) {
-       
-        this.document.body.style.cursor = 'none';
-    })
+        
     // --------클로봇 관련 ----------
     // 게임시작시 
     sendContentMessage("start")
