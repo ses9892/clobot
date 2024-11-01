@@ -795,8 +795,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (maintimeLeft <= 0) {
                 clearInterval(mainTimer); // 타이머 중지
                 console.log('Timer ended');
-                // .then(() => resetGame())
-                sleep(5000).then(()=>sendContentMessage("end")); // 페이지 새로고침
+                sendContentMessage("end"); // 페이지 새로고침
             }
         }, 1000);
     }
@@ -1067,12 +1066,8 @@ document.addEventListener('DOMContentLoaded', function () {
         PlayoutTroVideo()
     })
     outTroVideo.addEventListener('ended', function () {
-        sleep(5000)
-        .then(()=>sendContentMessage("end"))
-        .then(()=>sendRobotMessageByEye('NORMAL'))
-
-            
-            
+        sendContentMessage("end");
+        sendRobotMessageByEye('NORMAL');
     });
     // 재도전 버튼 이벤트 리스너
 
@@ -1111,7 +1106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         mainTimerCheck = false
         cnt = 0;
         clearInterval(mainTimer)
-        sleep(3000)
+        sleep(1000)
             .then(() => resetGame())
             .then(() => HandleRetryLogic())
             .then(() => isPopBtnTouched = false)
