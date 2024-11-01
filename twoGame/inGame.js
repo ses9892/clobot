@@ -242,7 +242,7 @@ restartButton.addEventListener('touchstart', () => {
     closePop();
 
     isPopBtnTouch = false;
-  },3000);
+  },1000);
 });
 
 const endButton = document.getElementById('end-button');
