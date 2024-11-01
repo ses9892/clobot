@@ -1,5 +1,5 @@
 let current_level = 1;
-let timerSecond = 5;
+let timerSecond = 20;
 let loopInterval;
 
 const max_game_level = 3;
@@ -188,7 +188,6 @@ const imageTouchStart = () => {
 
 
     timerController.pause();    // 잠시 중지
-    timerController.reset();
 
     setTimeout(() => {
       gameCompleteVideoPlay();
@@ -410,6 +409,7 @@ function gameCompleteVideoPlay(){
         topSection.style.display = 'none';
 
         video.style.opacity = 0;
+        timerController.reset();
         gsap.to(video, { opacity: 1, duration: 0.7, onStart: () => {
           if(current_level < 3){
             sendRobotMessageByEye('HAPPY');
