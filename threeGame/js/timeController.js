@@ -216,7 +216,7 @@ function addEventListenerPopButton() {
       isButtonTouch = false;
 
 
-    }, 3000);
+    }, 1000);
 
   });
 
