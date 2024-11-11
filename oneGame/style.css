@@ -81,7 +81,6 @@ html {
     bottom: 350px;
     width: 91px;
     height: 91px;
-    cursor: grab;
     z-index: 1;
 }
 
@@ -94,7 +93,6 @@ html {
     bottom: 224px;
     width: 93px;
     height: 93px;
-    cursor: grab;
     z-index: 1;
 }
 
@@ -107,7 +105,6 @@ html {
     bottom: 350px;
     width: 92px;
     height: 92px;
-    cursor: grab;
     z-index: 1;
 }
 
@@ -120,7 +117,6 @@ html {
     bottom: 350px;
     width: 92px;
     height: 92px;
-    cursor: grab;
     z-index: 1;
 }
 
@@ -133,7 +129,6 @@ html {
     bottom: 350px;
     width: 92px;
     height: 92px;
-    cursor: grab;
     z-index: 1;
 }
 #circle6 {
@@ -143,7 +138,6 @@ html {
     left: 179px;
     width: 93px;
     height: 92px;
-    cursor: grab;
     z-index: 1;
 }
 #circle7 {
@@ -153,7 +147,6 @@ html {
     left: 430px;
     width: 92px;
     height: 92px;
-    cursor: grab;
     z-index: 1;
 }
 #circle8 {
@@ -163,7 +156,6 @@ html {
     left: 557px;
     width: 92px;
     height: 91px;
-    cursor: grab;
     z-index: 1;
 }
 #circle9 {
@@ -173,7 +165,6 @@ html {
     left: 668px;
     width: 91px;
     height: 91px;
-    cursor: grab;
     z-index: 1;
 }
 #circle10 {
@@ -183,7 +174,6 @@ html {
     left: 668px;
     width: 91px;
     height: 91px;
-    cursor: grab;
     z-index: 1;
 }
 /* 보물1 */
@@ -197,7 +187,6 @@ html {
     bottom: 1181px;
     width: 103px;
     height: 103px;
-    cursor: grab;
 }
 
 #correct2 {
@@ -210,7 +199,6 @@ html {
     bottom: 1055px;
     width: 103px;
     height: 103px;
-    cursor: grab;
 
 }
 
@@ -224,7 +212,6 @@ html {
     bottom: 801px;
     width: 103px;
     height: 103px;
-    cursor: grab;
 
 }
 
@@ -238,7 +225,6 @@ html {
     bottom: 702px;
     width: 103px;
     height: 103px;
-    cursor: grab;
 
 }
 
@@ -252,7 +238,6 @@ html {
     bottom: 702;
     width: 103px;
     height: 103px;
-    cursor: grab;
 
 }
 
@@ -266,7 +251,6 @@ html {
     bottom: 729px;
     width: 103px;
     height: 103px;
-    cursor: grab;
 
 }
 
@@ -280,7 +264,6 @@ html {
     bottom: 768px;
     width: 103px;
     height: 103px;
-    cursor: grab;
 
 }
 
@@ -294,7 +277,6 @@ html {
     bottom: 834px;
     width: 103px;
     height: 103px;
-    cursor: grab;
 
 }
 
@@ -527,7 +509,6 @@ img {
     height: 92px;
     position: relative;
     font-size: 24px;
-    cursor: pointer;
     opacity: 1;
     visibility: hidden;
     transition: opacity 0.5s ease;
@@ -544,7 +525,6 @@ img {
     height: 92px;
     position: relative;
     font-size: 24px;
-    cursor: pointer;
     opacity: 1;
     visibility: hidden;
     transition: opacity 0.5s ease;
@@ -569,7 +549,6 @@ img {
     color: white;
     border: none;
     border-radius: 10px;
-    cursor: pointer;
     opacity: 0;
     /* 처음에는 투명하게 설정 */
     transition: opacity 0.5s ease;
@@ -592,7 +571,6 @@ img {
     color: white;
     border: none;
     border-radius: 10px;
-    cursor: pointer;
     visibility: hidden;
     opacity: 0;
     /* 처음에는 투명하게 설정 */
