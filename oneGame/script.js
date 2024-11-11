@@ -13,9 +13,63 @@ function addNoDragProperties(element) {
     Object.assign(element.style, properties);
 }
 
+
+
+// sendContentMessage(value="start")
+// 게임종료 버튼을 누를 시
+// sendContentMessage(value="end")  
+function sendEventMessage(param) {
+    // window.parent가 있는지 확인
+    if (window.parent) {
+        window.parent.postMessage(param);
+    } else {
+        console.log('window.parent is not exist');
+        window.parent.postMessage(param);
+    }
+}
+
+function sendContentMessage(param) {
+    // param 은 start | end
+    sendEventMessage({ type: 'content', value: param })
+}
+
+function sendRobotMessage(param) {
+    var arrData = param.split('/');
+    if (arrData.length < 3) {
+        console.log('Invalid param')
+        return;
+    }
+    const msgForRobot = {
+        p_eye: arrData[0].trim(),
+
+        p_head: arrData[1].trim(),
+
+        p_leg: arrData[2].trim()
+    }
+    sendEventMessage({ type: 'robot', value: msgForRobot })
+}
+
+
+function sendRobotMessageByEye(eye){
+    if(eye.toUpperCase() == 'NORMAL'){
+        sendRobotMessage('Normal/Front/Default');
+    }else if(eye.toUpperCase() == 'FEAR'){
+        sendRobotMessage('Fear/Around_Short/Default');
+    }else if(eye.toUpperCase() == 'HAPPY'){
+        sendRobotMessage('Happy/Left/Default');
+    }else if(eye.toUpperCase() == 'SAD'){
+        sendRobotMessage('Sad/Up/Default');
+    }else if(eye.toUpperCase() == 'PROUD'){
+        sendRobotMessage('Proud/Right/Default');
+    }
+}
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
     // 마우스커서 제거
-    document.body.style.cursor = 'none'
+    // document.body.style.cursor = 'none'
     // this.document.body.style.cursor = 'none';
     // UI
     const wrong_answer = document.getElementById('wrong_answer')
@@ -1066,8 +1120,10 @@ document.addEventListener('DOMContentLoaded', function () {
         PlayoutTroVideo()
     })
     outTroVideo.addEventListener('ended', function () {
-        sendContentMessage("end");
         sendRobotMessageByEye('NORMAL');
+        setTimeout(() => {
+            sendContentMessage("end");
+        }, 50);
     });
     // 재도전 버튼 이벤트 리스너
 
@@ -1169,55 +1225,11 @@ document.addEventListener('DOMContentLoaded', function () {
     sendContentMessage("start")
     sendRobotMessageByEye('NORMAL');
 
-    // sendContentMessage(value="start")
-    // 게임종료 버튼을 누를 시
-    // sendContentMessage(value="end")  
-    function sendEventMessage(param) {
-        // window.parent가 있는지 확인
-        if (window.parent) {
-            window.parent.postMessage(param);
-        } else {
-            console.log('window.parent is not exist');
-        }
-    }
-
-    function sendContentMessage(param) {
-        // param 은 start | end
-        sendEventMessage({ type: 'content', value: param })
-    }
-
-    function sendRobotMessage(param) {
-        var arrData = param.split('/');
-        if (arrData.length < 3) {
-            console.log('Invalid param')
-            return;
-        }
-        const msgForRobot = {
-            p_eye: arrData[0].trim(),
-    
-            p_head: arrData[1].trim(),
-    
-            p_leg: arrData[2].trim()
-        }
-        sendEventMessage({ type: 'robot', value: msgForRobot })
-    }
-    
-    
-    function sendRobotMessageByEye(eye){
-        if(eye.toUpperCase() == 'NORMAL'){
-            sendRobotMessage('Normal/Front/Default');
-        }else if(eye.toUpperCase() == 'FEAR'){
-            sendRobotMessage('Fear/Around_Short/Default');
-        }else if(eye.toUpperCase() == 'HAPPY'){
-            sendRobotMessage('Happy/Left/Default');
-        }else if(eye.toUpperCase() == 'SAD'){
-            sendRobotMessage('Sad/Up/Default');
-        }else if(eye.toUpperCase() == 'PROUD'){
-            sendRobotMessage('Proud/Right/Default');
-        }
-    }
 
 
 }) // 끝
+
+
+
 
 
