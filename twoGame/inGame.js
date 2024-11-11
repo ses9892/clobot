@@ -260,7 +260,7 @@ endButton.addEventListener('touchstart', () => {
     resetInGame();
     sendContentMessage('end');
     isPopBtnTouch = false;
-  },5000);
+  },1000);
 });
 
 const completeVideoEnded = () => {
