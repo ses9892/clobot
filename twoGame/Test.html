@@ -6,6 +6,7 @@
     <title>진행 막대</title>
     <style>
         .motion{
+            display: none;
             position: absolute;
             left: 65%;
             width: 500px;
@@ -74,9 +75,11 @@
                 
             }
             if(event.data.value == 'end'){
-                alert('자식 프레임(스튜디오칙) 에서 부모 프레임(클로봇) 종료메세지를 받았습니다.');
-                document.getElementsByTagName('iframe')[0].src = 'about:blank';
-                document.getElementById('motion').className = 'motion';
+                // alert('자식 프레임(스튜디오칙) 에서 부모 프레임(클로봇) 종료메세지를 받았습니다.');
+                setTimeout(() => {
+                    document.getElementsByTagName('iframe')[0].src = 'about:blank';
+                    // document.getElementById('motion').className = 'motion';
+                }, 1000);
             }
         }
 

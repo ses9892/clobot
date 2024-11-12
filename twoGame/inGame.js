@@ -256,9 +256,14 @@ endButton.addEventListener('touchend', (e) => {
 
   setTimeout(() => {
     sendRobotMessageByEye('NORMAL');
-    closePop();
-    resetInGame();
+    // closePop();
+    // resetInGame();
     sendContentMessage('end');
+
+    setTimeout(() => {
+      sendContentMessage('end');
+    }, 100);
+
     isPopBtnTouch = false;
   },1000);
 });
