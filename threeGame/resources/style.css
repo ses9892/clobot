@@ -96,7 +96,6 @@ body, html {
     border-radius: 20px;
     font-size: 40px;
     font-weight: bold;
-    cursor: pointer;
     z-index: 20;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     outline: none;
@@ -116,7 +115,6 @@ body, html {
     border-radius: 20px;
     font-size: 40px;
     font-weight: bold;
-    cursor: pointer;
     z-index: 20;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     outline: none;

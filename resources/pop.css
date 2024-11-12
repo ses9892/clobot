@@ -68,7 +68,6 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 .popup-footer button:hover {
@@ -82,7 +81,6 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
 }
 
 .popup-footer .end-button{
@@ -92,6 +90,5 @@
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
 }
 

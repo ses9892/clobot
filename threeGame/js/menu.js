@@ -18,8 +18,22 @@ class userOutController {
         this.default_out_check_time = outCheckTime;
         this.current_out_check_time = this.default_out_check_time;
 
-        document.body.addEventListener('touchstart', () => {
-            this.current_out_check_time = this.default_out_check_time;
+        document.body.addEventListener('touchstart', (e) => {
+
+            // 재시작,종료 버튼눌렀을때만 이벤트 제외
+            if (e.target.id === 'game-restart-button' || e.target.id === 'end-button'
+                || e.target.id === 'game-menu-select-button'
+            ) {
+                return;
+            }
+
+            if(status == 'end-game'){
+                this.current_out_check_time = 15;
+            }else{
+                this.current_out_check_time = this.default_out_check_time;
+            }
+
+            document.getElementById('user-out-timer').textContent = this.current_out_check_time;
         });
     }
     start() {
@@ -43,19 +57,24 @@ class userOutController {
                             //     }
                             //  );      // 메뉴 fade out
                             sendContentMessage('end');
+                            this.current_out_check_time = 0;
                             break;
                         case 'game-timeout':
-                            this.currnet_time_reset(false);
+                            // this.currnet_time_reset(false);
                             sendContentMessage('end');
+                            this.current_out_check_time = 0;
                             // goMenu();
                             break;
                         case 'end-game':
                             sendContentMessage('end');
+                            this.current_out_check_time = 0;
+                            break;
+                        default:
+                            this.current_out_check_time = this.default_out_check_time;
                             break;
                     }
 
 
-                    this.current_out_check_time = this.default_out_check_time;
                 }
             }
             document.getElementById('user-out-timer').textContent = this.current_out_check_time;

@@ -233,7 +233,7 @@ function addEventListenerPopButton() {
       gameCountContainerHide();
       gameCountReset();
       goMenu();
-    }, 3000);
+    }, 1000);
   });
 
   document.getElementById('end-button').addEventListener('touchstart', () => {
@@ -249,7 +249,12 @@ function addEventListenerPopButton() {
       closePop();
       sendContentMessage('end');
       isButtonTouch = false;
-    }, 5000);
+
+      setTimeout(() => {
+        sendContentMessage('end');
+      }, 100);
+      
+    }, 1000);
   });
 }
 
