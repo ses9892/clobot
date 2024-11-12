@@ -1086,6 +1086,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     window.addEventListener('touchstart', function (e) {
         // if(!preventDoubleTouch(e)) return;
+
+        if(e.target.id === 'retryButton' || e.target.id === 'exitButton'){
+            return;
+        }
+
         if (mainTimerCheck == true) {
             clearInterval(mainTimer)
             startMainTimer()
