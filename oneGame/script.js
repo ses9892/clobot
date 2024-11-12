@@ -1085,13 +1085,13 @@ document.addEventListener('DOMContentLoaded', function () {
         return true;
     }
     window.addEventListener('touchstart', function (e) {
-        if(!preventDoubleTouch(e)) return;
+        // if(!preventDoubleTouch(e)) return;
         if (mainTimerCheck == true) {
             clearInterval(mainTimer)
             startMainTimer()
         }
         
-    },{passive:false})
+    })
     //게임완성시 이벤트
     function hideGame1Clear() {
         game1Clear.style.opacity = "0";
@@ -1150,7 +1150,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function sleep(ms) {
         return new Promise((r) => setTimeout(r, ms))
     }
-    document.getElementById('retryButton').addEventListener('touchstart', function () {
+    document.getElementById('retryButton').addEventListener('touchend', function () {
 
         if(isPopBtnTouched){
             return;
@@ -1162,16 +1162,19 @@ document.addEventListener('DOMContentLoaded', function () {
         mainTimerCheck = false
         cnt = 0;
         clearInterval(mainTimer)
-        sleep(1000)
-            .then(() => resetGame())
-            .then(() => HandleRetryLogic())
-            .then(() => isPopBtnTouched = false)
-            .then(() => sendRobotMessageByEye('NORMAL'))
+
+
+        setTimeout(() => {
+            resetGame();
+            HandleRetryLogic();
+            isPopBtnTouched = false;
+            sendRobotMessageByEye('NORMAL');
+        }, 1000);
     });
 
     // 종료 버튼 이벤트 리스너
 
-    document.getElementById('exitButton').addEventListener('touchstart', function () {
+    document.getElementById('exitButton').addEventListener('touchend', function () {
 
         if(isPopBtnTouched){
             return;
@@ -1180,11 +1183,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
         clearInterval(mainTimer)
         // 게임 종료 로직 (예: 메인 화면으로 돌아가기)
-        sleep(5000).then(() => {
-            sendContentMessage("end")
-            isPopBtnTouched = false
-            sendRobotMessageByEye('NORMAL')
-        })
+        setTimeout(() => {
+            console.log('end');
+            sendContentMessage('end');
+            isPopBtnTouched = false;
+            sendRobotMessageByEye('NORMAL');
+
+            setTimeout(() => {
+                sendContentMessage('end');
+            }, 50);
+        }, 1000);
         //clobot end
     });
     // 이벤트 리스너 설정
