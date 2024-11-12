@@ -218,8 +218,8 @@ document.getElementById('wing-image').addEventListener('touchstart', imageTouchS
 let isPopBtnTouch = false;
 const restartButton = document.getElementById('restart-button');
 // 재시작 버튼 터치 이벤트
-restartButton.addEventListener('touchstart', () => {
-
+restartButton.addEventListener('touchend', (e) => {
+  e.preventDefault();
   if(isPopBtnTouch){
     return;
   }
@@ -247,8 +247,8 @@ restartButton.addEventListener('touchstart', () => {
 
 const endButton = document.getElementById('end-button');
 // 종료 버튼 터치이벤트
-endButton.addEventListener('touchstart', () => {
-
+endButton.addEventListener('touchend', (e) => {
+  e.preventDefault();
   if(isPopBtnTouch){
     return;
   }

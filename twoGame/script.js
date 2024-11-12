@@ -10,7 +10,11 @@ class userOutController {
         this.default_out_check_time = 15;
         this.current_out_check_time = this.default_out_check_time;
 
-        document.body.addEventListener('touchstart' , () => {
+        document.body.addEventListener('touchstart' , (e) => {
+            // restart 버튼이나 end 버튼을 터치한 경우 타이머 리셋하지 않음
+            if (e.target.id === 'restart-button' || e.target.id === 'end-button') {
+                return;
+            }
             this.current_out_check_time = this.default_out_check_time;
         });
     }
