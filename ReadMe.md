@@ -69,6 +69,22 @@
 
 <br/>
 
+## 🎮 게임 실행 방법
+
+### 1번게임 (oneGame) 브랜치
+1. `git clone -b oneGame https://github.com/username/repo.git`
+2. `index.html` 파일을 브라우저에서 실행
+
+### 2번게임 (twoGame) 브랜치
+1. `git clone -b twoGame https://github.com/username/repo.git` 
+2. `index.html` 파일을 브라우저에서 실행
+
+### 3번게임 (threeGame) 브랜치
+1. `git clone -b threeGame https://github.com/username/repo.git`
+2. `index.html` 파일을 브라우저에서 실행
+
+<br/>
+
 ## 🎯 게임 미리보기
 
 <div align="center">
